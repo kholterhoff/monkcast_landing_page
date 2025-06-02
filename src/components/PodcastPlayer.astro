@@ -1,0 +1,121 @@
+---
+const { episode } = Astro.props;
+import { formatDuration } from '../utils/rss';
+---
+
+<div class="bg-white rounded-lg shadow-md overflow-hidden">
+  <div class="bg-secondary-800 p-4 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <button class="play-button bg-primary-500 hover:bg-primary-600 text-white rounded-full w-10 h-10 flex items-center justify-center transition-colors" aria-label="Play episode">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="play-icon">
+          <polygon points="5 3 19 12 5 21 5 3"/>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="pause-icon hidden">
+          <rect width="4" height="16" x="6" y="4"/><rect width="4" height="16" x="14" y="4"/>
+        </svg>
+      </button>
+      <div class="text-white">
+        <div class="text-sm opacity-80">Now Playing</div>
+        <div class="font-medium truncate max-w-[200px] md:max-w-xs">{episode.title}</div>
+      </div>
+    </div>
+    <div class="text-white text-sm">
+      {formatDuration(episode.duration)}
+    </div>
+  </div>
+  
+  <div class="p-4">
+    <div class="flex items-center gap-4 mb-4">
+      <div class="w-full bg-gray-200 h-1 rounded-full overflow-hidden">
+        <div class="progress-bar w-0 h-full bg-primary-500 rounded-full"></div>
+      </div>
+      <div class="text-secondary-800 text-sm time-display">0:00</div>
+    </div>
+    
+    <div class="flex justify-between">
+      <div class="flex gap-4">
+        <button class="text-secondary-700 hover:text-secondary-900" aria-label="Back 15 seconds">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.25 9L8.75 12L11.25 15"></path><path d="M12.5 12h3.75a2 2 0 0 0 0-4h-1"></path><path d="M17 8.51A7.31 7.31 0 0 0 12 6.5a7.5 7.5 0 0 0-5.89 12.15"></path><path d="M8.5 19.5h2a7.5 7.5 0 0 0 7.5-7.5v-.25"></path></svg>
+        </button>
+        <button class="text-secondary-700 hover:text-secondary-900" aria-label="Forward 15 seconds">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12.75 9 2.5 3-2.5 3"></path><path d="M12 12H8.75a2 2 0 0 1 0-4H9"></path><path d="M7 8.51A7.31 7.31 0 0 1 12 6.5a7.5 7.5 0 0 1 5.89 12.15"></path><path d="M12 18.5H8.5a7.5 7.5 0 0 1 0-15h.25"></path></svg>
+        </button>
+      </div>
+      <div class="flex gap-4">
+        <button class="text-secondary-700 hover:text-secondary-900" aria-label="Change playback speed">
+          <span class="speed-indicator">1x</span>
+        </button>
+        <button class="text-secondary-700 hover:text-secondary-900" aria-label="Share episode">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-5 5"/><path d="M15 19l-5-5"/><rect width="5" height="5" x="16" y="2" rx="2"/><rect width="5" height="5" x="16" y="17" rx="2"/><rect width="5" height="5" x="3" y="9.5" rx="2"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <audio src={episode.enclosure?.url} id="audio-player" preload="metadata" class="hidden"></audio>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const audioPlayer = document.getElementById('audio-player') as HTMLAudioElement;
+    const playButton = document.querySelector('.play-button');
+    const playIcon = document.querySelector('.play-icon');
+    const pauseIcon = document.querySelector('.pause-icon');
+    const progressBar = document.querySelector('.progress-bar');
+    const timeDisplay = document.querySelector('.time-display');
+    const speedIndicator = document.querySelector('.speed-indicator');
+    const speedButton = document.querySelector('.speed-indicator').parentElement;
+    
+    if (!audioPlayer || !playButton || !playIcon || !pauseIcon || 
+        !progressBar || !timeDisplay || !speedIndicator || !speedButton) return;
+    
+    // Playback speeds
+    const speeds = [0.5, 0.75, 1, 1.25, 1.5, 2];
+    let currentSpeedIndex = 2; // Default 1x
+    
+    // Format time in MM:SS
+    const formatTime = (seconds) => {
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${mins}:${secs.toString().padStart(2, '0')}`;
+    };
+    
+    // Toggle play/pause
+    playButton.addEventListener('click', () => {
+      if (audioPlayer.paused) {
+        audioPlayer.play();
+        playIcon.classList.add('hidden');
+        pauseIcon.classList.remove('hidden');
+      } else {
+        audioPlayer.pause();
+        playIcon.classList.remove('hidden');
+        pauseIcon.classList.add('hidden');
+      }
+    });
+    
+    // Update progress bar and time
+    audioPlayer.addEventListener('timeupdate', () => {
+      const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+      progressBar.style.width = `${percent}%`;
+      timeDisplay.textContent = formatTime(audioPlayer.currentTime);
+    });
+    
+    // Change playback speed
+    speedButton.addEventListener('click', () => {
+      currentSpeedIndex = (currentSpeedIndex + 1) % speeds.length;
+      const newSpeed = speeds[currentSpeedIndex];
+      audioPlayer.playbackRate = newSpeed;
+      speedIndicator.textContent = `${newSpeed}x`;
+    });
+    
+    // Back 15 seconds
+    document.querySelector('button[aria-label="Back 15 seconds"]').addEventListener('click', () => {
+      audioPlayer.currentTime = Math.max(0, audioPlayer.currentTime - 15);
+    });
+    
+    // Forward 15 seconds
+    document.querySelector('button[aria-label="Forward 15 seconds"]').addEventListener('click', () => {
+      audioPlayer.currentTime = Math.min(audioPlayer.duration, audioPlayer.currentTime + 15);
+    });
+  });
+</script>

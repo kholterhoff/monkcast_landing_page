@@ -1,0 +1,41 @@
+---
+import EpisodeCard from './EpisodeCard.astro';
+const { episodes } = Astro.props;
+---
+
+<section id="episodes" class="py-16 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold mb-8 text-center text-secondary-900">Latest Episodes</h2>
+    
+    <div class="grid gap-8">
+      {episodes && episodes.length > 0 ? (
+        <div class="mb-12">
+          <EpisodeCard episode={episodes[0]} featured={true} />
+        </div>
+      ) : null}
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {episodes && episodes.length > 1 ? 
+          episodes.slice(1, 7).map(episode => (
+            <EpisodeCard episode={episode} />
+          ))
+        : 
+          <div class="col-span-full text-center py-12">
+            <p class="text-gray-500">No episodes available at the moment.</p>
+          </div>
+        }
+      </div>
+      
+      {episodes && episodes.length > 7 ? (
+        <div class="text-center mt-8">
+          <a 
+            href="/episodes" 
+            class="inline-block bg-secondary-800 text-white px-6 py-3 rounded-md hover:bg-secondary-700 transition-colors"
+          >
+            View All Episodes
+          </a>
+        </div>
+      ) : null}
+    </div>
+  </div>
+</section>

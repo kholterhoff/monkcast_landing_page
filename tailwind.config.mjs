@@ -1,0 +1,57 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
+  theme: {
+    extend: {
+      colors: {
+        primary: {
+          DEFAULT: '#c0392b',
+          50: '#fdf2f2',
+          100: '#f9d7d7',
+          200: '#f1aeae',
+          300: '#e98585',
+          400: '#e15c5c',
+          500: '#c0392b',
+          600: '#a12e25',
+          700: '#83231e',
+          800: '#651a17',
+          900: '#471210',
+          950: '#280909',
+        },
+        secondary: {
+          DEFAULT: '#2c3e50',
+          50: '#f5f7fa',
+          100: '#ebeef3',
+          200: '#d2dae5',
+          300: '#a9bbce',
+          400: '#7797b4',
+          500: '#5678a0',
+          600: '#3f5c84',
+          700: '#34496a',
+          800: '#2c3e50',
+          900: '#253444',
+          950: '#1a2530',
+        },
+        accent: {
+          DEFAULT: '#f39c12',
+          50: '#fefaf0',
+          100: '#fef5e1',
+          200: '#fce7b3',
+          300: '#fad485',
+          400: '#f7c657',
+          500: '#f39c12',
+          600: '#ce7d0c',
+          700: '#aa600a',
+          800: '#854a0a',
+          900: '#603509',
+          950: '#3b1f04',
+        },
+      },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace'],
+      },
+    },
+  },
+  plugins: [],
+}

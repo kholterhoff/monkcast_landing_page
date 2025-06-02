@@ -1,0 +1,62 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import EpisodeList from '../components/EpisodeList.astro';
+import PodcastPlayer from '../components/PodcastPlayer.astro';
+import Platforms from '../components/Platforms.astro';
+import About from '../components/About.astro';
+import Newsletter from '../components/Newsletter.astro';
+import { fetchPodcastFeed } from '../utils/rss';
+
+// Fetch podcast data
+const PODCAST_RSS_URL = 'https://www.podserve.fm/series/rss/8338/the-monkcast.rss';
+const podcast = await fetchPodcastFeed(PODCAST_RSS_URL);
+const episodes = podcast.episodes || [];
+---
+
+<Layout title="The MonkCast - Technology analysis from RedMonk">
+  <Hero podcast={podcast} />
+  
+  {episodes && episodes.length > 0 && (
+    <div class="container mx-auto px-4 -mt-8 relative z-10">
+      <div class="max-w-3xl mx-auto">
+        <PodcastPlayer episode={episodes[0]} />
+      </div>
+    </div>
+  )}
+  
+  <Platforms />
+  
+  <EpisodeList episodes={episodes} />
+  
+  <About />
+  
+  <Newsletter />
+</Layout>
+
+<style>
+  /* Add any additional page-specific styles here */
+</style>
+
+<script>
+  // Add page animations using the motion library
+  import { animate, inView, stagger } from 'motion';
+  
+  // Animate episode cards on scroll
+  inView('article', ({ target }) => {
+    animate(
+      target,
+      { opacity: [0, 1], y: [20, 0] },
+      { duration: 0.6, delay: 0.1 }
+    );
+  });
+  
+  // Animate platforms section
+  inView('#about .hover-lift', ({ target }) => {
+    animate(
+      target,
+      { opacity: [0, 1], scale: [0.9, 1] },
+      { duration: 0.5, delay: stagger(0.1) }
+    );
+  }, { margin: "0px 0px -100px 0px" });
+</script>
