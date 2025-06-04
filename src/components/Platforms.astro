@@ -11,7 +11,7 @@ import rss from '../assets/platforms/rss_logo.png';
   <div class="container mx-auto px-4 text-center">
     <h2 class="text-2xl md:text-3xl font-bold mb-8 text-secondary-900">Listen on Your Favorite Platform</h2>
     
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 max-w-4xl mx-auto">
+    <div class="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-6 gap-4 md:gap-6 max-w-4xl mx-auto">
       <!-- Apple Podcasts -->
       <a href="https://podcasts.apple.com/search?term=monkcast" target="_blank" rel="noopener noreferrer" class="flex flex-col items-center gap-3 p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow">
         <img src={applePodcast.src} alt="Apple Podcasts" width="40" height="40" />
@@ -43,7 +43,7 @@ import rss from '../assets/platforms/rss_logo.png';
       </a>
       
       <!-- RSS -->
-      <a href="https://www.podserve.fm/series/8338/the-monkcast" target="_blank" rel="noopener noreferrer" class="flex flex-col items-center gap-3 p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow">
+      <a href="https://www.podserve.fm/series/rss/8338/the-monkcast.rss" target="_blank" rel="noopener noreferrer" class="flex flex-col items-center gap-3 p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow">
         <img src={rss.src} alt="RSS Feed" width="40" height="40" />
         <span class="font-medium text-secondary-800">RSS</span>
       </a>

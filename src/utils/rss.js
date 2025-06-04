@@ -69,8 +69,10 @@ export async function fetchPodcastFeed(url) {
       image: feed.image?.url || '',
       itunesAuthor: feed.itunes?.author || '',
       episodes: await Promise.all(feed.items.map(async item => {
-        // Extract RedMonk post URL from content
-        const redmonkUrlMatch = item.content?.match(/href="(https:\/\/redmonk\.com[^"]+)"/);
+        // Extract all RedMonk post URLs from content
+        const redmonkUrlMatches = Array.from(item.content?.matchAll(/href="(https:\/\/redmonk\.com[^"]+)"/g) || []);
+        // Use the last link if multiple are available
+        const redmonkUrlMatch = redmonkUrlMatches.length > 0 ? redmonkUrlMatches[redmonkUrlMatches.length - 1] : null;
         const redmonkUrl = redmonkUrlMatch ? redmonkUrlMatch[1] : null;
         
         if (redmonkUrl) {
