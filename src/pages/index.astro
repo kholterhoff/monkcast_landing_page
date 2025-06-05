@@ -7,6 +7,8 @@ import Platforms from '../components/Platforms.astro';
 import YouTubeCTA from '../components/YouTubeCTA.astro';
 import About from '../components/About.astro';
 import Newsletter from '../components/Newsletter.astro';
+import Welcome from '../components/Welcome.astro';
+import Hosts from '../components/Hosts.astro';
 import { fetchPodcastFeed } from '../utils/rss';
 
 // Fetch podcast data
@@ -31,6 +33,10 @@ const episodes = podcast.episodes || [];
   <YouTubeCTA />
   
   <EpisodeList episodes={episodes} />
+  
+  <Welcome />
+  
+  <Hosts />
   
   <About />
   

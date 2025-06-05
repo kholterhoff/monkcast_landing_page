@@ -1,5 +1,5 @@
 ---
-import redmonkLogo from "../assets/redmonk_logo.png";
+// Import only what we need
 import monkcastLogo from "../assets/monkcast_logo.png";
 
 interface Props {
@@ -212,9 +212,10 @@ const {
 
       // Close menu when clicking outside
       document.addEventListener("click", (e) => {
+        const target = e.target as Node;
         if (
-          !mobileMenu.contains(e.target) &&
-          !mobileMenuButton.contains(e.target)
+          !mobileMenu.contains(target) &&
+          !mobileMenuButton.contains(target)
         ) {
           mobileMenu.classList.add("hidden");
         }
