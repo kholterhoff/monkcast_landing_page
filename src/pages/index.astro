@@ -4,6 +4,7 @@ import Hero from '../components/Hero.astro';
 import EpisodeList from '../components/EpisodeList.astro';
 import PodcastPlayer from '../components/PodcastPlayer.astro';
 import Platforms from '../components/Platforms.astro';
+import YouTubeCTA from '../components/YouTubeCTA.astro';
 import About from '../components/About.astro';
 import Newsletter from '../components/Newsletter.astro';
 import { fetchPodcastFeed } from '../utils/rss';
@@ -26,6 +27,8 @@ const episodes = podcast.episodes || [];
   )}
   
   <Platforms />
+  
+  <YouTubeCTA />
   
   <EpisodeList episodes={episodes} />
   

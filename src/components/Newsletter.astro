@@ -1,35 +1,69 @@
-<section class="relative bg-gradient-to-r from-secondary-900 to-secondary-800 py-16">
+<section
+  class="relative bg-gradient-to-r from-secondary-900 to-secondary-800 py-16"
+>
   <div class="container mx-auto px-4">
     <div class="max-w-2xl mx-auto text-center text-white">
-      <h2 class="text-2xl md:text-3xl font-bold mb-4">Never Miss an Episode</h2>
-      <p class="text-gray-300 mb-8">
-        Subscribe to our newsletter and get notified about new episodes, exclusive content, and special announcements.
-      </p>
-      
-      <form class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-        <input 
-          type="email" 
-          placeholder="Your email address" 
-          class="px-4 py-3 rounded-md bg-white/10 text-white border border-white/20 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent flex-grow"
+      <h2 class="text-2xl md:text-3xl font-bold mb-4">
+        Can't Get Enough of the Monks?
+      </h2>
+      <p class="text-gray-300 mb-8">Subscribe to the RedMonk Newsletter!</p>
+
+      <form
+        action="https://buttondown.com/api/emails/embed-subscribe/redmonk"
+        method="post"
+        target="popupwindow"
+        onsubmit="window.open('https://buttondown.com/redmonk', 'popupwindow')"
+        class="embeddable-buttondown-form flex flex-col sm:flex-row gap-2 justify-center items-center max-w-md mx-auto"
+      >
+        <div class="flex-1 w-full">
+          <label for="bd-email" class="sr-only">Enter your email</label>
+          <input
+            type="email"
+            name="email"
+            id="bd-email"
+            placeholder="Enter your email"
+            class="w-full px-4 py-2 rounded-md"
+          />
+        </div>
+        <input
+          type="submit"
+          value="Subscribe"
+          class="bg-primary-500 text-white px-4 py-2 rounded-md hover:bg-primary-600 transition-colors cursor-pointer"
         />
-        <button 
-          type="submit" 
-          class="bg-primary-500 hover:bg-primary-600 text-white px-6 py-3 rounded-md transition-colors"
-        >
-          Subscribe
-        </button>
       </form>
-      
+
       <p class="text-sm text-gray-400 mt-4">
         We respect your privacy. Unsubscribe at any time.
       </p>
+
+      <div class="mt-6">
+        <a
+          href="https://buttondown.com/redmonk/archive/"
+          class="bg-primary-500 text-white px-4 py-2 rounded-md hover:bg-primary-600 transition-colors"
+          >See the Newsletter</a
+        >
+      </div>
     </div>
   </div>
-  
-  <div class="absolute top-0 left-0 w-full h-full opacity-10 overflow-hidden">
-    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 512 512" preserveAspectRatio="xMidYMid slice">
-      <path fill="currentColor" d="M431.81 171.77a26.307 26.307 0 0 1-15.91-5.35c-14.8-11.07-23.36-28.5-23.36-47.7s8.56-36.63 23.36-47.7c7.03-5.24 15.25-8.4 23.36-8.93 15.84-1.07 31.55 7.07 40.12 20.6a8 8 0 1 0 13.23-8.97C481.59 53.1 460.19 42.42 438.6 43.8c-11.58.76-23.08 5.07-32.6 12.34-19.1 14.28-30.06 36.7-30.06 60.58s10.96 46.3 30.06 60.58c9.52 7.27 21.02 11.58 32.6 12.34 21.59 1.38 43-9.3 53.97-28.92a8 8 0 0 0-13.23-8.97c-8.58 13.53-24.3 21.67-40.12 20.59-1.6-.1-3.21-.33-4.81-.65a7.995 7.995 0 0 0-2.6.08Z"/>
-      <path fill="currentColor" d="M152.94 318.48a8 8 0 0 0-11-2.94C116.74 332.86 80.18 343.04 42 343.04c-9.93 0-20.02-.73-30.05-2.17a8.006 8.006 0 0 0-9.2 6.63 8 8 0 0 0 6.63 9.2c11.15 1.58 22.42 2.38 33.52 2.38 42.06 0 82.29-11.08 115.08-31.45a8 8 0 0 0 2.95-11ZM96.67 151.4a4.8 4.8 0 0 0-6.6-1.76c-15.07 9.62-31.9 14.7-49.17 14.7-5.96 0-12.01-.54-18-.52a4.8 4.8 0 0 0-5.01 4.58 4.8 4.8 0 0 0 4.58 5.02c6.55-.06 13.18.57 19.7.57 19.42 0 38.28-5.7 55.33-16.58a4.8 4.8 0 0 0 1.77-6.6Z"/>
+
+  <div
+    class="absolute top-0 left-0 w-full h-full opacity-10 overflow-hidden pointer-events-none"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="100%"
+      height="100%"
+      viewBox="0 0 512 512"
+      preserveAspectRatio="xMidYMid slice"
+    >
+      <path
+        fill="currentColor"
+        d="M431.81 171.77a26.307 26.307 0 0 1-15.91-5.35c-14.8-11.07-23.36-28.5-23.36-47.7s8.56-36.63 23.36-47.7c7.03-5.24 15.25-8.4 23.36-8.93 15.84-1.07 31.55 7.07 40.12 20.6a8 8 0 1 0 13.23-8.97C481.59 53.1 460.19 42.42 438.6 43.8c-11.58.76-23.08 5.07-32.6 12.34-19.1 14.28-30.06 36.7-30.06 60.58s10.96 46.3 30.06 60.58c9.52 7.27 21.02 11.58 32.6 12.34 21.59 1.38 43-9.3 53.97-28.92a8 8 0 0 0-13.23-8.97c-8.58 13.53-24.3 21.67-40.12 20.59-1.6-.1-3.21-.33-4.81-.65a7.995 7.995 0 0 0-2.6.08Z"
+      ></path>
+      <path
+        fill="currentColor"
+        d="M152.94 318.48a8 8 0 0 0-11-2.94C116.74 332.86 80.18 343.04 42 343.04c-9.93 0-20.02-.73-30.05-2.17a8.006 8.006 0 0 0-9.2 6.63 8 8 0 0 0 6.63 9.2c11.15 1.58 22.42 2.38 33.52 2.38 42.06 0 82.29-11.08 115.08-31.45a8 8 0 0 0 2.95-11ZM96.67 151.4a4.8 4.8 0 0 0-6.6-1.76c-15.07 9.62-31.9 14.7-49.17 14.7-5.96 0-12.01-.54-18-.52a4.8 4.8 0 0 0-5.01 4.58 4.8 4.8 0 0 0 4.58 5.02c6.55-.06 13.18.57 19.7.57 19.42 0 38.28-5.7 55.33-16.58a4.8 4.8 0 0 0 1.77-6.6Z"
+      ></path>
     </svg>
   </div>
 </section>

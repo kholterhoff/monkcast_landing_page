@@ -1,31 +1,46 @@
 ---
-import { Image } from 'astro:assets';
-import monkcastLogo from '../assets/monkcast_logo.png';
+import { Image } from "astro:assets";
+import monkcastLogo from "../assets/monkcast_logo.png";
+import redmonkLogo from "../assets/redmonk_logo.png";
 
 const { podcast } = Astro.props;
 ---
 
-<section class="relative bg-gradient-to-br from-secondary-900 to-secondary-800 text-white py-16 md:py-24 overflow-hidden">
-
+<section
+  class="relative bg-gradient-to-br from-secondary-900 to-secondary-800 text-white py-16 md:py-24 overflow-hidden"
+>
   <div class="container mx-auto px-4 relative z-10">
     <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
       <div class="w-full lg:w-1/2">
         <h1 class="text-4xl md:text-5xl font-bold mb-4 leading-tight">
-          The <span class="text-primary-400">MonkCast</span>
+          The <span class="text-primary-400" style="color: #fe0000;">MonkCast</span>
         </h1>
-        <p class="text-xl md:text-2xl mb-6 text-gray-200">Technology analysis and insights from the RedMonk team</p>
+        <div class="flex items-center gap-1">
+          <span style="color: #fe0000;">A</span>
+          <img
+            src={redmonkLogo.src}
+            alt="RedMonk"
+            style="height: 35px; width: auto;"
+          />
+          <span style="color: #fe0000;">Production</span>
+        </div>
+        <p class="text-xl md:text-2xl mb-6 text-gray-200">
+          Technology analysis and insights from the RedMonk team
+        </p>
         <p class="text-gray-300 mb-8 max-w-xl">
-          Join us for in-depth conversations with technology thought leaders, industry experts, and the RedMonk analysts as we explore the intersection of technology, business, and culture.
+          Join us for in-depth conversations with technology thought leaders,
+          industry experts, and the RedMonk analysts as we explore the
+          intersection of technology, business, and culture.
         </p>
         <div class="flex flex-wrap gap-4">
-          <a 
-            href="#episodes" 
+          <a
+            href="#episodes"
             class="bg-primary-500 text-white px-6 py-3 rounded-md hover:bg-primary-600 transition-colors focus:ring-2 focus:ring-primary-300 focus:outline-none"
           >
             Latest Episodes
           </a>
-          <a 
-            href="#subscribe" 
+          <a
+            href="#subscribe"
             class="bg-transparent text-white border border-white px-6 py-3 rounded-md hover:bg-white/10 transition-colors focus:ring-2 focus:ring-primary-300 focus:outline-none"
           >
             Subscribe Now
@@ -33,15 +48,16 @@ const { podcast } = Astro.props;
         </div>
       </div>
       <div class="w-full lg:w-1/2 flex justify-center">
-        <div class="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden shadow-2xl border-4 border-white/20 hover-lift">
-          <img 
-            src={monkcastLogo.src} 
-            alt="The MonkCast Podcast Cover" 
-            width="320" 
-            height="320" 
+        <div
+          class="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden shadow-2xl border-4 border-white/20 hover-lift"
+        >
+          <img
+            src={monkcastLogo.src}
+            alt="The MonkCast Podcast Cover"
+            width="320"
+            height="320"
             class="w-full h-full object-contain"
           />
-          
         </div>
       </div>
     </div>
