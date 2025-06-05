@@ -327,33 +327,48 @@ import background from "../assets/background.svg";
 	}
 </style>
 
-<script>
-	const fullBios = {
-		stephen: 'Co-founder of RedMonk. Focuses on developers and the products/services they use. Stephen is a recognized industry expert on developer trends and attitudes. His work combines quantitative data with qualitative insights to help companies understand and engage with developers effectively.',
-		james: 'Co-founder of RedMonk. Industry analyst covering software development, DevOps, and sustainability. James brings decades of experience analyzing technology trends and advising enterprises on developer-focused strategies and sustainable technology practices.',
-		rachel: 'Senior Analyst at RedMonk. Focuses on the business of software development and cloud economics. Rachel specializes in analyzing the financial implications of cloud adoption and helping organizations optimize their technology investments.',
-		kate: 'Analyst at RedMonk. Focuses on developer experience, AI, and software development trends. Kate brings a unique perspective on emerging technologies and their impact on developer workflows and productivity.'
-	};
+<script is:inline>
+	document.addEventListener('DOMContentLoaded', function() {
+		// Define full bios
+		var fullBios = {
+			stephen: 'Co-founder of RedMonk. Focuses on developers and the products/services they use. Stephen is a recognized industry expert on developer trends and attitudes. His work combines quantitative data with qualitative insights to help companies understand and engage with developers effectively.',
+			james: 'Co-founder of RedMonk. Industry analyst covering software development, DevOps, and sustainability. James brings decades of experience analyzing technology trends and advising enterprises on developer-focused strategies and sustainable technology practices.',
+			rachel: 'Senior Analyst at RedMonk. Focuses on the business of software development and cloud economics. Rachel specializes in analyzing the financial implications of cloud adoption and helping organizations optimize their technology investments.',
+			kate: 'Analyst at RedMonk. Focuses on developer experience, AI, and software development trends. Kate brings a unique perspective on emerging technologies and their impact on developer workflows and productivity.'
+		};
 
-	function handleClick(e) {
-		e.preventDefault();
-		const link = e.target;
-		const card = link.closest('.host-card');
-		const bio = card.querySelector('p');
-		const image = card.querySelector('.host-image');
-		let key = Object.keys(fullBios).find(k => image.classList.contains(k));
-		
-		if (link.textContent === 'Read more') {
-			bio.innerHTML = `${fullBios[key]} <a href="#" class="read-more">Show less</a>`;
-		} else {
-			const short = fullBios[key].split(' ').slice(0, 10).join(' ');
-			bio.innerHTML = `${short}<span class="ellipsis">...</span> <a href="#" class="read-more">Read more</a>`;
-		}
-		
-		bio.querySelector('.read-more').addEventListener('click', handleClick);
-	}
-
-	document.querySelectorAll('.read-more').forEach(link => {
-		link.addEventListener('click', handleClick);
+		// Add click handlers to all read more links
+		var readMoreLinks = document.querySelectorAll('.read-more');
+		readMoreLinks.forEach(function(link) {
+			link.addEventListener('click', function(e) {
+				e.preventDefault();
+				
+				// Get elements
+				var card = this.closest('.host-card');
+				var bio = card.querySelector('p');
+				var image = card.querySelector('.host-image');
+				
+				// Determine which host
+				var hostKey = '';
+				if (image.classList.contains('stephen')) hostKey = 'stephen';
+				else if (image.classList.contains('james')) hostKey = 'james';
+				else if (image.classList.contains('rachel')) hostKey = 'rachel';
+				else if (image.classList.contains('kate')) hostKey = 'kate';
+				
+				// Toggle between short and full bio
+				if (this.textContent === 'Read more') {
+					// Show full bio
+					bio.innerHTML = fullBios[hostKey] + ' <a href="#" class="read-more">Show less</a>';
+				} else {
+					// Show shortened bio
+					var shortBio = fullBios[hostKey].split(' ').slice(0, 10).join(' ');
+					bio.innerHTML = shortBio + '<span class="ellipsis">...</span> <a href="#" class="read-more">Read more</a>';
+				}
+				
+				// Add click handler to the new link
+				var newLink = bio.querySelector('.read-more');
+				newLink.addEventListener('click', arguments.callee);
+			});
+		});
 	});
 </script>
