@@ -4,36 +4,36 @@ import { formatDuration } from "../utils/rss";
 ---
 
 <div class="podcast-player-container">
-  <iframe
-    style="width:100%;border-radius:10px;overflow:hidden;"
-    src="https://www.podserve.fm/dashboard/multi-player/8338"
-    allowtransparency="true"
-    allow="encrypted-media"
-    loading="lazy"
-    class="podcast-player"></iframe>
+    <iframe
+        style="width:100%;border-radius:10px;overflow:hidden;"
+        src="https://www.podserve.fm/dashboard/multi-player/8338"
+        allowtransparency="true"
+        allow="encrypted-media"
+        loading="lazy"
+        class="podcast-player"></iframe>
 </div>
 
 <style>
-  .podcast-player-container {
-    position: relative;
-    width: 100%;
-    padding-bottom: 56.25%; /* 16:9 aspect ratio for larger screens */
-    height: 0;
-    overflow: hidden;
-  }
-  
-  .podcast-player {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: 0;
-  }
-  
-  @media (max-width: 768px) {
     .podcast-player-container {
-      padding-bottom: 75%; /* Taller aspect ratio for mobile */
+        position: relative;
+        width: 100%;
+        padding-bottom: 56.25%; /* 16:9 aspect ratio for larger screens */
+        height: 0;
+        overflow: hidden;
     }
-  }
+
+    .podcast-player {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+    }
+
+    @media (max-width: 768px) {
+        .podcast-player-container {
+            padding-bottom: 75%; /* Taller aspect ratio for mobile */
+        }
+    }
 </style>

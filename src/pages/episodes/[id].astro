@@ -1,13 +1,14 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import PodcastPlayer from '../../components/PodcastPlayer.astro';
-import { fetchPodcastFeed } from '../../utils/rss';
+import Layout from "../../layouts/Layout.astro";
+import PodcastPlayer from "../../components/PodcastPlayer.astro";
+import { fetchPodcastFeed } from "../../utils/rss";
 
 export async function getStaticPaths() {
-  const PODCAST_RSS_URL = 'https://www.podserve.fm/series/rss/8338/the-monkcast.rss';
+  const PODCAST_RSS_URL =
+    "https://www.podserve.fm/series/rss/8338/the-monkcast.rss";
   const podcast = await fetchPodcastFeed(PODCAST_RSS_URL);
-  
-  return podcast.episodes.map(episode => ({
+
+  return podcast.episodes.map((episode) => ({
     params: { id: episode.guid },
     props: { episode, podcast },
   }));
@@ -17,40 +18,101 @@ const { episode, podcast } = Astro.props;
 ---
 
 <Layout title={`${episode.title} - The MonkCast`} description={episode.summary}>
-  <div class="bg-gradient-to-b from-secondary-900 to-secondary-800 text-white py-16">
+  <div
+    class="bg-gradient-to-b from-secondary-900 to-secondary-800 text-white py-16"
+  >
     <div class="container mx-auto px-4">
       <div class="mb-8">
-        <a href="/" class="inline-flex items-center text-white hover:text-primary-300 transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="m15 18-6-6 6-6"/></svg>
+        <a
+          href="/"
+          class="inline-flex items-center text-white hover:text-primary-300 transition-colors"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="mr-2"><path d="m15 18-6-6 6-6"></path></svg
+          >
           Back to Home
         </a>
       </div>
-      
+
       <div class="flex flex-col md:flex-row gap-8">
         <div class="w-full md:w-1/3">
           <div class="bg-white p-4 rounded-lg shadow-lg">
-            <img 
-              src={episode.image || podcast.image} 
-              alt={episode.title} 
+            <img
+              src={episode.image || podcast.image}
+              alt={episode.title}
               class="w-full h-auto rounded-md"
             />
           </div>
         </div>
-        
+
         <div class="w-full md:w-2/3">
-          <div class="mb-2 text-primary-400">Episode {episode.episodeNumber || ''}</div>
-          <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">{episode.title}</h1>
+          <div class="mb-2 text-primary-400">
+            Episode {episode.episodeNumber || ""}
+          </div>
+          <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">
+            {episode.title}
+          </h1>
           <div class="text-gray-300 mb-6">{episode.formattedDate}</div>
-          
+
           <PodcastPlayer episode={episode} />
-          
+
           <div class="mt-8 flex flex-wrap gap-4">
-            <a href="#" class="bg-white text-secondary-900 flex items-center gap-2 px-4 py-2 rounded-md hover:bg-gray-200 transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-5 5"/><path d="M15 19l-5-5"/><rect width="5" height="5" x="16" y="2" rx="2"/><rect width="5" height="5" x="16" y="17" rx="2"/><rect width="5" height="5" x="3" y="9.5" rx="2"/></svg>
+            <a
+              href="#"
+              class="bg-white text-secondary-900 flex items-center gap-2 px-4 py-2 rounded-md hover:bg-gray-200 transition-colors"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                ><path d="M15 5l-5 5"></path><path d="M15 19l-5-5"></path><rect
+                  width="5"
+                  height="5"
+                  x="16"
+                  y="2"
+                  rx="2"></rect><rect width="5" height="5" x="16" y="17" rx="2"
+                ></rect><rect width="5" height="5" x="3" y="9.5" rx="2"
+                ></rect></svg
+              >
               Share Episode
             </a>
-            <a href="#subscribe" class="bg-primary-500 text-white flex items-center gap-2 px-4 py-2 rounded-md hover:bg-primary-600 transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12.5c1.67-1.25 3.33-1.25 5 0s3.33 1.25 5 0 3.33-1.25 5 0 3.33 1.25 5 0"/><path d="M2 18.5c1.67-1.25 3.33-1.25 5 0s3.33 1.25 5 0 3.33-1.25 5 0 3.33 1.25 5 0"/><path d="M2 6.5c1.67-1.25 3.33-1.25 5 0s3.33 1.25 5 0 3.33-1.25 5 0 3.33 1.25 5 0"/></svg>
+            <a
+              href="#subscribe"
+              class="bg-primary-500 text-white flex items-center gap-2 px-4 py-2 rounded-md hover:bg-primary-600 transition-colors"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                ><path
+                  d="M2 12.5c1.67-1.25 3.33-1.25 5 0s3.33 1.25 5 0 3.33-1.25 5 0 3.33 1.25 5 0"
+                ></path><path
+                  d="M2 18.5c1.67-1.25 3.33-1.25 5 0s3.33 1.25 5 0 3.33-1.25 5 0 3.33 1.25 5 0"
+                ></path><path
+                  d="M2 6.5c1.67-1.25 3.33-1.25 5 0s3.33 1.25 5 0 3.33-1.25 5 0 3.33 1.25 5 0"
+                ></path></svg
+              >
               Subscribe to Podcast
             </a>
           </div>
@@ -58,32 +120,111 @@ const { episode, podcast } = Astro.props;
       </div>
     </div>
   </div>
-  
+
   <div class="container mx-auto px-4 py-12">
     <div class="max-w-3xl mx-auto">
       <h2 class="text-2xl font-bold mb-4 text-secondary-900">Episode Notes</h2>
       <div class="prose prose-lg max-w-none">
-        {episode.content ? (
-          <div set:html={episode.content} />
-        ) : (
-          <p>{episode.summary || episode.contentSnippet}</p>
-        )}
+        {
+          episode.content ? (
+            <div set:html={episode.content} />
+          ) : (
+            <p>{episode.summary || episode.contentSnippet}</p>
+          )
+        }
       </div>
-      
+
       <div class="mt-12 border-t border-gray-200 pt-8">
-        <h3 class="text-xl font-bold mb-4 text-secondary-900">Share This Episode</h3>
+        <h3 class="text-xl font-bold mb-4 text-secondary-900">
+          Share This Episode
+        </h3>
         <div class="flex gap-4">
-          <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(episode.title)}&url=${encodeURIComponent(`https://monkcast.com/episodes/${episode.guid}`)}`} target="_blank" rel="noopener noreferrer" class="bg-[#1DA1F2] text-white p-3 rounded-full hover:bg-opacity-90 transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-1-4.8 4-8.9 7.5-5A7.5 7.5 0 0 0 22 4"/></svg>
+          <a
+            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(episode.title)}&url=${encodeURIComponent(`https://monkcast.com/episodes/${episode.guid}`)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="bg-[#1DA1F2] text-white p-3 rounded-full hover:bg-opacity-90 transition-colors"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              ><path
+                d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-1-4.8 4-8.9 7.5-5A7.5 7.5 0 0 0 22 4"
+              ></path></svg
+            >
           </a>
-          <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`https://monkcast.com/episodes/${episode.guid}`)}`} target="_blank" rel="noopener noreferrer" class="bg-[#1877F2] text-white p-3 rounded-full hover:bg-opacity-90 transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          <a
+            href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`https://monkcast.com/episodes/${episode.guid}`)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="bg-[#1877F2] text-white p-3 rounded-full hover:bg-opacity-90 transition-colors"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              ><path
+                d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"
+              ></path></svg
+            >
           </a>
-          <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://monkcast.com/episodes/${episode.guid}`)}`} target="_blank" rel="noopener noreferrer" class="bg-[#0A66C2] text-white p-3 rounded-full hover:bg-opacity-90 transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+          <a
+            href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://monkcast.com/episodes/${episode.guid}`)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="bg-[#0A66C2] text-white p-3 rounded-full hover:bg-opacity-90 transition-colors"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              ><path
+                d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
+              ></path><rect width="4" height="12" x="2" y="9"></rect><circle
+                cx="4"
+                cy="4"
+                r="2"></circle></svg
+            >
           </a>
-          <button class="bg-gray-200 text-secondary-800 p-3 rounded-full hover:bg-gray-300 transition-colors copy-link" data-url={`https://monkcast.com/episodes/${episode.guid}`}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          <button
+            class="bg-gray-200 text-secondary-800 p-3 rounded-full hover:bg-gray-300 transition-colors copy-link"
+            data-url={`https://monkcast.com/episodes/${episode.guid}`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              ><path
+                d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"
+              ></path><path
+                d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
+              ></path></svg
+            >
           </button>
         </div>
       </div>
@@ -93,11 +234,11 @@ const { episode, podcast } = Astro.props;
 
 <script>
   // Copy link functionality
-  document.addEventListener('DOMContentLoaded', () => {
-    const copyButton = document.querySelector('.copy-link');
+  document.addEventListener("DOMContentLoaded", () => {
+    const copyButton = document.querySelector(".copy-link");
     if (copyButton) {
-      copyButton.addEventListener('click', () => {
-        const url = copyButton.getAttribute('data-url');
+      copyButton.addEventListener("click", () => {
+        const url = copyButton.getAttribute("data-url");
         navigator.clipboard.writeText(url).then(() => {
           // Show temporary success message
           const originalHTML = copyButton.innerHTML;
@@ -106,7 +247,7 @@ const { episode, podcast } = Astro.props;
               <path d="M20 6 9 17l-5-5"/>
             </svg>
           `;
-          
+
           setTimeout(() => {
             copyButton.innerHTML = originalHTML;
           }, 2000);
