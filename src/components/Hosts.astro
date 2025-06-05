@@ -13,7 +13,21 @@
 				Stephen O'Grady is an industry analyst with RedMonk. James and
 				Stephen founded the firm in November of 2002, and have been
 				doing that ever since.<span class="ellipsis">...</span>
-				<a href="#" class="read-more">Read more</a>
+				<span class="read-more"
+					>Read more <svg
+						class="arrow-icon"
+						xmlns="http://www.w3.org/2000/svg"
+						width="16"
+						height="16"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						><path d="m9 18 6-6-6-6"></path></svg
+					></span
+				>
 			</p>
 			<div class="social-links">
 				<a
@@ -88,7 +102,21 @@
 				development, DevOps, and sustainability.<span class="ellipsis"
 					>...</span
 				>
-				<a href="#" class="read-more">Read more</a>
+				<span class="read-more"
+					>Read more <svg
+						class="arrow-icon"
+						xmlns="http://www.w3.org/2000/svg"
+						width="16"
+						height="16"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						><path d="m9 18 6-6-6-6"></path></svg
+					></span
+				>
 			</p>
 			<div class="social-links">
 				<a
@@ -161,7 +189,21 @@
 			<p>
 				Rachel Stephens is a Research Director with RedMonk and has been
 				with the firm since 2016.<span class="ellipsis">...</span>
-				<a href="#" class="read-more">Read more</a>
+				<span class="read-more"
+					>Read more <svg
+						class="arrow-icon"
+						xmlns="http://www.w3.org/2000/svg"
+						width="16"
+						height="16"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						><path d="m9 18 6-6-6-6"></path></svg
+					></span
+				>
 			</p>
 			<div class="social-links">
 				<a
@@ -235,7 +277,21 @@
 				Kate Holterhoff, a senior industry analyst with RedMonk, has a
 				background in frontend engineering, academic research, and
 				technical communication.<span class="ellipsis">...</span>
-				<a href="#" class="read-more">Read more</a>
+				<span class="read-more"
+					>Read more <svg
+						class="arrow-icon"
+						xmlns="http://www.w3.org/2000/svg"
+						width="16"
+						height="16"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						><path d="m9 18 6-6-6-6"></path></svg
+					></span
+				>
 			</p>
 			<div class="social-links">
 				<a
@@ -311,22 +367,22 @@
 	}
 
 	.hosts-container {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: center;
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
 		gap: 20px;
 		padding: 0 16px;
-		max-width: 1200px;
+		max-width: 800px;
 		margin: 0 auto;
 	}
 
 	.host-card {
-		width: 250px;
+		aspect-ratio: 1/1;
 		padding: 20px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		text-align: center;
+		overflow-y: auto;
 	}
 
 	.host-image {
@@ -373,7 +429,7 @@
 	}
 
 	.social-links a {
-		color: #3245ff;
+		color: #fe0000;
 		transition: color 0.2s;
 		display: inline-flex;
 		align-items: center;
@@ -396,14 +452,25 @@
 	}
 
 	.read-more {
-		color: #3245ff;
-		text-decoration: none;
+		color: #fe0000;
 		font-size: 14px;
 		font-weight: 500;
+		display: inline-flex;
+		align-items: center;
+		gap: 4px;
+		white-space: nowrap;
 	}
 
-	.read-more:hover {
-		text-decoration: underline;
+	.arrow-icon {
+		transition: transform 0.3s ease;
+	}
+
+	.box:hover .arrow-icon {
+		transform: translateX(3px);
+	}
+
+	.box:hover .arrow-icon-left {
+		transform: translateX(-3px);
 	}
 
 	#hosts-section {
@@ -424,17 +491,17 @@
 	.box:hover {
 		transform: translateY(-5px);
 		box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+		cursor: pointer;
 	}
 
 	@media screen and (max-width: 768px) {
 		.hosts-container {
-			flex-direction: column;
-			align-items: center;
+			grid-template-columns: 1fr;
 		}
 
 		.host-card {
-			width: 100%;
-			max-width: 300px;
+			aspect-ratio: auto;
+			max-width: 100%;
 		}
 	}
 </style>
@@ -450,44 +517,62 @@
 			kate: "Kate Holterhoff, a senior industry analyst with RedMonk, has a background in frontend engineering, academic research, and technical communication. Kate comes to RedMonk from the digital marketing sector and brings with her expertise in frontend engineering, QA, accessibility, and scrum best practices.Before pursuing a career in the tech industry Kate taught writing and communication courses at several East Coast universities. She earned a PhD from Carnegie Mellon in 2016 and was awarded a postdoctoral fellowship (2016-2018) at Georgia Tech, where she is currently an affiliated researcher.",
 		};
 
+		// Function to toggle bio content
+		function toggleBio(card) {
+			var bio = card.querySelector("p");
+			var image = card.querySelector(".host-image");
+			var readMoreLink = bio.querySelector(".read-more");
+
+			// Determine which host
+			var hostKey = "";
+			if (image.classList.contains("stephen")) hostKey = "stephen";
+			else if (image.classList.contains("james")) hostKey = "james";
+			else if (image.classList.contains("rachel")) hostKey = "rachel";
+			else if (image.classList.contains("kate")) hostKey = "kate";
+
+			// Toggle between short and full bio
+			if (readMoreLink.textContent.includes("Read more")) {
+				// Show full bio and make card rectangular
+				card.style.aspectRatio = "auto";
+				bio.innerHTML =
+					fullBios[hostKey] +
+					' <span class="read-more" style="color: #fe0000; display: inline-flex; align-items: center; white-space: nowrap;"><svg class="arrow-icon arrow-icon-left" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fe0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg> Show less</span>';
+			} else {
+				// Show shortened bio and restore square shape
+				card.style.aspectRatio = "1/1";
+				var shortBio = fullBios[hostKey]
+					.split(" ")
+					.slice(0, 10)
+					.join(" ");
+				bio.innerHTML =
+					shortBio +
+					'<span class="ellipsis">...</span> <span class="read-more" style="color: #fe0000; display: inline-flex; align-items: center; white-space: nowrap;">Read more <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fe0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span>';
+			}
+
+			// Add click handler to the new link
+			var newLink = bio.querySelector(".read-more");
+			newLink.addEventListener("click", function (e) {
+				e.preventDefault();
+				e.stopPropagation();
+				toggleBio(card);
+			});
+		}
+
+		// Add click handlers to all host cards
+		var hostCards = document.querySelectorAll(".host-card");
+		hostCards.forEach(function (card) {
+			card.addEventListener("click", function () {
+				toggleBio(this);
+			});
+		});
+
 		// Add click handlers to all read more links
 		var readMoreLinks = document.querySelectorAll(".read-more");
 		readMoreLinks.forEach(function (link) {
 			link.addEventListener("click", function (e) {
 				e.preventDefault();
-
-				// Get elements
-				var card = this.closest(".host-card");
-				var bio = card.querySelector("p");
-				var image = card.querySelector(".host-image");
-
-				// Determine which host
-				var hostKey = "";
-				if (image.classList.contains("stephen")) hostKey = "stephen";
-				else if (image.classList.contains("james")) hostKey = "james";
-				else if (image.classList.contains("rachel")) hostKey = "rachel";
-				else if (image.classList.contains("kate")) hostKey = "kate";
-
-				// Toggle between short and full bio
-				if (this.textContent === "Read more") {
-					// Show full bio
-					bio.innerHTML =
-						fullBios[hostKey] +
-						' <a href="#" class="read-more">Show less</a>';
-				} else {
-					// Show shortened bio
-					var shortBio = fullBios[hostKey]
-						.split(" ")
-						.slice(0, 10)
-						.join(" ");
-					bio.innerHTML =
-						shortBio +
-						'<span class="ellipsis">...</span> <a href="#" class="read-more">Read more</a>';
-				}
-
-				// Add click handler to the new link
-				var newLink = bio.querySelector(".read-more");
-				newLink.addEventListener("click", arguments.callee);
+				e.stopPropagation();
+				toggleBio(this.closest(".host-card"));
 			});
 		});
 	});

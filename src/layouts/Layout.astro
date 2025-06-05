@@ -1,6 +1,6 @@
 ---
 // Import only what we need
-import monkcastLogo from "../assets/monkcast_logo.png";
+import redmonkLogo from "../assets/redmonk_logo2.png";
 
 interface Props {
   title: string;
@@ -17,7 +17,10 @@ const {
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=5.0"
+    />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
@@ -37,46 +40,17 @@ const {
           <div>
             <div class="flex items-center gap-2 mb-4">
               <img
-                src={monkcastLogo.src}
-                alt="MonkCast"
+                src={redmonkLogo.src}
+                alt="RedMonk"
                 class="w-8 h-8 rounded-full"
               />
-              <span class="text-xl font-semibold">MonkCast</span>
+              <span class="text-xl font-semibold">RedMonk</span>
             </div>
             <p class="text-gray-300 mb-4">
-              Technology analysis and insights from the RedMonk team.
+              The developer-focused industry analyst firm.
             </p>
           </div>
-          <div>
-            <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
-            <div class="grid grid-cols-2 gap-4">
-              <ul class="space-y-2">
-                <li>
-                  <a
-                    href="https://redmonk.com"
-                    class="text-gray-300 hover:text-white transition-colors"
-                    >RedMonk.com</a
-                  >
-                </li>
-              </ul>
-              <ul class="space-y-2">
-                <li>
-                  <a
-                    href="https://buttondown.com/redmonk"
-                    class="text-gray-300 hover:text-white transition-colors"
-                    >Newsletter</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="https://www.youtube.com/@redmonk."
-                    class="text-gray-300 hover:text-white transition-colors"
-                    >YouTube</a
-                  >
-                </li>
-              </ul>
-            </div>
-          </div>
+          <div class="flex gap-4"></div>
           <div>
             <h3 class="text-lg font-semibold mb-4">Follow RedMonk</h3>
             <div class="flex gap-4">
@@ -153,7 +127,7 @@ const {
         class="mt-8 pt-8 border-t border-secondary-800 text-center text-gray-400"
       >
         <p>
-          &copy; {new Date().getFullYear()} MonkCast. All rights reserved.
+          &copy; {new Date().getFullYear()} RedMonk. All rights reserved.
         </p>
       </div>
     </footer>

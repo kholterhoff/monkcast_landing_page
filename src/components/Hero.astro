@@ -7,43 +7,44 @@ const { podcast } = Astro.props;
 ---
 
 <section
-  class="relative bg-gradient-to-br from-secondary-900 to-secondary-800 text-white py-16 md:py-24 overflow-hidden"
+  class="relative bg-gradient-to-br from-secondary-900 to-secondary-800 text-white py-12 md:py-24 overflow-hidden"
 >
   <div class="container mx-auto px-4 relative z-10">
-    <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
-      <div class="w-full lg:w-1/2">
-        <h1 class="text-4xl md:text-5xl font-bold mb-4 leading-tight">
+    <div class="flex flex-col lg:flex-row items-center gap-6 lg:gap-16">
+      <div class="w-full lg:w-1/2 text-center lg:text-left">
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 md:mb-4 leading-tight">
           The <span class="text-primary-400" style="color: #fe0000;">MonkCast</span>
         </h1>
-        <div class="flex items-center gap-1">
-          <span style="color: #fe0000; font-weight: 900;font-size: 20px;">A</span>
+        <div class="flex items-center gap-1 justify-center lg:justify-start">
+          <span style="color: #fe0000; font-weight: 900;font-size: 18px;">A</span>
           <img
             src={redmonkLogo.src}
             alt="RedMonk"
-            style="height: 35px; width: auto;"
+            style="height: 30px; width: auto;"
+            loading="eager"
           />
-          <span style="color: #fe0000; font-weight: 900;font-size: 20px;">Production</span>
+          <span style="color: #fe0000; font-weight: 900;font-size: 18px;">Production</span>
         </div>
-        <p class="text-xl md:text-2xl mb-6 text-gray-200">
+        <p class="text-lg sm:text-xl md:text-2xl mb-4 md:mb-6 text-gray-200">
           Technology analysis and insights from the RedMonk team
         </p>
-        <p class="text-gray-300 mb-8 max-w-xl">
+        <p class="text-gray-300 mb-6 md:mb-8 max-w-xl mx-auto lg:mx-0">
           Join us for in-depth conversations with technology thought leaders,
           industry experts, and the RedMonk analysts as we explore the
           intersection of technology, business, and culture.
         </p>
-        <div class="flex flex-wrap gap-4">
+        <div class="flex flex-wrap gap-4 justify-center lg:justify-start">
           <a
             href="#episodes"
-            class="bg-primary-500 text-white px-6 py-3 rounded-md hover:bg-primary-600 transition-colors focus:ring-2 focus:ring-primary-300 focus:outline-none"
+            class="bg-primary-500 text-white px-5 py-2 md:px-6 md:py-3 rounded-md hover:bg-primary-600 transition-colors focus:ring-2 focus:ring-primary-300 focus:outline-none text-sm md:text-base"
           >
             Latest Episodes
           </a>
         </div>
       </div>
-      <div class="w-full lg:w-1/2 flex justify-center">
+      <div class="w-full lg:w-1/2 flex justify-center mt-6 lg:mt-0">
         <div
-          class="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden shadow-2xl border-4 border-white/20 hover-lift"
+          class="relative w-56 h-56 sm:w-64 sm:h-64 md:w-80 md:h-80 rounded-full overflow-hidden shadow-2xl border-4 border-white/20 hover-lift"
         >
           <img
             src={monkcastLogo.src}
@@ -51,6 +52,7 @@ const { podcast } = Astro.props;
             width="320"
             height="320"
             class="w-full h-full object-contain"
+            loading="eager"
           />
         </div>
       </div>
