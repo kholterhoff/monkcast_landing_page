@@ -35,9 +35,17 @@ const {
   <body class="text-secondary-900">
     <slot />
     <footer
-      class="bg-gradient-to-br from-secondary-900 to-secondary-800 text-white py-12"
+      class="relative overflow-hidden bg-gradient-to-r from-gray-900 via-gray-800 to-black text-white py-12"
     >
-      <div class="container mx-auto px-4">
+      <!-- Floating bubbles -->
+      <div class="bubble-container">
+        <div class="bubble bubble-1"></div>
+        <div class="bubble bubble-2"></div>
+        <div class="bubble bubble-3"></div>
+        <div class="bubble bubble-4"></div>
+        <div class="bubble bubble-5"></div>
+      </div>
+      <div class="container mx-auto px-4 relative z-10">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <div class="flex items-center gap-2 mb-4">
@@ -126,7 +134,7 @@ const {
         </div>
       </div>
       <div
-        class="mt-8 pt-8 border-t border-secondary-800 text-center text-gray-400"
+        class="mt-8 pt-8 border-t border-gradient-gray text-center text-gray-300 relative z-10"
       >
         <p>
           &copy; {new Date().getFullYear()} RedMonk. All rights reserved.
@@ -146,6 +154,122 @@ const {
     display: flex;
     flex-direction: column;
     background: linear-gradient(to bottom, #f8fafc, #f1f5f9);
+  }
+
+  /* Bubble styles and animations */
+  .bubble-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+  }
+
+  .bubble {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle at 30% 30%,
+      rgba(75, 75, 75, 0.2),
+      rgba(30, 30, 30, 0.05)
+    );
+    box-shadow: inset 0 0 20px rgba(50, 50, 50, 0.1);
+    backdrop-filter: blur(2px);
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+  }
+
+  .bubble-1 {
+    width: 360px;
+    height: 360px;
+    left: 5%;
+    top: -100px;
+    animation: float-1 15s infinite alternate;
+    opacity: 0.7;
+  }
+
+  .bubble-2 {
+    width: 300px;
+    height: 300px;
+    right: 10%;
+    top: 20%;
+    animation: float-2 12s infinite alternate;
+    opacity: 0.6;
+  }
+
+  .bubble-3 {
+    width: 400px;
+    height: 400px;
+    left: 20%;
+    bottom: -80px;
+    animation: float-3 18s infinite alternate;
+    opacity: 0.7;
+  }
+
+  .bubble-4 {
+    width: 200px;
+    height: 200px;
+    right: 30%;
+    bottom: 20%;
+    animation: float-4 10s infinite alternate;
+    opacity: 0.5;
+  }
+
+  .bubble-5 {
+    width: 350px;
+    height: 350px;
+    left: 40%;
+    top: 20%;
+    animation: float-5 14s infinite alternate;
+    opacity: 0.4;
+  }
+
+  @keyframes float-1 {
+    0% {
+      transform: translate(0, 0) scale(1);
+    }
+    100% {
+      transform: translate(40px, 20px) scale(1.1);
+    }
+  }
+
+  @keyframes float-2 {
+    0% {
+      transform: translate(0, 0) scale(1);
+    }
+    100% {
+      transform: translate(-30px, 30px) scale(1.15);
+    }
+  }
+
+  @keyframes float-3 {
+    0% {
+      transform: translate(0, 0) scale(1);
+    }
+    100% {
+      transform: translate(50px, -20px) scale(1.05);
+    }
+  }
+
+  @keyframes float-4 {
+    0% {
+      transform: translate(0, 0) scale(1);
+    }
+    100% {
+      transform: translate(-20px, -40px) scale(1.1);
+    }
+  }
+
+  @keyframes float-5 {
+    0% {
+      transform: translate(0, 0) scale(1);
+    }
+    100% {
+      transform: translate(30px, 30px) scale(1.2);
+    }
   }
 
   .fadeIn {
@@ -226,6 +350,30 @@ const {
     background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  /* Animated gradient background */
+  .bg-gradient-animate {
+    background: linear-gradient(-45deg, #700000, #fe0000, #700000, #fe0000);
+    background-size: 400% 400%;
+    animation: gradient-animation 30s ease infinite;
+  }
+
+  @keyframes gradient-animation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  /* Gray gradient border */
+  .border-gradient-gray {
+    border-image: linear-gradient(to right, #4b5563, #9ca3af, #4b5563) 1;
   }
 </style>
 

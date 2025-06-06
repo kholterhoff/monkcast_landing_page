@@ -3,7 +3,7 @@ const { episode } = Astro.props;
 import { formatDuration } from "../utils/rss";
 ---
 
-<div class="podcast-player-container shadow-xl rounded-xl overflow-hidden border border-gray-200">
+<div class="podcast-player-container shadow-xl rounded-xl overflow-hidden border border-white/20">
     <iframe
         style="width:100%;border-radius:10px;overflow:hidden;"
         src="https://www.podserve.fm/dashboard/multi-player/8338"
@@ -22,6 +22,14 @@ import { formatDuration } from "../utils/rss";
         overflow: hidden;
     }
 
+    .podcast-player-container::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse at top right, rgba(254, 0, 0, 0.1), transparent);
+        z-index: 1;
+    }
+
     .podcast-player {
         position: absolute;
         top: 0;
@@ -29,6 +37,7 @@ import { formatDuration } from "../utils/rss";
         width: 100%;
         height: 100%;
         border: 0;
+        z-index: 2;
     }
 
     @media (max-width: 768px) {

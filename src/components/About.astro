@@ -17,7 +17,7 @@ import kateImg from "../assets/analysts/kate.png";
       </p>
     </div>
     
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto justify-items-center md:justify-center">
       <div class="card p-6 text-center hover-lift bg-gray-200">
         <div class="w-20 h-20 bg-gradient-to-br from-primary-100 to-primary-200 rounded-full flex items-center justify-center mx-auto mb-4 shadow-md border border-white/50">
           <svg
@@ -95,5 +95,24 @@ import kateImg from "../assets/analysts/kate.png";
   .hover-lift:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .card {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 8px; 
+    padding: 2px;
+    background: linear-gradient(135deg, #fe0000, #700000);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
   }
 </style>
