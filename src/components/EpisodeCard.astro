@@ -5,7 +5,7 @@ const { episode, featured = false } = Astro.props;
 ---
 
 <article
-  class={`bg-white rounded-lg shadow-md overflow-hidden ${featured ? "lg:flex" : ""} hover-lift`}
+  class={`card ${featured ? "lg:flex" : ""} hover-lift`}
 >
   <div class={`${featured ? "lg:w-2/5" : ""} ${featured ? "max-w-full" : "max-w-full"}`}>
     <div class="aspect-video relative">
@@ -46,7 +46,7 @@ const { episode, featured = false } = Astro.props;
           `https://www.podserve.fm/series/8338/the-monkcast`}
         target="_blank"
         rel="noopener noreferrer"
-        class="text-primary-500 font-medium hover:text-primary-600 flex items-center gap-1 transition-colors"
+        class="btn px-4 py-2 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-md flex items-center gap-1 transition-all hover:shadow-lg"
       >
         Listen Now
         <svg

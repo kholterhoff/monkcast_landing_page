@@ -3,14 +3,14 @@ const { episode } = Astro.props;
 import { formatDuration } from "../utils/rss";
 ---
 
-<div class="podcast-player-container">
+<div class="podcast-player-container shadow-xl rounded-xl overflow-hidden border border-gray-200">
     <iframe
         style="width:100%;border-radius:10px;overflow:hidden;"
         src="https://www.podserve.fm/dashboard/multi-player/8338"
         allowtransparency="true"
         allow="encrypted-media"
         loading="lazy"
-        class="podcast-player"></iframe>
+        class="podcast-player glass"></iframe>
 </div>
 
 <style>

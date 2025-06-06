@@ -19,9 +19,11 @@ const { episode, podcast } = Astro.props;
 
 <Layout title={`${episode.title} - The MonkCast`} description={episode.summary}>
   <div
-    class="bg-gradient-to-b from-secondary-900 to-secondary-800 text-white py-16"
+    class="bg-gradient-to-b from-secondary-900 via-secondary-800 to-secondary-700 text-white py-16 relative overflow-hidden"
   >
-    <div class="container mx-auto px-4">
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary-500/20 via-transparent to-transparent"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-accent-500/20 via-transparent to-transparent"></div>
+    <div class="container mx-auto px-4 relative z-10">
       <div class="mb-8">
         <a
           href="/"
@@ -45,7 +47,7 @@ const { episode, podcast } = Astro.props;
 
       <div class="flex flex-col md:flex-row gap-8">
         <div class="w-full md:w-1/3">
-          <div class="bg-white p-4 rounded-lg shadow-lg">
+          <div class="bg-white p-4 rounded-xl shadow-2xl border border-white/20">
             <img
               src={episode.image || podcast.image}
               alt={episode.title}
@@ -68,7 +70,7 @@ const { episode, podcast } = Astro.props;
           <div class="mt-8 flex flex-wrap gap-4">
             <a
               href="#"
-              class="bg-white text-secondary-900 flex items-center gap-2 px-4 py-2 rounded-md hover:bg-gray-200 transition-colors"
+              class="glass text-white flex items-center gap-2 px-4 py-2 rounded-md hover:bg-white/20 transition-all border border-white/20"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -93,7 +95,7 @@ const { episode, podcast } = Astro.props;
             </a>
             <a
               href="#subscribe"
-              class="bg-primary-500 text-white flex items-center gap-2 px-4 py-2 rounded-md hover:bg-primary-600 transition-colors"
+              class="btn btn-primary flex items-center gap-2 px-4 py-2 rounded-md"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -143,7 +145,7 @@ const { episode, podcast } = Astro.props;
             href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(episode.title)}&url=${encodeURIComponent(`https://monkcast.com/episodes/${episode.guid}`)}`}
             target="_blank"
             rel="noopener noreferrer"
-            class="bg-[#1DA1F2] text-white p-3 rounded-full hover:bg-opacity-90 transition-colors"
+            class="glass text-[#1DA1F2] p-3 rounded-lg hover:bg-[#1DA1F2]/10 transition-all border border-[#1DA1F2]/20 hover:shadow-md hover:-translate-y-1"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -164,7 +166,7 @@ const { episode, podcast } = Astro.props;
             href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`https://monkcast.com/episodes/${episode.guid}`)}`}
             target="_blank"
             rel="noopener noreferrer"
-            class="bg-[#1877F2] text-white p-3 rounded-full hover:bg-opacity-90 transition-colors"
+            class="glass text-[#1877F2] p-3 rounded-lg hover:bg-[#1877F2]/10 transition-all border border-[#1877F2]/20 hover:shadow-md hover:-translate-y-1"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -185,7 +187,7 @@ const { episode, podcast } = Astro.props;
             href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://monkcast.com/episodes/${episode.guid}`)}`}
             target="_blank"
             rel="noopener noreferrer"
-            class="bg-[#0A66C2] text-white p-3 rounded-full hover:bg-opacity-90 transition-colors"
+            class="glass text-[#0A66C2] p-3 rounded-lg hover:bg-[#0A66C2]/10 transition-all border border-[#0A66C2]/20 hover:shadow-md hover:-translate-y-1"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -206,7 +208,7 @@ const { episode, podcast } = Astro.props;
             >
           </a>
           <button
-            class="bg-gray-200 text-secondary-800 p-3 rounded-full hover:bg-gray-300 transition-colors copy-link"
+            class="glass text-secondary-800 p-3 rounded-lg hover:bg-secondary-100/20 transition-all border border-secondary-200/20 hover:shadow-md hover:-translate-y-1 copy-link"
             data-url={`https://monkcast.com/episodes/${episode.guid}`}
           >
             <svg

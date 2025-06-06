@@ -2,7 +2,7 @@
 // Import host images if needed
 ---
 
-<section id="hosts-section">
+<section id="hosts-section" class="py-16 bg-gradient-to-b from-gray-50 to-white">
 	<h2 class="section-title">Meet the Hosts</h2>
 	<div class="hosts-container">
 		<!-- Stephen O'Grady -->
@@ -392,6 +392,9 @@
 		background-size: cover;
 		background-position: center;
 		margin-bottom: 15px;
+		border: 4px solid rgba(255, 255, 255, 0.8);
+		box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+		transition: all 0.3s ease;
 	}
 
 	.stephen {
@@ -430,7 +433,7 @@
 
 	.social-links a {
 		color: #fe0000;
-		transition: color 0.2s;
+		transition: all 0.2s ease;
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
@@ -440,10 +443,15 @@
 		background-color: rgba(255, 255, 255, 0.8);
 		position: relative;
 		z-index: 10;
+		border: 1px solid rgba(254, 0, 0, 0.1);
+		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 	}
 
 	.social-links a:hover {
-		color: #bc52ee;
+		color: white;
+		background: linear-gradient(135deg, #fe0000, #700000);
+		transform: translateY(-2px);
+		box-shadow: 0 5px 10px rgba(254, 0, 0, 0.2);
 	}
 
 	.ellipsis {
@@ -480,18 +488,19 @@
 	.box {
 		background: rgba(255, 255, 255, 0.9);
 		border-radius: 16px;
-		border: 1px solid white;
-		transition:
-			transform 0.2s,
-			box-shadow 0.2s;
+		border: 1px solid rgba(255, 255, 255, 0.2);
+		transition: all 0.3s ease;
 		position: relative;
 		z-index: 1;
+		box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+		backdrop-filter: blur(10px);
 	}
 
 	.box:hover {
 		transform: translateY(-5px);
-		box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+		box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 		cursor: pointer;
+		border-color: rgba(254, 0, 0, 0.2);
 	}
 
 	@media screen and (max-width: 768px) {

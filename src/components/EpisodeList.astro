@@ -3,8 +3,9 @@ import EpisodeCard from './EpisodeCard.astro';
 const { episodes } = Astro.props;
 ---
 
-<section id="episodes" class="py-16 bg-gray-50">
-  <div class="container mx-auto px-4">
+<section id="episodes" class="py-16 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
+  <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-secondary-100/30 via-transparent to-transparent"></div>
+  <div class="container mx-auto px-4 relative z-10">
     <h2 class="text-3xl font-bold mb-8 text-center text-secondary-900">Latest Episodes</h2>
     
     <div class="grid gap-8">
@@ -30,9 +31,10 @@ const { episodes } = Astro.props;
         <div class="text-center mt-8">
           <a 
             href="https://redmonk.com/blog/category/appearances/" 
-            class="inline-block bg-secondary-800 text-white px-6 py-3 rounded-md hover:bg-secondary-700 transition-colors"
+            class="btn inline-flex items-center gap-2 bg-gradient-to-r from-secondary-800 to-secondary-700 text-white px-6 py-3 rounded-md hover:shadow-lg hover:-translate-y-1 transition-all"
           >
             View All Episodes
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
           </a>
         </div>
       ) : null}

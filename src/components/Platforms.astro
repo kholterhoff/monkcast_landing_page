@@ -7,8 +7,9 @@ import overcast from "../assets/platforms/overcast.png";
 import rss from "../assets/platforms/rss_logo.png";
 ---
 
-<section class="py-12 bg-gray-50">
-  <div class="container mx-auto px-4 text-center">
+<section class="py-12 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden">
+  <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary-100/30 via-transparent to-transparent"></div>
+  <div class="container mx-auto px-4 text-center relative z-10">
     <h2 class="text-2xl md:text-3xl font-bold mb-8 text-secondary-900">
       Listen on Your Favorite Platform
     </h2>
@@ -21,7 +22,7 @@ import rss from "../assets/platforms/rss_logo.png";
         href="https://podcasts.apple.com/us/podcast/the-monkcast/id1712805847"
         target="_blank"
         rel="noopener noreferrer"
-        class="flex flex-col items-center gap-2 p-3 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow w-24 h-24"
+        class="flex flex-col items-center gap-2 p-3 glass rounded-xl shadow-sm hover:shadow-xl transition-all w-24 h-24 hover:-translate-y-1 border border-white/20"
       >
         <img
           src={applePodcast.src}
@@ -37,7 +38,7 @@ import rss from "../assets/platforms/rss_logo.png";
         href="https://open.spotify.com/show/1lzmSLf4O2trpJApYOBeVC"
         target="_blank"
         rel="noopener noreferrer"
-        class="flex flex-col items-center gap-2 p-3 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow w-24 h-24"
+        class="flex flex-col items-center gap-2 p-3 glass rounded-xl shadow-sm hover:shadow-xl transition-all w-24 h-24 hover:-translate-y-1 border border-white/20"
       >
         <img src={spotify.src} alt="Spotify" width="40" height="40" />
         <span class="font-medium text-secondary-800">Spotify</span>
@@ -48,7 +49,7 @@ import rss from "../assets/platforms/rss_logo.png";
         href="https://pocketcasts.com/discover/podcast/9123d1b0-512d-013c-9eb7-0acc26574db2"
         target="_blank"
         rel="noopener noreferrer"
-        class="flex flex-col items-center gap-2 p-3 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow w-24 h-24"
+        class="flex flex-col items-center gap-2 p-3 glass rounded-xl shadow-sm hover:shadow-xl transition-all w-24 h-24 hover:-translate-y-1 border border-white/20"
       >
         <img src={pocketCasts.src} alt="Pocket Casts" width="40" height="40" />
         <span class="font-medium text-secondary-800 text-xs">Pocket Casts</span>
@@ -59,7 +60,7 @@ import rss from "../assets/platforms/rss_logo.png";
         href="https://overcast.fm/itunes/monkcast"
         target="_blank"
         rel="noopener noreferrer"
-        class="flex flex-col items-center gap-2 p-3 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow w-24 h-24"
+        class="flex flex-col items-center gap-2 p-3 glass rounded-xl shadow-sm hover:shadow-xl transition-all w-24 h-24 hover:-translate-y-1 border border-white/20"
       >
         <img src={overcast.src} alt="Overcast" width="40" height="40" />
         <span class="font-medium text-secondary-800">Overcast</span>
@@ -70,7 +71,7 @@ import rss from "../assets/platforms/rss_logo.png";
         href="https://www.podserve.fm/series/rss/8338/the-monkcast.rss"
         target="_blank"
         rel="noopener noreferrer"
-        class="flex flex-col items-center gap-2 p-3 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow w-24 h-24"
+        class="flex flex-col items-center gap-2 p-3 glass rounded-xl shadow-sm hover:shadow-xl transition-all w-24 h-24 hover:-translate-y-1 border border-white/20"
       >
         <img src={rss.src} alt="RSS Feed" width="40" height="40" />
         <span class="font-medium text-secondary-800">RSS</span>
