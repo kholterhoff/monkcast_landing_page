@@ -1,6 +1,7 @@
 ---
 // Import only what we need
 import redmonkLogo from "../assets/redmonk_logo2.png";
+import Base from "./Base.astro";
 
 interface Props {
   title: string;
@@ -12,6 +13,8 @@ const {
   description = "The MonkCast - Technology analysis and insights from the RedMonk team",
 } = Astro.props;
 ---
+
+<Base>
 
 <!doctype html>
 <html lang="en">
@@ -143,6 +146,8 @@ const {
     </footer>
   </body>
 </html>
+
+</Base>
 
 <style is:global>
   html {

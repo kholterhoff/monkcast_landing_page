@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+// Using standard img tag instead of Astro Image component for better compatibility with string URLs
 import { formatDuration } from "../utils/rss";
 import { COLORS, SPACING } from '../constants';
 import type { Episode } from '../types';
@@ -17,15 +17,25 @@ const { episode, featured = false } = Astro.props as Props;
 >
   <div class={`${featured ? "lg:col-span-2" : ""}`}>
     <div class="relative h-full">
-      <Image
-        src={episode.image}
-        alt={`${episode.title} - Cover Art`}
-        class="w-full h-full object-cover"
-        width={300}
-        height={300}
-        loading="lazy"
-        sizes="(max-width: 768px) 100vw, 300px"
-      />
+      {typeof episode.image === 'string' && episode.image ? (
+        <img
+          src={episode.image}
+          alt={`${episode.title} - Cover Art`}
+          class="w-full h-full object-cover"
+          width={300}
+          height={300}
+          loading="lazy"
+        />
+      ) : (
+        <img
+          src="https://redmonk.com/wp-content/uploads/2018/07/Monkchips-1.jpg"
+          alt={`${episode.title} - Cover Art`}
+          class="w-full h-full object-cover"
+          width={300}
+          height={300}
+          loading="lazy"
+        />
+      )}
       <div class="absolute inset-0 p-4">
         <div class="w-full">
           <div class="flex justify-start items-start text-white">

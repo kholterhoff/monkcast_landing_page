@@ -10,10 +10,11 @@ import Newsletter from '../components/Newsletter.astro';
 import Welcome from '../components/Welcome.astro';
 import Hosts from '../components/Hosts.astro';
 import { fetchPodcastFeed, PODCAST_RSS_URL } from '../services/rss';
+import type { Episode, Podcast } from '../types';
 
 // Fetch podcast data with caching
-const podcast = await fetchPodcastFeed(PODCAST_RSS_URL);
-const episodes = podcast.episodes || [];
+const podcast = await fetchPodcastFeed(PODCAST_RSS_URL) as Podcast;
+const episodes = podcast.episodes || [] as Episode[];
 ---
 
 <Layout title="The MonkCast - Technology analysis from RedMonk">

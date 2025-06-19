@@ -14,7 +14,7 @@ const parser = new Parser({
   },
 });
 
-async function extractCoverImageFromRedmonk(url) {
+export async function extractCoverImageFromRedmonk(url) {
   try {
     const response = await fetch(url);
     if (!response.ok) {
@@ -55,6 +55,7 @@ async function extractCoverImageFromRedmonk(url) {
   }
 }
 
+// This function is now deprecated - use the TypeScript version in services/rss.ts instead
 export async function fetchPodcastFeed(url) {
   try {
     console.log('Fetching podcast feed from:', url);
@@ -95,7 +96,7 @@ export async function fetchPodcastFeed(url) {
           formattedDate: item.pubDate ? format(new Date(item.pubDate), 'MMMM d, yyyy') : '',
           enclosure: item.enclosure,
           duration: item.duration || '',
-          image: coverImage || item.image?.href || feed.image?.url || '',
+          image: coverImage || item.image?.href || feed.image?.url || 'https://redmonk.com/wp-content/uploads/2018/07/Monkchips-1.jpg',
           summary: item.summary || item.contentSnippet,
           season: item.season || '',
           episodeNumber: item.episodeNumber || '',

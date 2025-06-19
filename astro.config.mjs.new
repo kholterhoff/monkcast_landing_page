@@ -1,0 +1,41 @@
+import { defineConfig } from 'astro/config';
+import tailwind from '@astrojs/tailwind';
+
+// https://astro.build/config
+export default defineConfig({
+  integrations: [tailwind()],
+  
+  // Clean URL configuration
+  build: {
+    format: 'file',
+    rollupOptions: {
+      external: ['@astrojs/rss']
+    }
+  },
+  
+  // Server configuration
+  server: {
+    port: 4321,
+    host: true
+  },
+  
+  // Site configuration
+  site: 'https://monkcast.com',
+  base: '/',
+  
+  // Output configuration
+  outDir: './dist',
+  publicDir: './public',
+  
+  // Routing configuration
+  trailingSlash: 'never',
+  
+  // Dev configuration
+  vite: {
+    server: {
+      watch: {
+        usePolling: true
+      }
+    }
+  }
+});

@@ -1,14 +1,15 @@
 ---
-import stephenImg from "../assets/analysts/stephen.png";
-import jamesImg from "../assets/analysts/james.png";
-import rachelImg from "../assets/analysts/rachel.png";
-import kateImg from "../assets/analysts/kate.png";
+// No imports needed for this component
 ---
 
 <section id="about" class="py-16 bg-gray-200">
   <div class="container mx-auto px-4">
     <div class="max-w-3xl mx-auto text-center mb-12">
-      <h2 class="text-3xl font-bold mb-4 text-secondary-900 bg-clip-text text-transparent bg-gradient-to-r from-secondary-800 to-secondary-600">About the MonkCast</h2>
+      <h2
+        class="text-3xl font-bold mb-4 text-secondary-900 bg-clip-text text-transparent bg-gradient-to-r from-secondary-800 to-secondary-600"
+      >
+        About the MonkCast
+      </h2>
       <p class="text-lg text-gray-600">
         Join the developer-focused industry analysts at RedMonk as they discuss
         news and trends in the software space with leaders and practicioners in
@@ -16,10 +17,14 @@ import kateImg from "../assets/analysts/kate.png";
         data, and more.
       </p>
     </div>
-    
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto justify-items-center md:justify-center">
+
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto justify-items-center md:justify-center"
+    >
       <div class="card p-6 text-center hover-lift bg-gray-200">
-        <div class="w-20 h-20 bg-gradient-to-br from-primary-100 to-primary-200 rounded-full flex items-center justify-center mx-auto mb-4 shadow-md border border-white/50">
+        <div
+          class="w-20 h-20 bg-gradient-to-br from-primary-100 to-primary-200 rounded-full flex items-center justify-center mx-auto mb-4 shadow-md border border-white/50"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 512 512"
@@ -34,15 +39,19 @@ import kateImg from "../assets/analysts/kate.png";
             ></path>
           </svg>
         </div>
-        <h3 class="text-xl font-semibold mb-3 text-secondary-800">Industry Analysis</h3>
+        <h3 class="text-xl font-semibold mb-3 text-secondary-800">
+          Industry Analysis
+        </h3>
         <p class="text-gray-600">
           Expert analysis of market trends, product launches, and business
           strategy from RedMonk's experienced analysts.
         </p>
       </div>
-      
+
       <div class="card p-6 text-center hover-lift bg-gray-200">
-        <div class="w-20 h-20 bg-gradient-to-br from-primary-100 to-primary-200 rounded-full flex items-center justify-center mx-auto mb-4 shadow-md border border-white/50">
+        <div
+          class="w-20 h-20 bg-gradient-to-br from-primary-100 to-primary-200 rounded-full flex items-center justify-center mx-auto mb-4 shadow-md border border-white/50"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 512 512"
@@ -57,15 +66,19 @@ import kateImg from "../assets/analysts/kate.png";
             ></path>
           </svg>
         </div>
-        <h3 class="text-xl font-semibold mb-3 text-secondary-800">Developer Trends</h3>
+        <h3 class="text-xl font-semibold mb-3 text-secondary-800">
+          Developer Trends
+        </h3>
         <p class="text-gray-600">
           Insights into what developers are using, how they work, and the
           technologies that are gaining adoption.
         </p>
       </div>
-      
+
       <div class="card p-6 text-center hover-lift bg-gray-200">
-        <div class="w-20 h-20 bg-gradient-to-br from-primary-100 to-primary-200 rounded-full flex items-center justify-center mx-auto mb-4 shadow-md border border-white/50">
+        <div
+          class="w-20 h-20 bg-gradient-to-br from-primary-100 to-primary-200 rounded-full flex items-center justify-center mx-auto mb-4 shadow-md border border-white/50"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 640 512"
@@ -79,7 +92,9 @@ import kateImg from "../assets/analysts/kate.png";
             ></path>
           </svg>
         </div>
-        <h3 class="text-xl font-semibold mb-3 text-secondary-800">Guest Interviews</h3>
+        <h3 class="text-xl font-semibold mb-3 text-secondary-800">
+          Guest Interviews
+        </h3>
         <p class="text-gray-600">
           Conversations with industry leaders, technical experts, and
           visionaries shaping the future of technology.
@@ -87,32 +102,38 @@ import kateImg from "../assets/analysts/kate.png";
       </div>
     </div>
 
-<style>
-  .hover-lift {
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  
-  .hover-lift:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  }
+    <style>
+      .hover-lift {
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
 
-  .card {
-    position: relative;
-    border-radius: 8px;
-    overflow: hidden;
-  }
+      .hover-lift:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
 
-  .card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: 8px; 
-    padding: 2px;
-    background: linear-gradient(135deg, #fe0000, #700000);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-  }
-</style>
+      .card {
+        position: relative;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 8px;
+        padding: 2px;
+        background: linear-gradient(135deg, #fe0000, #700000);
+        -webkit-mask:
+          linear-gradient(#fff 0 0) content-box,
+          linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        pointer-events: none;
+      }
+    </style>
+  </div>
+</section>

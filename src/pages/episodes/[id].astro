@@ -2,25 +2,47 @@
 import Layout from "../../layouts/Layout.astro";
 import PodcastPlayer from "../../components/PodcastPlayer.astro";
 import { fetchPodcastFeed, PODCAST_RSS_URL } from "../../services/rss";
+import type { Episode, Podcast } from "../../types";
 
 export async function getStaticPaths() {
-  const podcast = await fetchPodcastFeed(PODCAST_RSS_URL);
+  const podcast = (await fetchPodcastFeed(PODCAST_RSS_URL)) as Podcast;
 
-  return podcast.episodes.map((episode) => ({
-    params: { id: episode.guid },
-    props: { episode, podcast },
-  }));
+  return podcast.episodes.map((episode: Episode) => {
+    // Ensure guid is not null or undefined
+    const guid =
+      episode.guid ||
+      `episode-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+
+    return {
+      params: { id: guid },
+      props: { episode, podcast },
+    };
+  });
 }
 
-const { episode, podcast } = Astro.props;
+interface Props {
+  episode: Episode;
+  podcast: Podcast;
+}
+
+const { episode, podcast } = Astro.props as Props;
 ---
 
-<Layout title={`${episode.title} - The MonkCast`} description={episode.summary}>
+<Layout
+  title={`${episode.title || "Episode"} - The MonkCast`}
+  description={episode.summary || ""}
+>
   <div
     class="bg-gradient-to-b from-secondary-900 via-secondary-800 to-secondary-700 text-white py-16 relative overflow-hidden"
   >
-    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary-500/20 via-transparent to-transparent"></div>
-    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-accent-500/20 via-transparent to-transparent"></div>
+    <div
+      class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary-500/20 via-transparent to-transparent"
+    >
+    </div>
+    <div
+      class="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-accent-500/20 via-transparent to-transparent"
+    >
+    </div>
     <div class="container mx-auto px-4 relative z-10">
       <div class="mb-8">
         <a
@@ -45,10 +67,14 @@ const { episode, podcast } = Astro.props;
 
       <div class="flex flex-col md:flex-row gap-8">
         <div class="w-full md:w-1/3">
-          <div class="bg-white p-4 rounded-xl shadow-2xl border border-white/20">
+          <div
+            class="bg-white p-4 rounded-xl shadow-2xl border border-white/20"
+          >
             <img
-              src={episode.image || podcast.image}
-              alt={episode.title}
+              src={episode.image ||
+                podcast.image ||
+                "https://redmonk.com/wp-content/uploads/2018/07/Monkchips-1.jpg"}
+              alt={episode.title || "Episode"}
               class="w-full h-auto rounded-md"
             />
           </div>
@@ -59,9 +85,9 @@ const { episode, podcast } = Astro.props;
             Episode {episode.episodeNumber || ""}
           </div>
           <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">
-            {episode.title}
+            {episode.title || "Untitled Episode"}
           </h1>
-          <div class="text-gray-300 mb-6">{episode.formattedDate}</div>
+          <div class="text-gray-300 mb-6">{episode.formattedDate || ""}</div>
 
           <PodcastPlayer episode={episode} />
 
@@ -129,7 +155,11 @@ const { episode, podcast } = Astro.props;
           episode.content ? (
             <div set:html={episode.content} />
           ) : (
-            <p>{episode.summary || episode.contentSnippet}</p>
+            <p>
+              {episode.summary ||
+                episode.contentSnippet ||
+                "No episode notes available."}
+            </p>
           )
         }
       </div>
@@ -140,7 +170,7 @@ const { episode, podcast } = Astro.props;
         </h3>
         <div class="flex gap-4">
           <a
-            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(episode.title)}&url=${encodeURIComponent(`https://monkcast.com/episodes/${episode.guid}`)}`}
+            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(episode.title || "")}&url=${encodeURIComponent(`https://monkcast.com/episodes/${episode.guid || ""}`)}`}
             target="_blank"
             rel="noopener noreferrer"
             class="glass text-[#1DA1F2] p-3 rounded-lg hover:bg-[#1DA1F2]/10 transition-all border border-[#1DA1F2]/20 hover:shadow-md hover:-translate-y-1"
@@ -161,7 +191,7 @@ const { episode, podcast } = Astro.props;
             >
           </a>
           <a
-            href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`https://monkcast.com/episodes/${episode.guid}`)}`}
+            href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`https://monkcast.com/episodes/${episode.guid || ""}`)}`}
             target="_blank"
             rel="noopener noreferrer"
             class="glass text-[#1877F2] p-3 rounded-lg hover:bg-[#1877F2]/10 transition-all border border-[#1877F2]/20 hover:shadow-md hover:-translate-y-1"
@@ -182,7 +212,7 @@ const { episode, podcast } = Astro.props;
             >
           </a>
           <a
-            href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://monkcast.com/episodes/${episode.guid}`)}`}
+            href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://monkcast.com/episodes/${episode.guid || ""}`)}`}
             target="_blank"
             rel="noopener noreferrer"
             class="glass text-[#0A66C2] p-3 rounded-lg hover:bg-[#0A66C2]/10 transition-all border border-[#0A66C2]/20 hover:shadow-md hover:-translate-y-1"
@@ -207,7 +237,7 @@ const { episode, podcast } = Astro.props;
           </a>
           <button
             class="glass text-secondary-800 p-3 rounded-lg hover:bg-secondary-100/20 transition-all border border-secondary-200/20 hover:shadow-md hover:-translate-y-1 copy-link"
-            data-url={`https://monkcast.com/episodes/${episode.guid}`}
+            data-url={`https://monkcast.com/episodes/${episode.guid || ""}`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -238,7 +268,7 @@ const { episode, podcast } = Astro.props;
     const copyButton = document.querySelector(".copy-link");
     if (copyButton) {
       copyButton.addEventListener("click", () => {
-        const url = copyButton.getAttribute("data-url");
+        const url = copyButton.getAttribute("data-url") || "";
         navigator.clipboard.writeText(url).then(() => {
           // Show temporary success message
           const originalHTML = copyButton.innerHTML;

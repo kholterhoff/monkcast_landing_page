@@ -2,8 +2,13 @@
 import { Image } from "astro:assets";
 import monkcastLogo from "../assets/monkcast_logo.png";
 import redmonkLogo from "../assets/redmonk_logo.png";
+import type { Podcast } from '../types';
 
-const { podcast } = Astro.props;
+interface Props {
+  podcast: Podcast;
+}
+
+const { podcast } = Astro.props as Props;
 ---
 
 <section

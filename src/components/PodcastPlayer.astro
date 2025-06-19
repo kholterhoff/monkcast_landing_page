@@ -1,6 +1,12 @@
 ---
-const { episode } = Astro.props;
 import { formatDuration } from "../utils/rss";
+import type { Episode } from '../types';
+
+interface Props {
+  episode: Episode;
+}
+
+const { episode } = Astro.props as Props;
 ---
 
 <div class="podcast-player-container shadow-xl rounded-xl overflow-hidden border border-white/20">

@@ -1,6 +1,6 @@
 import Parser from 'rss-parser';
 import { format } from 'date-fns';
-import { extractCoverImageFromRedmonk } from '../utils/rss';
+import { extractCoverImageFromRedmonk, formatDuration } from '../utils/rss';
 
 const parser = new Parser({
   customFields: {
@@ -13,6 +13,7 @@ const parser = new Parser({
       ['itunes:episode', 'episodeNumber']
     ],
   },
+  defaultRSS: 2.0,
 });
 
 const RSS_CACHE_DURATION = 3600000; // 1 hour
@@ -20,6 +21,17 @@ let cache: {
   timestamp: number;
   data: any;
 } | null = null;
+
+// Helper function to ensure enclosure has proper format
+function normalizeEnclosure(enclosure: any) {
+  if (!enclosure) return null;
+  
+  return {
+    url: enclosure.url || '',
+    length: enclosure.length || 0,
+    type: enclosure.type || 'audio/mpeg'
+  };
+}
 
 export async function fetchPodcastFeed(url: string) {
   try {
@@ -29,7 +41,20 @@ export async function fetchPodcastFeed(url: string) {
     }
 
     console.log('Fetching podcast feed from:', url);
-    const feed = await parser.parseURL(url);
+    
+    // First try direct fetch to get raw XML
+    let feed;
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch RSS feed: ${response.status}`);
+      }
+      const xml = await response.text();
+      feed = await parser.parseString(xml);
+    } catch (fetchError) {
+      console.error('Error with direct fetch, falling back to parseURL:', fetchError);
+      feed = await parser.parseURL(url);
+    }
     console.log('Successfully fetched feed:', feed.title);
     
     // Process the feed data
@@ -53,11 +78,13 @@ export async function fetchPodcastFeed(url: string) {
           duration: item.duration || '',
           summary: item.summary || item.contentSnippet || '',
           content: item.content || '',
-          image: coverImage || item.image || '',
+          image: coverImage || item.image || feed.image?.url || 'https://redmonk.com/wp-content/uploads/2018/07/Monkchips-1.jpg',
           season: item.season || '',
           episodeNumber: item.episodeNumber || '',
           guid: item.guid || '',
-          redmonkUrl: redmonkUrl || ''
+          redmonkUrl: redmonkUrl || '',
+          link: item.link || '',
+          enclosure: normalizeEnclosure(item.enclosure)
         };
       }))
     };
@@ -71,11 +98,20 @@ export async function fetchPodcastFeed(url: string) {
     return podcast;
   } catch (error) {
     console.error('Error fetching podcast feed:', error);
+    
+    // Try to get more details about the error
+    if (error instanceof Error) {
+      console.error('Error details:', error.message);
+      console.error('Error stack:', error.stack);
+    }
+    
     // Return cached data if available
     if (cache) {
+      console.log('Using cached podcast data');
       return cache.data;
     }
     
+    console.log('Using fallback podcast data');
     // Fallback data
     return {
       title: 'The MonkCast',
