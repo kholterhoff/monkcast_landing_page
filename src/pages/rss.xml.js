@@ -1,8 +1,7 @@
 import rss from '@astrojs/rss';
-import { fetchPodcastFeed } from '../utils/rss';
+import { fetchPodcastFeed, PODCAST_RSS_URL } from '../services/rss';
 
 export async function GET(context) {
-  const PODCAST_RSS_URL = 'https://www.podserve.fm/series/rss/8338/the-monkcast.rss';
   const podcast = await fetchPodcastFeed(PODCAST_RSS_URL);
   
   return rss({

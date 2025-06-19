@@ -1,7 +1,15 @@
 ---
+import { Image } from 'astro:assets';
 import { formatDuration } from "../utils/rss";
+import { COLORS, SPACING } from '../constants';
+import type { Episode } from '../types';
 
-const { episode, featured = false } = Astro.props;
+interface Props {
+  episode: Episode;
+  featured?: boolean;
+}
+
+const { episode, featured = false } = Astro.props as Props;
 ---
 
 <article
@@ -9,21 +17,23 @@ const { episode, featured = false } = Astro.props;
 >
   <div class={`${featured ? "lg:col-span-2" : ""}`}>
     <div class="relative h-full">
-      <img
+      <Image
         src={episode.image}
         alt={`${episode.title} - Cover Art`}
         class="w-full h-full object-cover"
+        width={300}
+        height={300}
+        loading="lazy"
+        sizes="(max-width: 768px) 100vw, 300px"
       />
       <div class="absolute inset-0 p-4">
         <div class="w-full">
           <div class="flex justify-start items-start text-white">
-            {
-              featured && (
-                <span class="bg-primary-500 text-xs font-medium px-2 py-1 rounded-full">
-                  New Episode
-                </span>
-              )
-            }
+            {featured && (
+              <span class="bg-primary-500 text-xs font-medium px-2 py-1 rounded-full">
+                New Episode
+              </span>
+            )}
           </div>
         </div>
       </div>
