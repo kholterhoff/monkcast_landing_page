@@ -2,10 +2,11 @@
 // No imports needed for this component
 ---
 
-<section id="about" class="py-16 bg-gray-200">
+<section id="about" class="py-16 bg-gray-200" aria-labelledby="about-heading">
   <div class="container mx-auto px-4">
     <div class="max-w-3xl mx-auto text-center mb-12">
       <h2
+        id="about-heading"
         class="text-3xl font-bold mb-4 text-secondary-900 bg-clip-text text-transparent bg-gradient-to-r from-secondary-800 to-secondary-600"
       >
         About the MonkCast
@@ -31,6 +32,7 @@
             class="text-primary-500"
             width="32"
             height="32"
+            aria-hidden="true"
           >
             <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
             <path
@@ -58,6 +60,7 @@
             class="text-primary-500"
             width="32"
             height="32"
+            aria-hidden="true"
           >
             <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
             <path
@@ -85,6 +88,7 @@
             class="text-primary-500"
             width="32"
             height="32"
+            aria-hidden="true"
           >
             <path
               fill="currentColor"
@@ -107,17 +111,15 @@
         transition:
           transform 0.2s ease,
           box-shadow 0.2s ease;
+        position: relative;
+        border-radius: 8px;
+        overflow: hidden;
+        background-color: #e5e7eb; /* bg-gray-200 equivalent */
       }
 
       .hover-lift:hover {
         transform: translateY(-5px);
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-      }
-
-      .card {
-        position: relative;
-        border-radius: 8px;
-        overflow: hidden;
       }
 
       .card::before {

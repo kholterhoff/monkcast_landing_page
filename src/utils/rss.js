@@ -14,17 +14,38 @@ const parser = new Parser({
   },
 });
 
+// Cache for cover images to avoid repeated fetches
+const coverImageCache = new Map();
+
 export async function extractCoverImageFromRedmonk(url) {
+  if (!url) return null;
+  
+  // Check cache first
+  if (coverImageCache.has(url)) {
+    return coverImageCache.get(url);
+  }
+  
   try {
-    const response = await fetch(url);
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+    
+    const response = await fetch(url, { 
+      signal: controller.signal,
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (compatible; MonkCastBot/1.0)'
+      }
+    });
+    clearTimeout(timeoutId);
+    
     if (!response.ok) {
       console.error(`Failed to fetch RedMonk page: ${response.status}`);
+      coverImageCache.set(url, null); // Cache the failure
       return null;
     }
     
     const html = await response.text();
     
-    // Try different image selectors
+    // Try different image selectors in order of preference
     const selectors = [
       /<meta\s+property="og:image"\s+content="([^"]+)"/i,  // Open Graph image
       /<img[^>]+class="[^"]*featured-image[^"]*"[^>]+src="([^"]+)"/i,  // Featured image
@@ -36,21 +57,18 @@ export async function extractCoverImageFromRedmonk(url) {
       const match = html.match(selector);
       if (match && match[1]) {
         const imageUrl = match[1];
-        // Verify image URL is accessible
-        try {
-          const imgResponse = await fetch(imageUrl, { method: 'HEAD' });
-          if (imgResponse.ok) {
-            return imageUrl;
-          }
-        } catch (e) {
-          console.error(`Failed to verify image URL: ${imageUrl}`, e);
-        }
+        // Store in cache
+        coverImageCache.set(url, imageUrl);
+        return imageUrl;
       }
     }
     
+    // No image found
+    coverImageCache.set(url, null);
     return null;
   } catch (error) {
     console.error('Error fetching RedMonk cover image:', error);
+    coverImageCache.set(url, null); // Cache the failure
     return null;
   }
 }
@@ -120,19 +138,37 @@ export async function fetchPodcastFeed(url) {
   }
 }
 
+// Cache for formatted durations
+const durationCache = new Map();
+
 export function formatDuration(duration) {
   if (!duration) return '';
   
-  if (duration.includes(':')) return duration;
-
-  const seconds = parseInt(duration);
-  const hours = Math.floor(seconds / 3600);
-  const minutes = Math.floor((seconds % 3600) / 60);
-  const secs = seconds % 60;
-
-  if (hours > 0) {
-    return `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-  } else {
-    return `${minutes}:${secs.toString().padStart(2, '0')}`;
+  // Check cache first
+  if (durationCache.has(duration)) {
+    return durationCache.get(duration);
   }
+  
+  let result = '';
+  
+  if (duration.includes(':')) {
+    result = duration;
+  } else {
+    const seconds = parseInt(duration, 10);
+    if (isNaN(seconds)) return '';
+    
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+
+    if (hours > 0) {
+      result = `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    } else {
+      result = `${minutes}:${secs.toString().padStart(2, '0')}`;
+    }
+  }
+  
+  // Store in cache
+  durationCache.set(duration, result);
+  return result;
 }

@@ -2,21 +2,14 @@ import rss from '@astrojs/rss';
 import { fetchPodcastFeed, PODCAST_RSS_URL } from '../services/rss';
 import type { Podcast, Episode } from '../types';
 
-// Debug function to log RSS feed data
-function debugRssFeed(podcast: Podcast) {
-  console.log('RSS Feed Debug:');
-  console.log('Title:', podcast.title);
-  console.log('Description:', podcast.description);
-  console.log('Image:', podcast.image);
-  console.log('Episodes count:', podcast.episodes?.length || 0);
-  
-  if (podcast.episodes && podcast.episodes.length > 0) {
-    const firstEpisode = podcast.episodes[0];
-    console.log('First episode title:', firstEpisode.title);
-    console.log('First episode enclosure:', firstEpisode.enclosure);
-    console.log('First episode image:', firstEpisode.image);
-    console.log('First episode link:', firstEpisode.link);
-  }
+// Function to validate podcast data
+function validatePodcastData(podcast: Podcast): boolean {
+  return Boolean(
+    podcast && 
+    podcast.title && 
+    podcast.episodes && 
+    Array.isArray(podcast.episodes)
+  );
 }
 
 // Define iTunes namespace
@@ -34,8 +27,11 @@ export interface AstroContext {
 export async function GET(context: AstroContext) {
   const podcast = await fetchPodcastFeed(PODCAST_RSS_URL) as Podcast;
   
-  // Debug the podcast data
-  debugRssFeed(podcast);
+  // Validate the podcast data
+  if (!validatePodcastData(podcast)) {
+    throw new Error('Invalid podcast data received');
+  }
+  
   const site = context.site || 'https://monkcast.com';
   
   return rss({
@@ -51,10 +47,8 @@ export async function GET(context: AstroContext) {
         type: episode.enclosure.type || 'audio/mpeg'
       } : undefined;
       
-      // Debug enclosure
-      if (enclosure) {
-        console.log(`Enclosure for ${episode.title}:`, enclosure);
-      } else {
+      // Ensure enclosure exists
+      if (!enclosure) {
         console.warn(`No enclosure found for episode: ${episode.title}`);
       }
       

@@ -17,10 +17,14 @@ const parser = new Parser({
 });
 
 const RSS_CACHE_DURATION = 3600000; // 1 hour
-let cache: {
+
+interface CacheItem {
   timestamp: number;
   data: any;
-} | null = null;
+}
+
+// Use a Map for more efficient cache storage with multiple URLs
+const rssCache = new Map<string, CacheItem>();
 
 // Helper function to ensure enclosure has proper format
 function normalizeEnclosure(enclosure: any) {
@@ -36,8 +40,10 @@ function normalizeEnclosure(enclosure: any) {
 export async function fetchPodcastFeed(url: string) {
   try {
     // Check cache
-    if (cache && Date.now() - cache.timestamp < RSS_CACHE_DURATION) {
-      return cache.data;
+    const cachedItem = rssCache.get(url);
+    if (cachedItem && Date.now() - cachedItem.timestamp < RSS_CACHE_DURATION) {
+      console.log('Using cached podcast data for:', url);
+      return cachedItem.data;
     }
 
     console.log('Fetching podcast feed from:', url);
@@ -90,10 +96,10 @@ export async function fetchPodcastFeed(url: string) {
     };
 
     // Update cache
-    cache = {
+    rssCache.set(url, {
       timestamp: Date.now(),
       data: podcast
-    };
+    });
 
     return podcast;
   } catch (error) {
@@ -106,9 +112,10 @@ export async function fetchPodcastFeed(url: string) {
     }
     
     // Return cached data if available
-    if (cache) {
-      console.log('Using cached podcast data');
-      return cache.data;
+    const cachedItem = rssCache.get(url);
+    if (cachedItem) {
+      console.log('Using cached podcast data after error');
+      return cachedItem.data;
     }
     
     console.log('Using fallback podcast data');

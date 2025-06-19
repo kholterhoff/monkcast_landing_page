@@ -16,7 +16,10 @@ const { episode } = Astro.props as Props;
         allowtransparency="true"
         allow="encrypted-media"
         loading="lazy"
-        class="podcast-player glass"></iframe>
+        title="Podcast Player"
+        fetchpriority="low"
+        class="podcast-player glass"
+        tabindex="0"></iframe>
 </div>
 
 <style>

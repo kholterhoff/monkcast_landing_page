@@ -3,6 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 import PodcastPlayer from "../../components/PodcastPlayer.astro";
 import { fetchPodcastFeed, PODCAST_RSS_URL } from "../../services/rss";
 import type { Episode, Podcast } from "../../types";
+import { Image } from "astro:assets";
 
 export async function getStaticPaths() {
   const podcast = (await fetchPodcastFeed(PODCAST_RSS_URL)) as Podcast;
@@ -59,6 +60,7 @@ const { episode, podcast } = Astro.props as Props;
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
+            aria-hidden="true"
             class="mr-2"><path d="m15 18-6-6 6-6"></path></svg
           >
           Back to Home
@@ -70,31 +72,36 @@ const { episode, podcast } = Astro.props as Props;
           <div
             class="bg-white p-4 rounded-xl shadow-2xl border border-white/20"
           >
-            <img
+            <Image
               src={episode.image ||
                 podcast.image ||
                 "https://redmonk.com/wp-content/uploads/2018/07/Monkchips-1.jpg"}
               alt={episode.title || "Episode"}
+              width={600}
+              height={400}
               class="w-full h-auto rounded-md"
+              loading="eager"
+              format="webp"
             />
           </div>
         </div>
 
         <div class="w-full md:w-2/3">
-          <div class="mb-2 text-primary-400">
+          <div class="mb-2 text-primary-400 font-medium">
             Episode {episode.episodeNumber || ""}
           </div>
           <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">
             {episode.title || "Untitled Episode"}
           </h1>
-          <div class="text-gray-300 mb-6">{episode.formattedDate || ""}</div>
+          <div class="text-gray-200 mb-6">{episode.formattedDate || ""}</div>
 
           <PodcastPlayer episode={episode} />
 
           <div class="mt-8 flex flex-wrap gap-4">
-            <a
-              href="#"
-              class="glass text-white flex items-center gap-2 px-4 py-2 rounded-md hover:bg-white/20 transition-all border border-white/20"
+            <button
+              type="button"
+              class="glass text-white flex items-center gap-2 px-4 py-2 rounded-md hover:bg-white/20 transition-all border border-white/20 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+              aria-label="Share this episode"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -106,6 +113,7 @@ const { episode, podcast } = Astro.props as Props;
                 stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
+                aria-hidden="true"
                 ><path d="M15 5l-5 5"></path><path d="M15 19l-5-5"></path><rect
                   width="5"
                   height="5"
@@ -116,10 +124,10 @@ const { episode, podcast } = Astro.props as Props;
                 ></rect></svg
               >
               Share Episode
-            </a>
+            </button>
             <a
               href="#subscribe"
-              class="btn btn-primary flex items-center gap-2 px-4 py-2 rounded-md"
+              class="btn btn-primary flex items-center gap-2 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary-500"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -131,6 +139,7 @@ const { episode, podcast } = Astro.props as Props;
                 stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
+                aria-hidden="true"
                 ><path
                   d="M2 12.5c1.67-1.25 3.33-1.25 5 0s3.33 1.25 5 0 3.33-1.25 5 0 3.33 1.25 5 0"
                 ></path><path
@@ -173,7 +182,8 @@ const { episode, podcast } = Astro.props as Props;
             href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(episode.title || "")}&url=${encodeURIComponent(`https://monkcast.com/episodes/${episode.guid || ""}`)}`}
             target="_blank"
             rel="noopener noreferrer"
-            class="glass text-[#1DA1F2] p-3 rounded-lg hover:bg-[#1DA1F2]/10 transition-all border border-[#1DA1F2]/20 hover:shadow-md hover:-translate-y-1"
+            class="glass text-[#1DA1F2] p-3 rounded-lg hover:bg-[#1DA1F2]/10 transition-all border border-[#1DA1F2]/20 hover:shadow-md hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#1DA1F2] focus:ring-offset-2"
+            aria-label="Share on Twitter"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -185,6 +195,7 @@ const { episode, podcast } = Astro.props as Props;
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
+              aria-hidden="true"
               ><path
                 d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-1-4.8 4-8.9 7.5-5A7.5 7.5 0 0 0 22 4"
               ></path></svg
@@ -194,7 +205,8 @@ const { episode, podcast } = Astro.props as Props;
             href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`https://monkcast.com/episodes/${episode.guid || ""}`)}`}
             target="_blank"
             rel="noopener noreferrer"
-            class="glass text-[#1877F2] p-3 rounded-lg hover:bg-[#1877F2]/10 transition-all border border-[#1877F2]/20 hover:shadow-md hover:-translate-y-1"
+            class="glass text-[#1877F2] p-3 rounded-lg hover:bg-[#1877F2]/10 transition-all border border-[#1877F2]/20 hover:shadow-md hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#1877F2] focus:ring-offset-2"
+            aria-label="Share on Facebook"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -206,6 +218,7 @@ const { episode, podcast } = Astro.props as Props;
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
+              aria-hidden="true"
               ><path
                 d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"
               ></path></svg
@@ -215,7 +228,8 @@ const { episode, podcast } = Astro.props as Props;
             href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://monkcast.com/episodes/${episode.guid || ""}`)}`}
             target="_blank"
             rel="noopener noreferrer"
-            class="glass text-[#0A66C2] p-3 rounded-lg hover:bg-[#0A66C2]/10 transition-all border border-[#0A66C2]/20 hover:shadow-md hover:-translate-y-1"
+            class="glass text-[#0A66C2] p-3 rounded-lg hover:bg-[#0A66C2]/10 transition-all border border-[#0A66C2]/20 hover:shadow-md hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#0A66C2] focus:ring-offset-2"
+            aria-label="Share on LinkedIn"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -227,6 +241,7 @@ const { episode, podcast } = Astro.props as Props;
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
+              aria-hidden="true"
               ><path
                 d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
               ></path><rect width="4" height="12" x="2" y="9"></rect><circle
@@ -236,7 +251,8 @@ const { episode, podcast } = Astro.props as Props;
             >
           </a>
           <button
-            class="glass text-secondary-800 p-3 rounded-lg hover:bg-secondary-100/20 transition-all border border-secondary-200/20 hover:shadow-md hover:-translate-y-1 copy-link"
+            class="glass text-secondary-800 p-3 rounded-lg hover:bg-secondary-100/20 transition-all border border-secondary-200/20 hover:shadow-md hover:-translate-y-1 copy-link focus:outline-none focus:ring-2 focus:ring-secondary-500 focus:ring-offset-2"
+            aria-label="Copy link to clipboard"
             data-url={`https://monkcast.com/episodes/${episode.guid || ""}`}
           >
             <svg
@@ -249,6 +265,7 @@ const { episode, podcast } = Astro.props as Props;
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
+              aria-hidden="true"
               ><path
                 d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"
               ></path><path
@@ -263,26 +280,44 @@ const { episode, podcast } = Astro.props as Props;
 </Layout>
 
 <script>
-  // Copy link functionality
+  // Copy link functionality - optimized with event delegation
   document.addEventListener("DOMContentLoaded", () => {
-    const copyButton = document.querySelector(".copy-link");
-    if (copyButton) {
-      copyButton.addEventListener("click", () => {
+    // Use event delegation for better performance
+    document.addEventListener("click", (e) => {
+      const target = e.target instanceof Element ? e.target : null;
+      const copyButton = target ? target.closest(".copy-link") : null;
+      if (copyButton && copyButton instanceof HTMLElement) {
         const url = copyButton.getAttribute("data-url") || "";
         navigator.clipboard.writeText(url).then(() => {
+          // Cache the original HTML to avoid DOM manipulation overhead
+          if (!copyButton.dataset.originalHtml) {
+            copyButton.dataset.originalHtml = copyButton.innerHTML;
+          }
+
           // Show temporary success message
-          const originalHTML = copyButton.innerHTML;
           copyButton.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M20 6 9 17l-5-5"/>
             </svg>
+            <span class="sr-only">Link copied successfully</span>
           `;
 
+          // Announce to screen readers
+          const announcement = document.createElement("div");
+          announcement.setAttribute("aria-live", "polite");
+          announcement.classList.add("sr-only");
+          announcement.textContent = "Link copied to clipboard";
+          document.body.appendChild(announcement);
+
           setTimeout(() => {
-            copyButton.innerHTML = originalHTML;
+            document.body.removeChild(announcement);
+          }, 3000);
+
+          setTimeout(() => {
+            copyButton.innerHTML = copyButton.dataset.originalHtml || "";
           }, 2000);
         });
-      });
-    }
+      }
+    });
   });
 </script>
