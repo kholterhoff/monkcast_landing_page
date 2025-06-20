@@ -16,7 +16,8 @@ const parser = new Parser({
   defaultRSS: 2.0,
 });
 
-const RSS_CACHE_DURATION = 3600000; // 1 hour
+// Set cache duration to 0 during build, 1 hour during runtime
+const RSS_CACHE_DURATION = process.env.NODE_ENV === 'production' ? 0 : 3600000; // 0 for build, 1 hour for dev
 
 interface CacheItem {
   timestamp: number;
@@ -39,27 +40,49 @@ function normalizeEnclosure(enclosure: any) {
 
 export async function fetchPodcastFeed(url: string) {
   try {
-    // Check cache
+    // Check cache - skip cache during build
+    const isBuild = process.env.NODE_ENV === 'production';
     const cachedItem = rssCache.get(url);
-    if (cachedItem && Date.now() - cachedItem.timestamp < RSS_CACHE_DURATION) {
+    if (!isBuild && cachedItem && Date.now() - cachedItem.timestamp < RSS_CACHE_DURATION) {
       console.log('Using cached podcast data for:', url);
       return cachedItem.data;
     }
+    
+    console.log('Fetching fresh podcast data, isBuild:', isBuild);
 
     console.log('Fetching podcast feed from:', url);
     
-    // First try direct fetch to get raw XML
+    // First try direct fetch to get raw XML with improved fetch options
     let feed;
     try {
-      const response = await fetch(url);
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+      
+      const response = await fetch(url, {
+        signal: controller.signal,
+        headers: {
+          'User-Agent': 'MonkCast/1.0 RSS Reader',
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache'
+        }
+      });
+      
+      clearTimeout(timeoutId);
+      
       if (!response.ok) {
         throw new Error(`Failed to fetch RSS feed: ${response.status}`);
       }
+      
       const xml = await response.text();
       feed = await parser.parseString(xml);
     } catch (fetchError) {
       console.error('Error with direct fetch, falling back to parseURL:', fetchError);
-      feed = await parser.parseURL(url);
+      try {
+        feed = await parser.parseURL(url);
+      } catch (parseError) {
+        console.error('Error with parseURL fallback:', parseError);
+        throw new Error(`Failed to fetch podcast feed: ${fetchError.message || 'Unknown error'}`);
+      }
     }
     console.log('Successfully fetched feed:', feed.title);
     

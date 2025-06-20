@@ -25,11 +25,33 @@ export interface AstroContext {
 }
 
 export async function GET(context: AstroContext) {
-  const podcast = await fetchPodcastFeed(PODCAST_RSS_URL) as Podcast;
+  // Force fresh data fetch for RSS feed
+  console.log('Generating RSS feed with fresh data');
   
-  // Validate the podcast data
-  if (!validatePodcastData(podcast)) {
-    throw new Error('Invalid podcast data received');
+  // Add retry logic for more reliable feed generation
+  let podcast: Podcast | null = null;
+  let attempts = 0;
+  const maxAttempts = 3;
+  
+  while (!podcast && attempts < maxAttempts) {
+    attempts++;
+    try {
+      podcast = await fetchPodcastFeed(PODCAST_RSS_URL) as Podcast;
+      
+      // Validate the podcast data
+      if (!validatePodcastData(podcast)) {
+        console.error(`Invalid podcast data received on attempt ${attempts}`);
+        podcast = null;
+        if (attempts < maxAttempts) await new Promise(r => setTimeout(r, 1000)); // Wait 1s before retry
+      }
+    } catch (error) {
+      console.error(`Error fetching podcast feed on attempt ${attempts}:`, error);
+      if (attempts < maxAttempts) await new Promise(r => setTimeout(r, 1000)); // Wait 1s before retry
+    }
+  }
+  
+  if (!podcast) {
+    throw new Error(`Failed to fetch valid podcast data after ${maxAttempts} attempts`);
   }
   
   const site = context.site || 'https://monkcast.com';

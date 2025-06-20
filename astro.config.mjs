@@ -7,10 +7,8 @@ export default defineConfig({
   // Add these to fix the URL issue
   trailingSlash: 'never',
   output: 'static',
+  site: 'https://monkcast.netlify.app',
   build: {
-    format: 'file',
-    rollupOptions: {
-      external: ['@astrojs/rss']
-    }
+    format: 'file'
   }
 });
