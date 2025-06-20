@@ -10,5 +10,18 @@ export default defineConfig({
   site: 'https://monkcast.netlify.app',
   build: {
     format: 'file'
+  },
+  // Disable caching during build
+  vite: {
+    build: {
+      // Force Vite to always rebuild
+      emptyOutDir: true,
+    },
+    // Disable caching for network requests
+    server: {
+      fs: {
+        strict: false
+      }
+    }
   }
 });
