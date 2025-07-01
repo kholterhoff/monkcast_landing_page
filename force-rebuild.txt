@@ -1,2 +1,0 @@
-This file forces Netlify to rebuild the site from scratch.
-Last rebuild: ${new Date().toISOString()}

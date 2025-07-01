@@ -52,20 +52,29 @@ export async function fetchPodcastFeed(url: string) {
 
     console.log('Fetching podcast feed from:', url);
     
-    // Use our direct fetch utility for more reliable fetching
+    // First try direct fetch to get raw XML with improved fetch options
     let feed;
     try {
-      // Import the direct fetch utility
-      const { directFetchRSS } = await import('../utils/rss');
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
       
-      // Fetch the RSS feed with cache busting
-      const xml = await directFetchRSS(`${url}?_=${Date.now()}`);
+      const response = await fetch(url, {
+        signal: controller.signal,
+        headers: {
+          'User-Agent': 'MonkCast/1.0 RSS Reader',
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache'
+        }
+      });
       
-      // Parse the XML
+      clearTimeout(timeoutId);
+      
+      if (!response.ok) {
+        throw new Error(`Failed to fetch RSS feed: ${response.status}`);
+      }
+      
+      const xml = await response.text();
       feed = await parser.parseString(xml);
-      
-      // Log the number of items found
-      console.log(`Successfully parsed feed with ${feed.items?.length || 0} items`);
     } catch (fetchError) {
       console.error('Error with direct fetch, falling back to parseURL:', fetchError);
       try {
@@ -77,9 +86,6 @@ export async function fetchPodcastFeed(url: string) {
     }
     console.log('Successfully fetched feed:', feed.title);
     
-    // Log the number of episodes found
-    console.log(`Found ${feed.items?.length || 0} episodes in the feed`);
-    
     // Process the feed data
     const podcast = {
       title: feed.title,
@@ -87,7 +93,7 @@ export async function fetchPodcastFeed(url: string) {
       link: feed.link,
       image: feed.image?.url || '',
       itunesAuthor: feed.itunes?.author || '',
-      episodes: await Promise.all((feed.items || []).map(async item => {
+      episodes: await Promise.all(feed.items.map(async item => {
         // Extract all RedMonk post URLs from content
         const redmonkUrl = item.content?.match(/https?:\/\/redmonk\.com\/blog\/[^\s"']+/)?.[0];
         
@@ -109,21 +115,8 @@ export async function fetchPodcastFeed(url: string) {
           link: item.link || '',
           enclosure: normalizeEnclosure(item.enclosure)
         };
-      })).sort((a, b) => {
-        // Sort by publication date, newest first
-        const dateA = new Date(a.pubDate || 0).getTime();
-        const dateB = new Date(b.pubDate || 0).getTime();
-        return dateB - dateA;
-      })
+      }))
     };
-    
-    // Log the first few episodes after sorting
-    console.log('First 3 episodes after sorting:', 
-      podcast.episodes.slice(0, 3).map(e => ({ 
-        title: e.title, 
-        date: e.pubDate,
-        guid: e.guid
-      })));
 
     // Update cache
     rssCache.set(url, {

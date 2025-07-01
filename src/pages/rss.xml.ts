@@ -56,22 +56,12 @@ export async function GET(context: AstroContext) {
   
   const site = context.site || 'https://monkcast.com';
   
-  // Log the number of episodes before generating RSS
-  console.log(`Generating RSS feed with ${podcast.episodes.length} episodes`);
-  
-  // Ensure episodes are sorted by date (newest first)
-  const sortedEpisodes = [...podcast.episodes].sort((a, b) => {
-    const dateA = new Date(a.pubDate || 0).getTime();
-    const dateB = new Date(b.pubDate || 0).getTime();
-    return dateB - dateA;
-  });
-  
   return rss({
     xmlns,
     title: podcast.title || 'The MonkCast',
     description: podcast.description || 'Technology analysis and insights from the RedMonk team',
     site: site,
-    items: sortedEpisodes.map((episode: Episode) => {
+    items: podcast.episodes.map((episode: Episode) => {
       // Use the original enclosure from the source feed
       const enclosure = episode.enclosure ? {
         url: episode.enclosure.url,
