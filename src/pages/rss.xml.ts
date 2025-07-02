@@ -5,9 +5,9 @@ import type { Podcast, Episode } from '../types';
 // Function to validate podcast data
 function validatePodcastData(podcast: Podcast): boolean {
   return Boolean(
-    podcast && 
-    podcast.title && 
-    podcast.episodes && 
+    podcast &&
+    podcast.title &&
+    podcast.episodes &&
     Array.isArray(podcast.episodes)
   );
 }
@@ -27,17 +27,17 @@ export interface AstroContext {
 export async function GET(context: AstroContext) {
   // Force fresh data fetch for RSS feed
   console.log('Generating RSS feed with fresh data');
-  
+
   // Add retry logic for more reliable feed generation
   let podcast: Podcast | null = null;
   let attempts = 0;
   const maxAttempts = 3;
-  
+
   while (!podcast && attempts < maxAttempts) {
     attempts++;
     try {
       podcast = await fetchPodcastFeed(PODCAST_RSS_URL) as Podcast;
-      
+
       // Validate the podcast data
       if (!validatePodcastData(podcast)) {
         console.error(`Invalid podcast data received on attempt ${attempts}`);
@@ -49,68 +49,36 @@ export async function GET(context: AstroContext) {
       if (attempts < maxAttempts) await new Promise(r => setTimeout(r, 1000)); // Wait 1s before retry
     }
   }
-  
+
   if (!podcast) {
     throw new Error(`Failed to fetch valid podcast data after ${maxAttempts} attempts`);
   }
-  
+
   const site = context.site || 'https://monkcast.com';
-  
+
+  // Create a simple, valid RSS feed
+  const validEpisodes = podcast.episodes
+    .filter((episode: Episode) => {
+      return episode.title && episode.pubDate && episode.guid;
+    })
+    .slice(0, 50) // Limit to 50 most recent episodes
+    .map((episode: Episode) => {
+      const title = episode.title.trim();
+      const description = (episode.summary || episode.contentSnippet || 'Episode description not available').trim();
+
+      return {
+        title,
+        description,
+        pubDate: new Date(episode.pubDate),
+        link: episode.link || `${site}/episodes/${episode.guid}`,
+        guid: episode.guid
+      };
+    });
+
   return rss({
-    xmlns,
     title: podcast.title || 'The MonkCast',
     description: podcast.description || 'Technology analysis and insights from the RedMonk team',
     site: site,
-    items: podcast.episodes.map((episode: Episode) => {
-      // Use the original enclosure from the source feed
-      const enclosure = episode.enclosure ? {
-        url: episode.enclosure.url,
-        length: episode.enclosure.length || 0,
-        type: episode.enclosure.type || 'audio/mpeg'
-      } : undefined;
-      
-      // Ensure enclosure exists
-      if (!enclosure) {
-        console.warn(`No enclosure found for episode: ${episode.title}`);
-      }
-      
-      // Create a fallback enclosure if none exists
-      const finalEnclosure = enclosure || {
-        url: 'https://www.podserve.fm/episodes/download/8338/the-monkcast.mp3',
-        length: 1000000,
-        type: 'audio/mpeg'
-      };
-      
-      return {
-        title: episode.title,
-        pubDate: new Date(episode.pubDate),
-        description: episode.summary || episode.contentSnippet || '',
-        link: episode.link || `${site}/episodes/${episode.guid || ''}`,
-        content: episode.content,
-        enclosure: finalEnclosure,
-        customData: `
-          <itunes:duration>${episode.duration || '00:00'}</itunes:duration>
-          <itunes:image href="${episode.image || ''}"/>
-          ${episode.season ? `<itunes:season>${episode.season}</itunes:season>` : ''}
-          ${episode.episodeNumber ? `<itunes:episode>${episode.episodeNumber}</itunes:episode>` : ''}
-        `
-      };
-    }),
-    customData: `
-      <language>en-us</language>
-      <itunes:author>${podcast.itunesAuthor || 'RedMonk'}</itunes:author>
-      <itunes:image href="${podcast.image || 'https://redmonk.com/wp-content/uploads/2018/07/Monkchips-1.jpg'}"/>
-      <itunes:category text="Technology"/>
-      <itunes:explicit>false</itunes:explicit>
-      <itunes:owner>
-        <itunes:name>RedMonk</itunes:name>
-        <itunes:email>info@redmonk.com</itunes:email>
-      </itunes:owner>
-      <googleplay:author>RedMonk</googleplay:author>
-      <googleplay:image href="${podcast.image || 'https://redmonk.com/wp-content/uploads/2018/07/Monkchips-1.jpg'}"/>
-      <googleplay:category text="Technology"/>
-      <googleplay:explicit>No</googleplay:explicit>
-      <atom:link href="${site}/rss.xml" rel="self" type="application/rss+xml" />
-    `,
+    items: validEpisodes
   });
 }

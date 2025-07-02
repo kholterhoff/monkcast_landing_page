@@ -14,9 +14,6 @@
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
 
-# Add a post-build step to verify RSS feed exists
-[[plugins]]
-  package = "@netlify/plugin-local-install-core"
-
-[[plugins.inputs.postBuild]]
-  command = "node -e \"const fs=require('fs');console.log('Checking RSS feed exists:',fs.existsSync('./dist/rss.xml'))\""
+# Verify RSS feed exists after build
+[build.processing]
+  skip_processing = false

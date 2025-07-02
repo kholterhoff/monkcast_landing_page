@@ -1,5 +1,5 @@
 # Redirect index.html to root URL
 /index.html / 301
 
-# Handle SPA routing
-/* /index.html 200
+# Handle trailing slashes
+/episodes/* /episodes/:splat 301

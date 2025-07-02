@@ -1,6 +1,6 @@
 import Parser from 'rss-parser';
 import { format } from 'date-fns';
-import { extractCoverImageFromRedmonk, formatDuration } from '../utils/rss';
+import { extractCoverImageFromRedmonk, formatDuration } from '../utils/rss.js';
 
 const parser = new Parser({
   customFields: {
