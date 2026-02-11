@@ -1,0 +1,185 @@
+---
+// Error Boundary Component for handling API failures gracefully
+export interface Props {
+  fallback?: string;
+  showRetry?: boolean;
+  context?: string;
+  errorType?: 'network' | 'timeout' | 'server' | 'data' | 'unknown';
+  isStale?: boolean;
+  lastUpdated?: string;
+}
+
+const { 
+  fallback = "Unable to load content at this time.", 
+  showRetry = false, 
+  context = "content",
+  errorType = "unknown",
+  isStale = false,
+  lastUpdated
+} = Astro.props;
+
+// Customize message based on error type
+const getErrorMessage = (type: string, defaultMessage: string) => {
+  switch (type) {
+    case 'network':
+      return 'Network connection issue. Please check your internet connection.';
+    case 'timeout':
+      return 'Request timed out. The service may be temporarily slow.';
+    case 'server':
+      return 'Server temporarily unavailable. Our team has been notified.';
+    case 'data':
+      return 'Data format issue. Using cached information where available.';
+    default:
+      return defaultMessage;
+  }
+};
+
+const getErrorIcon = (type: string) => {
+  switch (type) {
+    case 'network':
+      return 'M8 16l2.879-2.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242zM21 12a9 9 0 11-18 0 9 9 0 0118 0z';
+    case 'timeout':
+      return 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z';
+    case 'server':
+      return 'M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2';
+    default:
+      return 'M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z';
+  }
+};
+
+const errorMessage = getErrorMessage(errorType, fallback);
+const iconPath = getErrorIcon(errorType);
+---
+
+<div class={`error-boundary rounded-lg p-6 my-4 ${
+  isStale 
+    ? 'bg-blue-50 border border-blue-200' 
+    : errorType === 'server' 
+      ? 'bg-red-50 border border-red-200'
+      : 'bg-yellow-50 border border-yellow-200'
+}`}>
+  <div class="flex items-start">
+    <div class="flex-shrink-0">
+      <svg 
+        class={`h-5 w-5 ${
+          isStale 
+            ? 'text-blue-400' 
+            : errorType === 'server' 
+              ? 'text-red-400'
+              : 'text-yellow-400'
+        }`} 
+        xmlns="http://www.w3.org/2000/svg" 
+        viewBox="0 0 24 24" 
+        fill="none" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d={iconPath} />
+      </svg>
+    </div>
+    <div class="ml-3">
+      <h3 class={`text-sm font-medium ${
+        isStale 
+          ? 'text-blue-800' 
+          : errorType === 'server' 
+            ? 'text-red-800'
+            : 'text-yellow-800'
+      }`}>
+        {isStale 
+          ? 'Showing Cached Content' 
+          : errorType === 'server' 
+            ? 'Service Error'
+            : 'Service Temporarily Unavailable'
+        }
+      </h3>
+      <div class={`mt-2 text-sm ${
+        isStale 
+          ? 'text-blue-700' 
+          : errorType === 'server' 
+            ? 'text-red-700'
+            : 'text-yellow-700'
+      }`}>
+        <p>{errorMessage}</p>
+        {isStale && lastUpdated && (
+          <p class="mt-1 text-xs opacity-75">
+            Last updated: {lastUpdated}
+          </p>
+        )}
+        {showRetry && (
+          <div class="mt-3 flex gap-2">
+            <button 
+              class={`retry-button font-medium underline hover:no-underline focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+                isStale 
+                  ? 'hover:text-blue-600 focus:ring-blue-500' 
+                  : errorType === 'server' 
+                    ? 'hover:text-red-600 focus:ring-red-500'
+                    : 'hover:text-yellow-600 focus:ring-yellow-500'
+              }`}
+              onclick="window.location.reload()"
+            >
+              Try again
+            </button>
+            {errorType === 'network' && (
+              <button 
+                class={`check-connection-button font-medium underline hover:no-underline focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+                  isStale 
+                    ? 'hover:text-blue-600 focus:ring-blue-500' 
+                    : 'hover:text-yellow-600 focus:ring-yellow-500'
+                }`}
+                onclick="checkConnection()"
+              >
+                Check connection
+              </button>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .error-boundary {
+    animation: fadeIn 0.3s ease-in;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
+<script>
+  // Connection check functionality
+  function checkConnection() {
+    const statusEl = document.createElement('div');
+    statusEl.className = 'fixed top-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg z-50';
+    statusEl.textContent = 'Checking connection...';
+    document.body.appendChild(statusEl);
+
+    // Simple connection test
+    fetch('/', { method: 'HEAD', cache: 'no-cache' })
+      .then(response => {
+        statusEl.textContent = response.ok ? 'Connection OK' : 'Connection issues detected';
+        statusEl.className = statusEl.className.replace('bg-blue-500', 
+          response.ok ? 'bg-green-500' : 'bg-red-500');
+      })
+      .catch(() => {
+        statusEl.textContent = 'No internet connection';
+        statusEl.className = statusEl.className.replace('bg-blue-500', 'bg-red-500');
+      })
+      .finally(() => {
+        setTimeout(() => {
+          if (statusEl.parentNode) {
+            statusEl.parentNode.removeChild(statusEl);
+          }
+        }, 3000);
+      });
+  }
+
+  // Make function globally available
+  window.checkConnection = checkConnection;
+</script>

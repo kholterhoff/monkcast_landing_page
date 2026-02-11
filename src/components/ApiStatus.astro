@@ -1,0 +1,119 @@
+---
+// API Status Component for monitoring external service health
+import { getRssHealthStatus, getCircuitBreakerStatus, getAllApiHealthStatuses } from '../services/rss';
+
+export interface Props {
+  showDetails?: boolean;
+  className?: string;
+}
+
+const { showDetails = false, className = "" } = Astro.props;
+
+// Get current API health status
+let rssHealth;
+let circuitStatus;
+let allStatuses;
+
+try {
+  rssHealth = getRssHealthStatus();
+  circuitStatus = getCircuitBreakerStatus();
+  allStatuses = getAllApiHealthStatuses();
+} catch (error) {
+  console.warn('Unable to fetch API status:', error);
+}
+
+const isHealthy = rssHealth?.isHealthy !== false && circuitStatus?.state !== 'OPEN';
+const hasIssues = rssHealth?.consecutiveFailures > 0 || circuitStatus?.state === 'HALF_OPEN';
+---
+
+<div class={`api-status ${className}`}>
+  {showDetails ? (
+    <div class="bg-white rounded-lg shadow-sm border p-4">
+      <h3 class="text-lg font-semibold mb-3 flex items-center gap-2">
+        <svg 
+          class={`w-5 h-5 ${isHealthy ? 'text-green-500' : hasIssues ? 'text-yellow-500' : 'text-red-500'}`}
+          fill="currentColor" 
+          viewBox="0 0 20 20"
+          aria-hidden="true"
+        >
+          <circle cx="10" cy="10" r="8" />
+        </svg>
+        Service Status
+      </h3>
+      
+      <div class="space-y-3">
+        {/* RSS Feed Status */}
+        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-md">
+          <div>
+            <div class="font-medium">RSS Feed</div>
+            <div class="text-sm text-gray-600">
+              {rssHealth?.isHealthy ? 'Operational' : 'Issues Detected'}
+            </div>
+          </div>
+          <div class={`w-3 h-3 rounded-full ${
+            rssHealth?.isHealthy ? 'bg-green-500' : 'bg-red-500'
+          }`}></div>
+        </div>
+
+        {/* Circuit Breaker Status */}
+        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-md">
+          <div>
+            <div class="font-medium">Circuit Breaker</div>
+            <div class="text-sm text-gray-600">
+              {circuitStatus?.state || 'Unknown'}
+            </div>
+          </div>
+          <div class={`w-3 h-3 rounded-full ${
+            circuitStatus?.state === 'CLOSED' ? 'bg-green-500' : 
+            circuitStatus?.state === 'HALF_OPEN' ? 'bg-yellow-500' : 'bg-red-500'
+          }`}></div>
+        </div>
+
+        {/* Response Time */}
+        {rssHealth?.averageResponseTime && (
+          <div class="flex items-center justify-between p-3 bg-gray-50 rounded-md">
+            <div>
+              <div class="font-medium">Response Time</div>
+              <div class="text-sm text-gray-600">
+                {Math.round(rssHealth.averageResponseTime)}ms avg
+              </div>
+            </div>
+            <div class={`w-3 h-3 rounded-full ${
+              rssHealth.averageResponseTime < 2000 ? 'bg-green-500' : 
+              rssHealth.averageResponseTime < 5000 ? 'bg-yellow-500' : 'bg-red-500'
+            }`}></div>
+          </div>
+        )}
+
+        {/* Last Check */}
+        {rssHealth?.lastCheck && (
+          <div class="text-xs text-gray-500 text-center pt-2 border-t">
+            Last checked: {new Date(rssHealth.lastCheck).toLocaleTimeString()}
+          </div>
+        )}
+      </div>
+    </div>
+  ) : (
+    <!-- Compact status indicator -->
+    <div class={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm ${
+      isHealthy 
+        ? 'bg-green-100 text-green-800' 
+        : hasIssues 
+          ? 'bg-yellow-100 text-yellow-800'
+          : 'bg-red-100 text-red-800'
+    }`}>
+      <div class={`w-2 h-2 rounded-full ${
+        isHealthy ? 'bg-green-500' : hasIssues ? 'bg-yellow-500' : 'bg-red-500'
+      }`}></div>
+      <span>
+        {isHealthy ? 'All Systems Operational' : hasIssues ? 'Minor Issues' : 'Service Issues'}
+      </span>
+    </div>
+  )}
+</div>
+
+<style>
+  .api-status {
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+</style>

@@ -1,24 +1,91 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import PodcastPlayer from "../../components/PodcastPlayer.astro";
+import ErrorBoundary from "../../components/ErrorBoundary.astro";
 import { fetchPodcastFeed, PODCAST_RSS_URL } from "../../services/rss";
 import type { Episode, Podcast } from "../../types";
 import { Image } from "astro:assets";
 
 export async function getStaticPaths() {
-  const podcast = (await fetchPodcastFeed(PODCAST_RSS_URL)) as Podcast;
+  try {
+    // Check if we're in an incremental build mode
+    const buildStrategy = process.env.BUILD_STRATEGY || 'full';
+    const maxEpisodes = process.env.MAX_EPISODES_PER_BUILD ? 
+      parseInt(process.env.MAX_EPISODES_PER_BUILD, 10) : 
+      undefined;
+    
+    console.log(`🔨 Building episodes with strategy: ${buildStrategy}`);
+    
+    let podcast;
+    
+    // Use incremental RSS service if available and in incremental mode
+    if (buildStrategy !== 'full') {
+      try {
+        const { fetchPodcastFeedIncremental } = await import('../services/incrementalRss.js');
+        const result = await fetchPodcastFeedIncremental(false);
+        podcast = result.podcast;
+        console.log(`📦 Incremental build: ${result.episodes.length} episodes processed`);
+      } catch (incrementalError) {
+        console.warn('⚠️  Incremental service failed, falling back to regular fetch');
+        podcast = (await fetchPodcastFeed(PODCAST_RSS_URL)) as Podcast;
+      }
+    } else {
+      podcast = (await fetchPodcastFeed(PODCAST_RSS_URL)) as Podcast;
+    }
 
-  return podcast.episodes.map((episode: Episode) => {
-    // Ensure guid is not null or undefined
-    const guid =
-      episode.guid ||
-      `episode-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+    // Validate podcast data
+    if (!podcast || !podcast.episodes || !Array.isArray(podcast.episodes)) {
+      console.error('Invalid podcast data structure');
+      return [];
+    }
 
-    return {
-      params: { id: guid },
-      props: { episode, podcast },
-    };
-  });
+    let episodesToBuild = podcast.episodes;
+
+    // Apply build strategy limitations
+    if (buildStrategy === 'incremental' && maxEpisodes) {
+      // For incremental builds, prioritize recent episodes
+      episodesToBuild = podcast.episodes
+        .sort((a, b) => new Date(b.pubDate || 0).getTime() - new Date(a.pubDate || 0).getTime())
+        .slice(0, maxEpisodes);
+      
+      console.log(`🔄 Incremental: Building ${episodesToBuild.length}/${podcast.episodes.length} episodes`);
+    } else if (buildStrategy === 'paginated') {
+      // For paginated builds, build specific batch
+      const currentBatch = parseInt(process.env.CURRENT_BATCH || '1', 10);
+      const totalBatches = parseInt(process.env.TOTAL_BATCHES || '1', 10);
+      const episodesPerBatch = parseInt(process.env.EPISODES_PER_BATCH || '50', 10);
+      
+      const startIndex = (currentBatch - 1) * episodesPerBatch;
+      const endIndex = startIndex + episodesPerBatch;
+      
+      episodesToBuild = podcast.episodes.slice(startIndex, endIndex);
+      
+      console.log(`📄 Paginated: Building batch ${currentBatch}/${totalBatches} (${episodesToBuild.length} episodes)`);
+    }
+
+    return episodesToBuild
+      .filter((episode: Episode) => {
+        // Filter out invalid episodes
+        return episode && episode.title && (episode.guid || episode.title);
+      })
+      .map((episode: Episode) => {
+        // Ensure guid is not null or undefined
+        const guid =
+          episode.guid ||
+          `episode-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+
+        return {
+          params: { id: guid },
+          props: { episode, podcast },
+        };
+      });
+  } catch (error) {
+    console.error('Error generating static paths for episodes:', error);
+    
+    // Return empty array to prevent build failure
+    // Individual episode pages will show error boundaries
+    return [];
+  }
 }
 
 interface Props {
@@ -27,12 +94,51 @@ interface Props {
 }
 
 const { episode, podcast } = Astro.props as Props;
+
+// Validate episode data
+const isValidEpisode = episode && episode.title && episode.guid;
+const hasAudioContent = episode?.enclosure?.url || episode?.link;
+
+// Fallback data for missing information
+const safeEpisode = {
+  title: episode?.title || 'Episode Title Unavailable',
+  summary: episode?.summary || episode?.contentSnippet || 'Episode description not available.',
+  content: episode?.content || episode?.summary || 'Episode content not available.',
+  image: episode?.image || podcast?.image || 'https://redmonk.com/wp-content/uploads/2018/07/Monkchips-1.jpg',
+  formattedDate: episode?.formattedDate || 'Date unavailable',
+  episodeNumber: episode?.episodeNumber || '',
+  guid: episode?.guid || 'unknown',
+  ...episode
+};
 ---
 
 <Layout
-  title={`${episode.title || "Episode"} - The MonkCast`}
-  description={episode.summary || ""}
+  title={`${safeEpisode.title} - The MonkCast`}
+  description={safeEpisode.summary}
 >
+  {/* Show error boundary if episode data is invalid */}
+  {!isValidEpisode && (
+    <div class="container mx-auto px-4 py-8">
+      <ErrorBoundary 
+        fallback="This episode could not be loaded. The episode may have been moved or is temporarily unavailable."
+        showRetry={true}
+        context="episode"
+        errorType="data"
+      />
+    </div>
+  )}
+
+  {/* Show warning if audio content is missing */}
+  {isValidEpisode && !hasAudioContent && (
+    <div class="container mx-auto px-4 py-4">
+      <ErrorBoundary 
+        fallback="Audio content for this episode is temporarily unavailable."
+        showRetry={false}
+        context="audio"
+        errorType="data"
+      />
+    </div>
+  )}
   <div
     class="bg-gradient-to-b from-secondary-900 via-secondary-800 to-secondary-700 text-white py-16 relative overflow-hidden"
   >
@@ -73,29 +179,34 @@ const { episode, podcast } = Astro.props as Props;
             class="bg-white p-4 rounded-xl shadow-2xl border border-white/20"
           >
             <Image
-              src={episode.image ||
-                podcast.image ||
-                "https://redmonk.com/wp-content/uploads/2018/07/Monkchips-1.jpg"}
-              alt={episode.title || "Episode"}
+              src={safeEpisode.image}
+              alt={safeEpisode.title}
               width={600}
               height={400}
               class="w-full h-auto rounded-md"
               loading="eager"
               format="webp"
+              onerror="this.src='https://redmonk.com/wp-content/uploads/2018/07/Monkchips-1.jpg'"
             />
           </div>
         </div>
 
         <div class="w-full md:w-2/3">
           <div class="mb-2 text-primary-400 font-medium">
-            Episode {episode.episodeNumber || ""}
+            Episode {safeEpisode.episodeNumber}
           </div>
           <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">
-            {episode.title || "Untitled Episode"}
+            {safeEpisode.title}
           </h1>
-          <div class="text-gray-200 mb-6">{episode.formattedDate || ""}</div>
+          <div class="text-gray-200 mb-6">{safeEpisode.formattedDate}</div>
 
-          <PodcastPlayer episode={episode} />
+          {hasAudioContent ? (
+            <PodcastPlayer episode={safeEpisode} />
+          ) : (
+            <div class="bg-gray-800/50 rounded-lg p-4 text-center">
+              <p class="text-gray-300">Audio player temporarily unavailable</p>
+            </div>
+          )}
 
           <div class="mt-8 flex flex-wrap gap-4">
             <button
@@ -161,14 +272,10 @@ const { episode, podcast } = Astro.props as Props;
       <h2 class="text-2xl font-bold mb-4 text-secondary-900">Episode Notes</h2>
       <div class="prose prose-lg max-w-none">
         {
-          episode.content ? (
-            <div set:html={episode.content} />
+          safeEpisode.content && safeEpisode.content !== safeEpisode.summary ? (
+            <div set:html={safeEpisode.content} />
           ) : (
-            <p>
-              {episode.summary ||
-                episode.contentSnippet ||
-                "No episode notes available."}
-            </p>
+            <p>{safeEpisode.summary}</p>
           )
         }
       </div>
@@ -179,7 +286,7 @@ const { episode, podcast } = Astro.props as Props;
         </h3>
         <div class="flex gap-4">
           <a
-            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(episode.title || "")}&url=${encodeURIComponent(`https://monkcast.com/episodes/${episode.guid || ""}`)}`}
+            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(safeEpisode.title)}&url=${encodeURIComponent(`https://monkcast.com/episodes/${safeEpisode.guid}`)}`}
             target="_blank"
             rel="noopener noreferrer"
             class="glass text-[#1DA1F2] p-3 rounded-lg hover:bg-[#1DA1F2]/10 transition-all border border-[#1DA1F2]/20 hover:shadow-md hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#1DA1F2] focus:ring-offset-2"
@@ -202,7 +309,7 @@ const { episode, podcast } = Astro.props as Props;
             >
           </a>
           <a
-            href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`https://monkcast.com/episodes/${episode.guid || ""}`)}`}
+            href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`https://monkcast.com/episodes/${safeEpisode.guid}`)}`}
             target="_blank"
             rel="noopener noreferrer"
             class="glass text-[#1877F2] p-3 rounded-lg hover:bg-[#1877F2]/10 transition-all border border-[#1877F2]/20 hover:shadow-md hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#1877F2] focus:ring-offset-2"
@@ -225,7 +332,7 @@ const { episode, podcast } = Astro.props as Props;
             >
           </a>
           <a
-            href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://monkcast.com/episodes/${episode.guid || ""}`)}`}
+            href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://monkcast.com/episodes/${safeEpisode.guid}`)}`}
             target="_blank"
             rel="noopener noreferrer"
             class="glass text-[#0A66C2] p-3 rounded-lg hover:bg-[#0A66C2]/10 transition-all border border-[#0A66C2]/20 hover:shadow-md hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#0A66C2] focus:ring-offset-2"
@@ -253,7 +360,7 @@ const { episode, podcast } = Astro.props as Props;
           <button
             class="glass text-secondary-800 p-3 rounded-lg hover:bg-secondary-100/20 transition-all border border-secondary-200/20 hover:shadow-md hover:-translate-y-1 copy-link focus:outline-none focus:ring-2 focus:ring-secondary-500 focus:ring-offset-2"
             aria-label="Copy link to clipboard"
-            data-url={`https://monkcast.com/episodes/${episode.guid || ""}`}
+            data-url={`https://monkcast.com/episodes/${safeEpisode.guid}`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

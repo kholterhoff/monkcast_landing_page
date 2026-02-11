@@ -1,0 +1,211 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import EpisodeCard from "../../../components/EpisodeCard.astro";
+import ErrorBoundary from "../../../components/ErrorBoundary.astro";
+import { fetchPodcastFeed, PODCAST_RSS_URL } from "../../../services/rss";
+import type { Episode, Podcast } from "../../../types";
+
+export async function getStaticPaths() {
+  try {
+    const podcast = (await fetchPodcastFeed(PODCAST_RSS_URL)) as Podcast;
+    
+    if (!podcast || !podcast.episodes || !Array.isArray(podcast.episodes)) {
+      console.error('Invalid podcast data structure for pagination');
+      return [];
+    }
+
+    const episodesPerPage = 12;
+    const totalPages = Math.ceil(podcast.episodes.length / episodesPerPage);
+    
+    console.log(`📄 Creating ${totalPages} episode pages (${podcast.episodes.length} episodes)`);
+
+    return Array.from({ length: totalPages }, (_, i) => {
+      const page = i + 1;
+      const startIndex = i * episodesPerPage;
+      const endIndex = startIndex + episodesPerPage;
+      const episodes = podcast.episodes.slice(startIndex, endIndex);
+
+      return {
+        params: { page: page.toString() },
+        props: {
+          episodes,
+          podcast,
+          currentPage: page,
+          totalPages,
+          totalEpisodes: podcast.episodes.length,
+          episodesPerPage
+        }
+      };
+    });
+  } catch (error) {
+    console.error('Error generating paginated episode paths:', error);
+    return [];
+  }
+}
+
+interface Props {
+  episodes: Episode[];
+  podcast: Podcast;
+  currentPage: number;
+  totalPages: number;
+  totalEpisodes: number;
+  episodesPerPage: number;
+}
+
+const { episodes, podcast, currentPage, totalPages, totalEpisodes, episodesPerPage } = Astro.props as Props;
+
+// Calculate pagination info
+const startEpisode = (currentPage - 1) * episodesPerPage + 1;
+const endEpisode = Math.min(currentPage * episodesPerPage, totalEpisodes);
+const hasNextPage = currentPage < totalPages;
+const hasPrevPage = currentPage > 1;
+
+// Generate page numbers for pagination
+const getPageNumbers = (current: number, total: number) => {
+  const pages = [];
+  const showPages = 5; // Show 5 page numbers at most
+  
+  let start = Math.max(1, current - Math.floor(showPages / 2));
+  let end = Math.min(total, start + showPages - 1);
+  
+  // Adjust start if we're near the end
+  if (end - start + 1 < showPages) {
+    start = Math.max(1, end - showPages + 1);
+  }
+  
+  for (let i = start; i <= end; i++) {
+    pages.push(i);
+  }
+  
+  return pages;
+};
+
+const pageNumbers = getPageNumbers(currentPage, totalPages);
+---
+
+<Layout
+  title={`Episodes - Page ${currentPage} - The MonkCast`}
+  description={`Browse MonkCast episodes - Page ${currentPage} of ${totalPages}. Technology analysis and insights from the RedMonk team.`}
+>
+  <div class="bg-gradient-to-b from-secondary-900 via-secondary-800 to-secondary-700 text-white py-16 relative overflow-hidden">
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary-500/20 via-transparent to-transparent"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-accent-500/20 via-transparent to-transparent"></div>
+    
+    <div class="container mx-auto px-4 relative z-10">
+      <div class="mb-8">
+        <a
+          href="/"
+          class="inline-flex items-center text-white hover:text-primary-300 transition-colors"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            class="mr-2"
+          >
+            <path d="m1518-6-6 6-6"></path>
+          </svg>
+          Back to Home
+        </a>
+      </div>
+
+      <div class="text-center">
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+          All Episodes
+        </h1>
+        <p class="text-xl text-gray-200 mb-6">
+          Page {currentPage} of {totalPages} • {totalEpisodes} total episodes
+        </p>
+        <p class="text-gray-300">
+          Showing episodes {startEpisode}-{endEpisode}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <section class="py-16bg-gradient-to-b from-gray-50 to-white">
+    <div class="container mx-auto px-4">
+      {episodes.length > 0 ? (
+        <>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
+            {episodes.map((episode: Episode) => (
+              <EpisodeCard episode={episode} />
+            ))}
+          </div>
+
+          <!-- Pagination -->
+          <nav class="flex items-center justify-center space-x-2" aria-label="Pagination">
+            {hasPrevPage && (
+              <a
+                href={currentPage === 2 ? "/episodes" : `/episodes/page/${currentPage - 1}`}
+                class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:ring-2focus:ring-primary-500 focus:ring-offset-2"
+                aria-label="Previous page"
+              >
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+                Previous
+              </a>
+            )}
+
+            {pageNumbers.map((pageNum) => (
+              pageNum === currentPage ? (
+                <span
+                  class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-primary-600 border border-primary-600 rounded-md"
+                  aria-current="page"
+                >
+                  {pageNum}
+                </span>
+              ) : (
+                <a
+                  href={pageNum === 1 ? "/episodes" : `/episodes/page/${pageNum}`}
+                  class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300rounded-md hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+                  aria-label={`Go to page ${pageNum}`}
+                >
+                  {pageNum}
+                </a>
+              )
+            ))}
+
+            {hasNextPage && (
+              <a
+                href={`/episodes/page/${currentPage + 1}`}
+                class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+                aria-label="Next page"
+              >
+                Next
+                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 2424">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+            )}
+          </nav>
+
+          <!-- Page info -->
+          <div class="text-center mt-8 text-gray-600">
+            <p>
+              Page {currentPage} of {totalPages} • 
+              {totalEpisodes} total episodes
+            </p>
+          </div>
+        </>
+      ) : (
+        <div class="text-center py-12">
+          <ErrorBoundary 
+            fallback="No episodes found on this page. This may be a temporary issue."
+            showRetry={true}
+            context="episodes"
+            errorType="data"
+          />
+        </div>
+      )}
+    </div>
+  </section>
+</Layout>

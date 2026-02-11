@@ -12,9 +12,54 @@ import Hosts from '../components/Hosts.astro';
 import { fetchPodcastFeed, PODCAST_RSS_URL } from '../services/rss';
 import type { Episode, Podcast } from '../types';
 
-// Fetch podcast data with caching
-const podcast = await fetchPodcastFeed(PODCAST_RSS_URL) as Podcast;
-const episodes = podcast.episodes || [] as Episode[];
+// Fetch podcast data with incremental build support
+let podcast: Podcast;
+let episodes: Episode[] = [];
+let isStale = false;
+let lastUpdated: string | undefined;
+let error: { type: 'network' | 'timeout' | 'server' | 'data' | 'unknown'; message?: string } | undefined;
+
+try {
+  // Try incremental RSS service first for better performance
+  try {
+    const { fetchPodcastFeedIncremental } = await import('../services/incrementalRss.js');
+    const result = await fetchPodcastFeedIncremental();
+    podcast = result.podcast;
+    episodes = result.episodes.slice(0, 10); // Limit to recent episodes for homepage
+    isStale = result.buildInfo.cacheStats.cacheHitRate < 100;
+    lastUpdated = new Date().toLocaleString();
+    
+    console.log(`🏠 Homepage: Loaded ${episodes.length} episodes via incremental service`);
+  } catch (incrementalError) {
+    console.warn('⚠️  Incremental service unavailable, using standard fetch');
+    podcast = await fetchPodcastFeed(PODCAST_RSS_URL) as Podcast;
+    episodes = (podcast.episodes || []).slice(0, 10);
+  }
+} catch (fetchError) {
+  console.error('❌ Failed to fetch podcast data for homepage:', fetchError);
+  
+  // Set error information for display
+  if (fetchError.code === 'NETWORK_ERROR') {
+    error = { type: 'network', message: 'Unable to connect to podcast feed' };
+  } else if (fetchError.code === 'TIMEOUT') {
+    error = { type: 'timeout', message: 'Podcast feed request timed out' };
+  } else if (fetchError.status >= 500) {
+    error = { type: 'server', message: 'Podcast service temporarily unavailable' };
+  } else {
+    error = { type: 'unknown', message: 'Unable to load podcast episodes' };
+  }
+  
+  // Provide fallback data
+  podcast = {
+    title: 'The MonkCast',
+    description: 'Technology analysis and insights from the RedMonk team',
+    link: 'https://redmonk.com',
+    image: 'https://redmonk.com/wp-content/uploads/2018/07/Monkchips-1.jpg',
+    itunesAuthor: 'RedMonk',
+    episodes: []
+  };
+  episodes = [];
+}
 ---
 
 <Layout title="The MonkCast - Technology analysis from RedMonk">
@@ -35,7 +80,12 @@ const episodes = podcast.episodes || [] as Episode[];
   
   <YouTubeCTA />
   
-  <EpisodeList episodes={episodes} />
+  <EpisodeList 
+    episodes={episodes} 
+    isStale={isStale}
+    lastUpdated={lastUpdated}
+    error={error}
+  />
   
   <Welcome />
   

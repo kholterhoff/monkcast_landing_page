@@ -1,0 +1,105 @@
+name: Build Test
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-incremental-builds:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        build-strategy: [full, incremental, paginated]
+        node-version: [18, 20]
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Run type checking
+      run: npm run typecheck
+    
+    - name: Clear build cache
+      run: npm run cache:clear
+    
+    - name: Test ${{ matrix.build-strategy }} build
+      env:
+        BUILD_STRATEGY: ${{ matrix.build-strategy }}
+        MAX_EPISODES_PER_BUILD: 10
+        CI: true
+      run: |
+        echo "Testing ${{ matrix.build-strategy }} build strategy"
+        case "${{ matrix.build-strategy }}" in
+          "full")
+            npm run build:full
+            ;;
+          "incremental")
+            npm run build:incremental
+            ;;
+          "paginated")
+            CURRENT_BATCH=1 TOTAL_BATCHES=3 EPISODES_PER_BATCH=5 npm run build:incremental
+            ;;
+        esac
+    
+    - name: Check build output
+      run: |
+        echo "Checking build output..."
+        ls -la dist/
+        echo "Checking episode pages..."
+        find dist/episodes -name "*.html" | head -5
+        echo "Build completed successfully!"
+    
+    - name: Show build statistics
+      run: npm run cache:stats
+    
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      if: matrix.build-strategy == 'full' && matrix.node-version == '18'
+      with:
+        name: build-output
+        path: dist/
+        retention-days: 7
+
+  performance-test:
+    runs-on: ubuntu-latest
+    needs: test-incremental-builds
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Performance test - Full build
+      run: |
+        echo "🔥 Testing full build performance"
+        time npm run build:full
+    
+    - name: Clear cache and test incremental
+      run: |
+        npm run cache:clear
+        echo "⚡ Testing incremental build performance"
+        time npm run build:incremental
+    
+    - name: Test cache effectiveness
+      run: |
+        echo "📊 Testing cache effectiveness"
+        npm run build:incremental
+        npm run cache:stats

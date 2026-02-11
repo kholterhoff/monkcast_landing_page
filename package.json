@@ -5,10 +5,15 @@
   "private": true,
   "scripts": {
     "dev": "astro dev --host",
-    "build": "astro build",
+    "build": "npm run build:incremental",
+    "build:full": "FORCE_FULL_BUILD=true astro build",
+    "build:incremental": "node scripts/incremental-build.js",
+    "build:astro": "astro build",
     "preview": "astro preview --host",
     "astro": "astro",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "cache:clear": "node scripts/clear-build-cache.js",
+    "cache:stats": "node scripts/build-stats.js"
   },
   "dependencies": {
     "astro": "^5.2.5",

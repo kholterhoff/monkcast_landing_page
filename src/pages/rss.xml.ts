@@ -1,5 +1,6 @@
 import rss from '@astrojs/rss';
-import { fetchPodcastFeed, PODCAST_RSS_URL } from '../services/rss';
+import { fetchPodcastFeed, PODCAST_RSS_URL, getRssHealthStatus, getCircuitBreakerStatus } from '../services/rss';
+import { withApiErrorBoundary, ExternalApiError } from '../utils/errorBoundary';
 import type { Podcast, Episode } from '../types';
 
 // Function to validate podcast data
@@ -25,60 +26,131 @@ export interface AstroContext {
 }
 
 export async function GET(context: AstroContext) {
-  // Force fresh data fetch for RSS feed
-  console.log('Generating RSS feed with fresh data');
-
-  // Add retry logic for more reliable feed generation
-  let podcast: Podcast | null = null;
-  let attempts = 0;
-  const maxAttempts = 3;
-
-  while (!podcast && attempts < maxAttempts) {
-    attempts++;
-    try {
-      podcast = await fetchPodcastFeed(PODCAST_RSS_URL) as Podcast;
-
-      // Validate the podcast data
-      if (!validatePodcastData(podcast)) {
-        console.error(`Invalid podcast data received on attempt ${attempts}`);
-        podcast = null;
-        if (attempts < maxAttempts) await new Promise(r => setTimeout(r, 1000)); // Wait 1s before retry
-      }
-    } catch (error) {
-      console.error(`Error fetching podcast feed on attempt ${attempts}:`, error);
-      if (attempts < maxAttempts) await new Promise(r => setTimeout(r, 1000)); // Wait 1s before retry
-    }
-  }
-
-  if (!podcast) {
-    throw new Error(`Failed to fetch valid podcast data after ${maxAttempts} attempts`);
-  }
+  console.log('Generating RSS feed with enhanced error boundaries');
 
   const site = context.site || 'https://monkcast.com';
 
-  // Create a simple, valid RSS feed
-  const validEpisodes = podcast.episodes
+  // Use enhanced error boundary for RSS generation
+  const result = await withApiErrorBoundary({
+    operation: async () => {
+      // Check system health before proceeding
+      const healthStatus = getRssHealthStatus();
+      const circuitStatus = getCircuitBreakerStatus();
+
+      console.log('API Health Status:', healthStatus);
+      console.log('Circuit Breaker Status:', circuitStatus);
+
+      const podcast = await fetchPodcastFeed(PODCAST_RSS_URL) as Podcast;
+
+      // Validate the podcast data
+      if (!validatePodcastData(podcast)) {
+        throw new ExternalApiError(
+          'Invalid podcast data structure received',
+          undefined,
+          'INVALID_DATA_STRUCTURE'
+        );
+      }
+
+      return podcast;
+    },
+    fallbackData: {
+      title: 'The MonkCast',
+      description: 'Technology analysis and insights from the RedMonk team',
+      link: 'https://redmonk.com',
+      image: 'https://redmonk.com/wp-content/uploads/2018/07/Monkchips-1.jpg',
+      itunesAuthor: 'RedMonk',
+      episodes: []
+    } as Podcast,
+    retryConfig: {
+      maxAttempts: 2,
+      baseDelay: 1000,
+      maxDelay: 5000,
+      backoffMultiplier: 2
+    },
+    context: 'RSS Feed Generation',
+    onError: (error) => {
+      console.error(`RSS Generation Error: ${error.message}`, {
+        status: error.status,
+        code: error.code,
+        timestamp: error.timestamp
+      });
+    },
+    onFallback: (data, isStale) => {
+      console.warn(`RSS feed using ${isStale ? 'stale' : 'default'} fallback data`);
+    }
+  });
+
+  const podcast = result.data;
+  const isUsingFallback = result.isStale;
+
+  // Create a simple, valid RSS feed with error-safe episode processing
+  const validEpisodes = (podcast.episodes || [])
     .filter((episode: Episode) => {
-      return episode.title && episode.pubDate && episode.guid;
+      try {
+        return episode && episode.title && episode.pubDate && episode.guid;
+      } catch (error) {
+        console.warn('Error validating episode:', error);
+        return false;
+      }
     })
     .slice(0, 50) // Limit to 50 most recent episodes
     .map((episode: Episode) => {
-      const title = episode.title.trim();
-      const description = (episode.summary || episode.contentSnippet || 'Episode description not available').trim();
+      try {
+        const title = (episode.title || 'Untitled Episode').trim();
+        const description = (
+          episode.summary ||
+          episode.contentSnippet ||
+          'Episode description not available'
+        ).trim();
 
-      return {
-        title,
-        description,
-        pubDate: new Date(episode.pubDate),
-        link: episode.link || `${site}/episodes/${episode.guid}`,
-        guid: episode.guid
-      };
+        return {
+          title,
+          description,
+          pubDate: new Date(episode.pubDate),
+          link: episode.link || `${site}/episodes/${episode.guid}`,
+          guid: episode.guid
+        };
+      } catch (error) {
+        console.warn('Error processing episode for RSS:', error);
+        return {
+          title: 'Episode Processing Error',
+          description: 'This episode could not be processed correctly.',
+          pubDate: new Date(),
+          link: `${site}/episodes/error`,
+          guid: `error-${Date.now()}`
+        };
+      }
     });
 
-  return rss({
-    title: podcast.title || 'The MonkCast',
-    description: podcast.description || 'Technology analysis and insights from the RedMonk team',
-    site: site,
-    items: validEpisodes
-  });
+  // Add fallback indicator to RSS if using fallback data
+  const rssTitle = isUsingFallback
+    ? `${podcast.title || 'The MonkCast'} (Limited Service)`
+    : podcast.title || 'The MonkCast';
+
+  const rssDescription = isUsingFallback
+    ? `${podcast.description || 'Technology analysis and insights from the RedMonk team'} - Some episodes may be temporarily unavailable.`
+    : podcast.description || 'Technology analysis and insights from the RedMonk team';
+
+  try {
+    return rss({
+      title: rssTitle,
+      description: rssDescription,
+      site: site,
+      items: validEpisodes,
+      customData: isUsingFallback
+        ? `<generator>MonkCast RSS Generator (Fallback Mode)</generator>`
+        : `<generator>MonkCast RSS Generator</generator>`
+    });
+  } catch (rssError) {
+    console.error('Error generating RSS XML:', rssError);
+
+    // Return minimal RSS feed as last resort
+    return rss({
+      title: 'The MonkCast - Service Temporarily Limited',
+      description: 'The MonkCast RSS feed is temporarily experiencing issues. Please try again later.',
+      site: site,
+      items: [],
+      customData: `<generator>MonkCast RSS Generator (Emergency Mode)</generator>`
+    });
+  }
 }

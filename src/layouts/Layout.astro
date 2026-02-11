@@ -2,6 +2,7 @@
 // Import only what we need
 import redmonkLogo from "../assets/redmonk_logo2.png";
 import Base from "./Base.astro";
+import BuildMonitor from "../components/BuildMonitor.astro";
 import { Image } from "astro:assets";
 
 interface Props {
@@ -50,6 +51,11 @@ const {
     <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary-500 focus:text-white focus:rounded-md">Skip to content</a>
     <main id="main-content">
       <slot />
+    </main>
+    
+    <!-- Build Monitor - only shows in development or when explicitly enabled -->
+    <BuildMonitor />
+    
     <footer
       class="relative overflow-hidden bg-gradient-to-r from-gray-900 via-gray-800 to-black text-white py-12"
     >
