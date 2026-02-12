@@ -32,9 +32,5 @@ export default defineConfig({
         cache: true
       }
     }
-  },
-  // Experimental features for better incremental builds
-  experimental: {
-    contentCollectionCache: true
   }
 });

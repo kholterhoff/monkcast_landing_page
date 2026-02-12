@@ -24,7 +24,7 @@ let cacheHitRate = 0;
 if (shouldShow) {
   try {
     // Try to get build information from incremental service
-    const { getBuildInfo } = await import('../services/incrementalRss.js');
+    const { getBuildInfo } = await import('../services/incrementalRss.ts');
     buildInfo = await getBuildInfo();
     buildStrategy = buildInfo.cacheStats.buildStrategy;
     episodeCount = buildInfo.cacheStats.totalEpisodes;

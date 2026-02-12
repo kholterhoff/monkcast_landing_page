@@ -1,6 +1,7 @@
 import Parser from 'rss-parser';
 import { format } from 'date-fns';
 import { extractCoverImageFromRedmonk, formatDuration } from '../utils/rss.js';
+import { stripHtml } from '../utils/sanitize.js';
 import { 
   withRetry, 
   CircuitBreaker, 
@@ -220,9 +221,27 @@ async function processEpisodesWithErrorBoundary(items: any[], feed: any) {
           let coverImage = '';
           
           try {
-            redmonkUrl = item.content?.match(/https?:\/\/redmonk\.com\/blog\/[^\s"']+/)?.[0] || '';
+            // Look for RedMonk URLs in description or content
+            // The RSS feed has HTML-encoded descriptions with links
+            const descriptionText = item.description || item.content || '';
+            const linkText = item.link || '';
+            
+            // Try to find RedMonk URLs in the description
+            const redmonkMatch = descriptionText.match(/https?:\/\/redmonk\.com\/[^\s"'<>)]+/);
+            
+            if (redmonkMatch) {
+              redmonkUrl = redmonkMatch[0];
+              // Clean up any trailing punctuation or HTML entities
+              redmonkUrl = redmonkUrl.replace(/(&quot;|&gt;|&lt;|[,;.!?])+$/, '');
+            }
+            
+            console.log(`Episode "${item.title}": RedMonk URL = ${redmonkUrl || 'not found'}`);
+            
             if (redmonkUrl) {
               coverImage = await extractCoverImageFromRedmonk(redmonkUrl);
+              console.log(`Episode "${item.title}": Cover image = ${coverImage || 'not found'}`);
+            } else {
+              console.log(`Episode "${item.title}": No RedMonk URL found in description`);
             }
           } catch (imageError) {
             console.warn('Failed to extract cover image:', imageError.message);
@@ -233,8 +252,9 @@ async function processEpisodesWithErrorBoundary(items: any[], feed: any) {
             pubDate: item.pubDate || new Date().toISOString(),
             formattedDate: format(new Date(item.pubDate || Date.now()), 'MMMM d, yyyy'),
             duration: item.duration || '',
-            summary: item.summary || item.contentSnippet || '',
+            summary: stripHtml(item.summary || item.contentSnippet || ''),
             content: item.content || '',
+            contentSnippet: stripHtml(item.contentSnippet || ''),
             image: coverImage || item.image || feed.image?.url || 'https://redmonk.com/wp-content/uploads/2018/07/Monkchips-1.jpg',
             season: item.season || '',
             episodeNumber: item.episodeNumber || '',
@@ -258,7 +278,7 @@ async function processEpisodesWithErrorBoundary(items: any[], feed: any) {
   return episodes;
 }
 
-export const PODCAST_RSS_URL = 'https://www.podserve.fm/series/rss/8338/the-monkcast.rss';
+export const PODCAST_RSS_URL = 'https://api.riverside.fm/hosting/tBthkY3f.rss';
 
 // Export health monitoring functions
 export function getRssHealthStatus() {

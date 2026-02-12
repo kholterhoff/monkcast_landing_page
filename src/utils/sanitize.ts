@@ -38,3 +38,26 @@ export function sanitizeHtml(html: string): string {
     
   return sanitized;
 }
+
+/**
+ * Strip all HTML tags from a string, leaving only plain text
+ */
+export function stripHtml(html: string): string {
+  if (!html) return '';
+  
+  return html
+    // Remove HTML tags
+    .replace(/<[^>]*>/g, '')
+    // Decode common HTML entities
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&mdash;/g, '—')
+    .replace(/&ndash;/g, '–')
+    // Remove extra whitespace
+    .replace(/\s+/g, ' ')
+    .trim();
+}

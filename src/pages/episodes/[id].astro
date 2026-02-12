@@ -1,6 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import PodcastPlayer from "../../components/PodcastPlayer.astro";
+// import PodcastPlayer from "../../components/PodcastPlayer.astro"; // Removed - Riverside doesn't provide embeddable player
 import ErrorBoundary from "../../components/ErrorBoundary.astro";
 import { fetchPodcastFeed, PODCAST_RSS_URL } from "../../services/rss";
 import type { Episode, Podcast } from "../../types";
@@ -21,7 +21,7 @@ export async function getStaticPaths() {
     // Use incremental RSS service if available and in incremental mode
     if (buildStrategy !== 'full') {
       try {
-        const { fetchPodcastFeedIncremental } = await import('../services/incrementalRss.js');
+        const { fetchPodcastFeedIncremental } = await import('../../services/incrementalRss.ts');
         const result = await fetchPodcastFeedIncremental(false);
         podcast = result.podcast;
         console.log(`📦 Incremental build: ${result.episodes.length} episodes processed`);
@@ -200,11 +200,10 @@ const safeEpisode = {
           </h1>
           <div class="text-gray-200 mb-6">{safeEpisode.formattedDate}</div>
 
-          {hasAudioContent ? (
-            <PodcastPlayer episode={safeEpisode} />
-          ) : (
-            <div class="bg-gray-800/50 rounded-lg p-4 text-center">
-              <p class="text-gray-300">Audio player temporarily unavailable</p>
+          {/* Removed PodcastPlayer - Riverside doesn't provide embeddable player */}
+          {hasAudioContent && (
+            <div class="bg-gray-800/50 rounded-lg p-4 text-center mb-6">
+              <p class="text-gray-300">Listen to this episode on your favorite podcast platform</p>
             </div>
           )}
 
