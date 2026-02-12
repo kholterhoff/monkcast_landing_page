@@ -1,24 +1,7 @@
-# build output
-dist/
-.output/
-
-# dependencies
-node_modules/
-
-# logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-# environment variables
-.env
-.env.production
-
 # macOS-specific files
 .DS_Store
 
-# IDE specific files
+# Editor folders
 .idea/
 .vscode/
 *.suo
@@ -26,3 +9,16 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+# Logs
+*.log
+
+# Environment variables
+.env
+.env.local
+
+# Old Astro artifacts (can be deleted)
+node_modules/
+dist/
+.astro/
+.output/

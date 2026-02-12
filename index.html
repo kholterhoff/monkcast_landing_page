@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The MonkCast - Technology analysis from RedMonk</title>
+    <meta name="description" content="Technology analysis and insights from the RedMonk team">
+    <link rel="icon" type="image/x-icon" href="public/favicon.ico">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>The <span class="brand-color">MonkCast</span></h1>
+                    <div class="redmonk-badge">
+                        <span class="brand-color bold">A</span>
+                        <img src="src/assets/redmonk_logo.png" alt="RedMonk" class="redmonk-logo">
+                        <span class="brand-color bold">Production</span>
+                    </div>
+                    <p class="hero-subtitle">Technology analysis and insights from the RedMonk team</p>
+                    <p class="hero-description">
+                        Join us for in-depth conversations with technology thought leaders,
+                        industry experts, and the RedMonk analysts as we explore the
+                        intersection of technology, business, and culture.
+                    </p>
+                    <a href="#episodes" class="btn btn-primary">
+                        <span>Latest Episodes</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                    </a>
+                </div>
+                <div class="hero-image">
+                    <div class="podcast-cover floating">
+                        <img src="src/assets/monkcast_logo.png" alt="The MonkCast Podcast Cover" width="320" height="320">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Platforms Section -->
+    <section class="platforms-section">
+        <div class="container">
+            <h2>Listen on Your Favorite Platform</h2>
+            <div class="platforms-grid">
+                <a href="https://podcasts.apple.com/us/podcast/the-monkcast/id1712805847" target="_blank" rel="noopener noreferrer" class="platform-card">
+                    <img src="src/assets/platforms/apple Podcast.png" alt="Apple Podcasts" width="40" height="40">
+                    <span>Apple</span>
+                </a>
+                <a href="https://open.spotify.com/show/1lzmSLf4O2trpJApYOBeVC" target="_blank" rel="noopener noreferrer" class="platform-card">
+                    <img src="src/assets/platforms/spotify.png" alt="Spotify" width="40" height="40">
+                    <span>Spotify</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- YouTube CTA Section -->
+    <section class="youtube-section">
+        <div class="container">
+            <h2>Watch the MonkCast on YouTube</h2>
+            <div class="video-container">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?si=6cow_eWK_hQhyLys&amp;controls=0&amp;list=PL3BD98E8oOJlqtze7Cyf196PnvB3z12A4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+            <a href="https://www.youtube.com/playlist?list=PL3BD98E8oOJlqtze7Cyf196PnvB3z12A4" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                <span>View Full Playlist</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- Latest Episode Section -->
+    <section id="latest-episode" class="latest-episode-section">
+        <div class="container">
+            <div id="latest-loading" class="loading">Loading latest episode...</div>
+            <div id="latest-error" class="error" style="display: none;"></div>
+            <div id="latest-episode-content" class="latest-episode-content"></div>
+        </div>
+    </section>
+
+    <!-- Episodes Section -->
+    <section id="episodes" class="episodes-section">
+        <div class="container">
+            <h2>Latest Episodes</h2>
+            <div id="loading" class="loading">Loading episodes...</div>
+            <div id="error" class="error" style="display: none;"></div>
+            <div id="episodes-list" class="episodes-grid"></div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section">
+        <div class="container">
+            <h2>About The MonkCast</h2>
+            <p>
+                The MonkCast is RedMonk's podcast, featuring conversations with technology thought leaders,
+                industry experts, and the RedMonk analysts. We explore the intersection of technology,
+                business, and culture, providing insights and analysis on the latest trends in software development.
+            </p>
+        </div>
+    </section>
+
+    <!-- Hosts Section -->
+    <section class="hosts-section">
+        <div class="container">
+            <h2>Meet the Hosts</h2>
+            <div class="hosts-grid">
+                <div class="host-card" data-host="stephen">
+                    <div class="host-image stephen"></div>
+                    <h3>Stephen O'Grady</h3>
+                    <p class="host-bio">
+                        Stephen O'Grady is an industry analyst with RedMonk. James and Stephen founded the firm in November of 2002, and have been doing that ever since.<span class="ellipsis">...</span>
+                        <span class="read-more">Read more <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span>
+                    </p>
+                    <div class="social-links">
+                        <a href="https://twitter.com/sogrady" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-1-4.8 4-8.9 7.5-5A7.5 7.5 0 0 0 22 4"/></svg>
+                        </a>
+                        <a href="https://bsky.app/profile/sogrady.org" target="_blank" rel="noopener noreferrer" aria-label="Bluesky">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512" fill="currentColor"><path d="M111.8 62.2C170.2 105.9 233 194.7 256 242.4c23-47.6 85.8-136.4 144.2-180.2c42.1-31.6 110.3-56 110.3 21.8c0 15.5-8.9 130.5-14.1 149.2C478.2 298 412 314.6 353.1 304.5c102.9 17.5 129.1 75.5 72.5 133.5c-107.4 110.2-154.3-27.6-166.3-62.9l0 0c-1.7-4.9-2.6-7.8-3.3-7.8s-1.6 3-3.3 7.8l0 0c-12 35.3-59 173.1-166.3 62.9c-56.5-58-30.4-116 72.5-133.5C100 314.6 33.8 298 15.7 233.1C10.4 214.4 1.5 99.4 1.5 83.9c0-77.8 68.2-53.4 110.3-21.8z"/></svg>
+                        </a>
+                        <a href="https://www.linkedin.com/in/sogrady/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="host-card" data-host="james">
+                    <div class="host-image james"></div>
+                    <h3>James Governor</h3>
+                    <p class="host-bio">
+                        Co-founder of RedMonk. Industry analyst covering software development, DevOps, and sustainability.<span class="ellipsis">...</span>
+                        <span class="read-more">Read more <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span>
+                    </p>
+                    <div class="social-links">
+                        <a href="https://twitter.com/monkchips" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-1-4.8 4-8.9 7.5-5A7.5 7.5 0 0 0 22 4"/></svg>
+                        </a>
+                        <a href="https://bsky.app/profile/monkchips.com" target="_blank" rel="noopener noreferrer" aria-label="Bluesky">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512" fill="currentColor"><path d="M111.8 62.2C170.2 105.9 233 194.7 256 242.4c23-47.6 85.8-136.4 144.2-180.2c42.1-31.6 110.3-56 110.3 21.8c0 15.5-8.9 130.5-14.1 149.2C478.2 298 412 314.6 353.1 304.5c102.9 17.5 129.1 75.5 72.5 133.5c-107.4 110.2-154.3-27.6-166.3-62.9l0 0c-1.7-4.9-2.6-7.8-3.3-7.8s-1.6 3-3.3 7.8l0 0c-12 35.3-59 173.1-166.3 62.9c-56.5-58-30.4-116 72.5-133.5C100 314.6 33.8 298 15.7 233.1C10.4 214.4 1.5 99.4 1.5 83.9c0-77.8 68.2-53.4 110.3-21.8z"/></svg>
+                        </a>
+                        <a href="https://www.linkedin.com/in/jamesgovernor/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="host-card" data-host="rachel">
+                    <div class="host-image rachel"></div>
+                    <h3>Rachel Stephens</h3>
+                    <p class="host-bio">
+                        Rachel Stephens is a Research Director with RedMonk and has been with the firm since 2016.<span class="ellipsis">...</span>
+                        <span class="read-more">Read more <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span>
+                    </p>
+                    <div class="social-links">
+                        <a href="https://twitter.com/rstephensme" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-1-4.8 4-8.9 7.5-5A7.5 7.5 0 0 0 22 4"/></svg>
+                        </a>
+                        <a href="https://bsky.app/profile/rstephens.me" target="_blank" rel="noopener noreferrer" aria-label="Bluesky">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512" fill="currentColor"><path d="M111.8 62.2C170.2 105.9 233 194.7 256 242.4c23-47.6 85.8-136.4 144.2-180.2c42.1-31.6 110.3-56 110.3 21.8c0 15.5-8.9 130.5-14.1 149.2C478.2 298 412 314.6 353.1 304.5c102.9 17.5 129.1 75.5 72.5 133.5c-107.4 110.2-154.3-27.6-166.3-62.9l0 0c-1.7-4.9-2.6-7.8-3.3-7.8s-1.6 3-3.3 7.8l0 0c-12 35.3-59 173.1-166.3 62.9c-56.5-58-30.4-116 72.5-133.5C100 314.6 33.8 298 15.7 233.1C10.4 214.4 1.5 99.4 1.5 83.9c0-77.8 68.2-53.4 110.3-21.8z"/></svg>
+                        </a>
+                        <a href="https://www.linkedin.com/in/rachelstephens/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="host-card" data-host="kate">
+                    <div class="host-image kate"></div>
+                    <h3>Kate Holterhoff</h3>
+                    <p class="host-bio">
+                        Kate Holterhoff, a senior industry analyst with RedMonk, has a background in frontend engineering, academic research, and technical communication.<span class="ellipsis">...</span>
+                        <span class="read-more">Read more <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span>
+                    </p>
+                    <div class="social-links">
+                        <a href="https://x.com/KateHolterhoff" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-1-4.8 4-8.9 7.5-5A7.5 7.5 0 0 0 22 4"/></svg>
+                        </a>
+                        <a href="https://bsky.app/profile/kateholterhoff.bsky.social" target="_blank" rel="noopener noreferrer" aria-label="Bluesky">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512" fill="currentColor"><path d="M111.8 62.2C170.2 105.9 233 194.7 256 242.4c23-47.6 85.8-136.4 144.2-180.2c42.1-31.6 110.3-56 110.3 21.8c0 15.5-8.9 130.5-14.1 149.2C478.2 298 412 314.6 353.1 304.5c102.9 17.5 129.1 75.5 72.5 133.5c-107.4 110.2-154.3-27.6-166.3-62.9l0 0c-1.7-4.9-2.6-7.8-3.3-7.8s-1.6 3-3.3 7.8l0 0c-12 35.3-59 173.1-166.3 62.9c-56.5-58-30.4-116 72.5-133.5C100 314.6 33.8 298 15.7 233.1C10.4 214.4 1.5 99.4 1.5 83.9c0-77.8 68.2-53.4 110.3-21.8z"/></svg>
+                        </a>
+                        <a href="https://www.linkedin.com/in/kateholterhoff/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter-section">
+        <div class="container">
+            <h2>Can't Get Enough of the Monks?</h2>
+            <p>Subscribe to the RedMonk Newsletter!</p>
+            <form action="https://buttondown.com/api/emails/embed-subscribe/redmonk" method="post" target="popupwindow" onsubmit="window.open('https://buttondown.com/redmonk', 'popupwindow')" class="newsletter-form">
+                <input type="email" name="email" id="bd-email" placeholder="Enter your email" required>
+                <input type="submit" value="Subscribe" class="btn btn-primary">
+            </form>
+            <p class="newsletter-privacy">We respect your privacy. Unsubscribe at any time.</p>
+            <a href="https://redmonk.com/blog/category/appearances/" class="btn btn-secondary">
+                See the Newsletter
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="src/assets/redmonk_logo.png" alt="RedMonk" class="footer-redmonk-logo">
+                </div>
+                <div class="footer-links">
+                    <a href="https://redmonk.com" target="_blank" rel="noopener noreferrer">RedMonk.com</a>
+                    <a href="https://redmonk.com/blog/" target="_blank" rel="noopener noreferrer">Blog</a>
+                    <a href="https://twitter.com/redmonk" target="_blank" rel="noopener noreferrer">Twitter</a>
+                    <a href="https://www.linkedin.com/company/redmonk/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                </div>
+                <div class="footer-copyright">
+                    <p>&copy; 2025 RedMonk. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
