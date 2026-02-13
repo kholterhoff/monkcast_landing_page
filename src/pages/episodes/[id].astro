@@ -99,15 +99,25 @@ const isValidEpisode = episode && episode.title && episode.guid;
 const hasAudioContent = episode?.enclosure?.url || episode?.link;
 
 // Fallback data for missing information
+// Ensure image is always a string (RSS parser may return an object like {href: "..."})
+const rawImage = episode?.image;
+const imageUrl = typeof rawImage === 'string' ? rawImage
+  : (rawImage && typeof rawImage === 'object' && 'href' in rawImage) ? String((rawImage as any).href)
+  : (rawImage && typeof rawImage === 'object' && 'url' in rawImage) ? String((rawImage as any).url)
+  : '';
+
 const safeEpisode = {
   title: episode?.title || 'Episode Title Unavailable',
   summary: episode?.summary || episode?.contentSnippet || 'Episode description not available.',
   content: episode?.content || episode?.summary || 'Episode content not available.',
-  image: episode?.image || podcast?.image || 'https://redmonk.com/wp-content/uploads/2018/07/Monkchips-1.jpg',
+  image: imageUrl || podcast?.image || 'https://redmonk.com/wp-content/uploads/2018/07/Monkchips-1.jpg',
   formattedDate: episode?.formattedDate || 'Date unavailable',
   episodeNumber: episode?.episodeNumber || '',
   guid: episode?.guid || 'unknown',
-  ...episode
+  redmonkUrl: episode?.redmonkUrl || '',
+  link: episode?.link || '',
+  enclosureUrl: episode?.enclosure?.url || '',
+  duration: episode?.duration || '',
 };
 ---
 

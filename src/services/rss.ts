@@ -73,6 +73,19 @@ const DEFAULT_PODCAST_DATA: FallbackPodcastData = {
   items: []
 };
 
+// Helper function to ensure image is always a string URL
+// rss-parser may return itunes:image as an object like {href: "..."} or {$: {href: "..."}}
+function normalizeImageUrl(image: any): string {
+  if (!image) return '';
+  if (typeof image === 'string') return image;
+  if (typeof image === 'object') {
+    if (image.href) return String(image.href);
+    if (image.url) return String(image.url);
+    if (image.$ && image.$.href) return String(image.$.href);
+  }
+  return '';
+}
+
 // Helper function to ensure enclosure has proper format
 function normalizeEnclosure(enclosure: any) {
   if (!enclosure) return null;
@@ -275,7 +288,7 @@ async function processEpisodesWithErrorBoundary(items: any[], feed: any) {
             summary: stripHtml(item.summary || item.contentSnippet || ''),
             content: item.content || '',
             contentSnippet: stripHtml(item.contentSnippet || ''),
-            image: coverImage || item.image || feed.image?.url || 'https://redmonk.com/wp-content/uploads/2018/07/Monkchips-1.jpg',
+            image: coverImage || normalizeImageUrl(item.image) || feed.image?.url || 'https://redmonk.com/wp-content/uploads/2018/07/Monkchips-1.jpg',
             season: item.season || '',
             episodeNumber: item.episodeNumber || '',
             guid: item.guid || `episode-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
