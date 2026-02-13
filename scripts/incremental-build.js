@@ -118,37 +118,12 @@ function saveBuildCache(cache) {
 // Get current episode count from RSS feed
 async function getEpisodeCount() {
   try {
-    // Create a temporary script to fetch episode count
-    const tempScript = `
-      import { fetchPodcastFeed, PODCAST_RSS_URL } from './src/services/rss.js';
-      
-      async function getCount() {
-        try {
-          const podcast = await fetchPodcastFeed(PODCAST_RSS_URL);
-          console.log(podcast.episodes ? podcast.episodes.length : 0);
-        } catch (error) {
-          console.log(0);
-        }
-      }
-      
-      getCount();
-    `;
-    
-    writeFileSync(join(rootDir, 'temp-count.mjs'), tempScript);
-    
-    const result = execSync('node temp-count.mjs', { 
-      cwd: rootDir, 
-      encoding: 'utf8',
-      timeout: 30000 
-    });
-    
-    // Clean up temp file
-    try {
-      execSync('rm temp-count.mjs', { cwd: rootDir });
-    } catch (e) {
-      // Ignore cleanup errors
-    }
-    
+    // Fetch the RSS feed directly and count items
+    const RSS_URL = 'https://api.riverside.fm/hosting/tBthkY3f.rss';
+    const result = execSync(
+      `node -e "fetch('${RSS_URL}').then(r=>r.text()).then(xml=>{const m=xml.match(/<item>/g);console.log(m?m.length:0)}).catch(()=>console.log(0))"`,
+      { cwd: rootDir, encoding: 'utf8', timeout: 30000 }
+    );
     return parseInt(result.trim(), 10) || 0;
   } catch (error) {
     console.warn('⚠️  Failed to get episode count, assuming 0');
