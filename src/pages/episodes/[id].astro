@@ -4,7 +4,6 @@ import Layout from "../../layouts/Layout.astro";
 import ErrorBoundary from "../../components/ErrorBoundary.astro";
 import { fetchPodcastFeed, PODCAST_RSS_URL } from "../../services/rss";
 import type { Episode, Podcast } from "../../types";
-import { Image } from "astro:assets";
 
 export async function getStaticPaths() {
   try {
@@ -178,14 +177,13 @@ const safeEpisode = {
           <div
             class="bg-white p-4 rounded-xl shadow-2xl border border-white/20"
           >
-            <Image
+            <img
               src={safeEpisode.image}
               alt={safeEpisode.title}
               width={600}
               height={400}
               class="w-full h-auto rounded-md"
               loading="eager"
-              format="webp"
               onerror="this.src='https://redmonk.com/wp-content/uploads/2018/07/Monkchips-1.jpg'"
             />
           </div>
