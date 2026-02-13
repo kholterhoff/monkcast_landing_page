@@ -52,7 +52,7 @@ export async function withRetry<T>(
   config: RetryConfig = DEFAULT_RETRY_CONFIG,
   context?: string
 ): Promise<T> {
-  let lastError: Error;
+  let lastError: Error | undefined;
 
   for (let attempt = 1; attempt <= config.maxAttempts; attempt++) {
     try {
@@ -108,7 +108,7 @@ export class CircuitBreaker {
       return result;
     } catch (error) {
       this.onFailure();
-      if (fallback && this.state === 'OPEN') {
+      if (fallback) {
         return fallback();
       }
       throw error;
@@ -175,12 +175,13 @@ export async function safeFetch(
       throw error;
     }
     
-    if (error.name === 'AbortError') {
+    const err = error as Error;
+    if (err.name === 'AbortError') {
       throw new ExternalApiError(`Request timeout after ${timeout}ms`, 408, 'TIMEOUT', url);
     }
     
     throw new ExternalApiError(
-      `Network error: ${error.message}`,
+      `Network error: ${err.message}`,
       undefined,
       'NETWORK_ERROR',
       url
@@ -267,10 +268,11 @@ export async function withApiErrorBoundary<T>(
 
     return { data: result, isStale: false };
   } catch (error) {
+    const err = error as Error;
     const apiError = error instanceof ExternalApiError 
       ? error 
       : new ExternalApiError(
-          `${context} failed: ${error.message}`,
+          `${context} failed: ${err.message}`,
           undefined,
           'UNKNOWN_ERROR'
         );
@@ -346,9 +348,10 @@ export class ApiHealthMonitor {
         lastError: undefined
       };
     } catch (error) {
+      const err = error as Error;
       const apiError = error instanceof ExternalApiError 
         ? error 
-        : new ExternalApiError(`Health check failed: ${error.message}`);
+        : new ExternalApiError(`Health check failed: ${err.message}`);
 
       status = {
         ...status,

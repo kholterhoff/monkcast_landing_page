@@ -9,7 +9,7 @@ import {
 // Test function to simulate API failures
 export async function testApiFailure(
   failureType: 'network' | 'timeout' | 'server' | 'data' = 'network'
-): Promise<void> {
+): Promise<never> {
   const errors = {
     network: () => new ExternalApiError('Network connection failed', undefined, 'NETWORK_ERROR'),
     timeout: () => new ExternalApiError('Request timeout', 408, 'TIMEOUT'),
@@ -42,7 +42,7 @@ export async function runErrorBoundaryTests() {
 
   // Test 1: Network Error with Fallback
   try {
-    const result = await withApiErrorBoundary({
+    const result = await withApiErrorBoundary<{ message: string }>({
       operation: () => testApiFailure('network'),
       fallbackData: { message: 'Fallback data' },
       context: 'Network Error Test'
@@ -51,12 +51,13 @@ export async function runErrorBoundaryTests() {
     results.networkError = result.isStale && result.data.message === 'Fallback data';
     console.log('✅ Network error with fallback:', results.networkError);
   } catch (error) {
-    console.log('❌ Network error test failed:', error.message);
+    const err = error as Error;
+    console.log('❌ Network error test failed:', err.message);
   }
 
   // Test 2: Timeout Error
   try {
-    const result = await withApiErrorBoundary({
+    const result = await withApiErrorBoundary<{ message: string }>({
       operation: () => testApiFailure('timeout'),
       fallbackData: { message: 'Timeout fallback' },
       context: 'Timeout Test'
@@ -65,12 +66,13 @@ export async function runErrorBoundaryTests() {
     results.timeoutError = result.isStale && result.error?.code === 'TIMEOUT';
     console.log('✅ Timeout error test:', results.timeoutError);
   } catch (error) {
-    console.log('❌ Timeout error test failed:', error.message);
+    const err = error as Error;
+    console.log('❌ Timeout error test failed:', err.message);
   }
 
   // Test 3: Server Error
   try {
-    const result = await withApiErrorBoundary({
+    const result = await withApiErrorBoundary<{ message: string }>({
       operation: () => testApiFailure('server'),
       fallbackData: { message: 'Server error fallback' },
       context: 'Server Error Test'
@@ -79,12 +81,13 @@ export async function runErrorBoundaryTests() {
     results.serverError = result.isStale && result.error?.status === 500;
     console.log('✅ Server error test:', results.serverError);
   } catch (error) {
-    console.log('❌ Server error test failed:', error.message);
+    const err = error as Error;
+    console.log('❌ Server error test failed:', err.message);
   }
 
   // Test 4: Success Case
   try {
-    const result = await withApiErrorBoundary({
+    const result = await withApiErrorBoundary<{ message: string }>({
       operation: () => testApiSuccess({ message: 'Success!' }),
       fallbackData: { message: 'Should not use this' },
       context: 'Success Test'
@@ -93,7 +96,8 @@ export async function runErrorBoundaryTests() {
     results.successWithFallback = !result.isStale && result.data.message === 'Success!';
     console.log('✅ Success test:', results.successWithFallback);
   } catch (error) {
-    console.log('❌ Success test failed:', error.message);
+    const err = error as Error;
+    console.log('❌ Success test failed:', err.message);
   }
 
   // Test 5: Circuit Breaker
@@ -113,7 +117,8 @@ export async function runErrorBoundaryTests() {
     results.circuitBreaker = circuitBreaker.getState() === 'OPEN';
     console.log('✅ Circuit breaker test:', results.circuitBreaker);
   } catch (error) {
-    console.log('❌ Circuit breaker test failed:', error.message);
+    const err = error as Error;
+    console.log('❌ Circuit breaker test failed:', err.message);
   }
 
   // Test 6: Health Monitor
@@ -127,7 +132,8 @@ export async function runErrorBoundaryTests() {
     
     console.log('✅ Health monitor test:', !healthStatus.isHealthy);
   } catch (error) {
-    console.log('❌ Health monitor test failed:', error.message);
+    const err = error as Error;
+    console.log('❌ Health monitor test failed:', err.message);
   }
 
   console.log('🏁 Error Boundary Tests Complete');

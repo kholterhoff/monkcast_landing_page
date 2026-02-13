@@ -16,7 +16,7 @@ export interface Episode {
     url: string;
     length?: number;
     type?: string;
-  };
+  } | null;
 }
 
 export interface Podcast {

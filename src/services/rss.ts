@@ -44,24 +44,33 @@ const rssCircuitBreaker = new CircuitBreaker(3, 30000); // 3 failures, 30s recov
 // Health monitor for API endpoints
 const healthMonitor = new ApiHealthMonitor();
 
-// Fallback data provider
-const fallbackProvider = createFallbackProvider({
+// Fallback data provider with proper typing
+interface FallbackPodcastData {
+  title: string;
+  description: string;
+  link: string;
+  image: string;
+  itunesAuthor: string;
+  items: any[];
+}
+
+const fallbackProvider = createFallbackProvider<FallbackPodcastData>({
   title: 'The MonkCast',
   description: 'Technology analysis and insights from the RedMonk team',
   link: 'https://redmonk.com',
   image: 'https://redmonk.com/wp-content/uploads/2018/07/Monkchips-1.jpg',
   itunesAuthor: 'RedMonk',
-  episodes: []
+  items: []
 });
 
 // Default podcast data for complete failures
-const DEFAULT_PODCAST_DATA = {
+const DEFAULT_PODCAST_DATA: FallbackPodcastData = {
   title: 'The MonkCast',
   description: 'Technology analysis and insights from the RedMonk team',
   link: 'https://redmonk.com',
   image: 'https://redmonk.com/wp-content/uploads/2018/07/Monkchips-1.jpg',
   itunesAuthor: 'RedMonk',
-  episodes: []
+  items: []
 };
 
 // Helper function to ensure enclosure has proper format
@@ -121,7 +130,8 @@ export async function fetchPodcastFeed(url: string) {
                 const xml = await response.text();
                 feed = await parser.parseString(xml);
               } catch (fetchError) {
-                console.warn('Direct fetch failed, trying parseURL fallback:', fetchError.message);
+                const errorMessage = fetchError instanceof Error ? fetchError.message : String(fetchError);
+                console.warn('Direct fetch failed, trying parseURL fallback:', errorMessage);
                 // Fallback to parser's built-in URL fetching
                 feed = await parser.parseURL(url);
               }
@@ -144,7 +154,12 @@ export async function fetchPodcastFeed(url: string) {
         () => {
           console.warn('Circuit breaker open, using fallback data');
           const fallback = fallbackProvider.get();
-          return { ...fallback.data, episodes: [] }; // Return empty episodes for circuit breaker fallback
+          // Return a minimal feed structure that matches the parser output
+          return {
+            ...fallback.data,
+            image: { url: fallback.data.image },
+            itunes: { author: fallback.data.itunesAuthor }
+          } as any;
         }
       );
     },
@@ -198,7 +213,11 @@ export async function fetchPodcastFeed(url: string) {
         data: podcast
       });
       
-      fallbackProvider.set(podcast);
+      // Convert podcast to fallback format
+      fallbackProvider.set({
+        ...podcast,
+        items: podcast.episodes
+      });
     }
     
     return podcast;
@@ -244,7 +263,8 @@ async function processEpisodesWithErrorBoundary(items: any[], feed: any) {
               console.log(`Episode "${item.title}": No RedMonk URL found in description`);
             }
           } catch (imageError) {
-            console.warn('Failed to extract cover image:', imageError.message);
+            const errorMessage = imageError instanceof Error ? imageError.message : String(imageError);
+            console.warn('Failed to extract cover image:', errorMessage);
           }
 
           return {
@@ -264,13 +284,14 @@ async function processEpisodesWithErrorBoundary(items: any[], feed: any) {
             enclosure: normalizeEnclosure(item.enclosure)
           };
         },
-        { maxAttempts: 2, baseDelay: 500 },
+        { maxAttempts: 2, baseDelay: 500, maxDelay: 2000, backoffMultiplier: 1.5 },
         `Episode processing: ${item.title || 'Unknown'}`
       );
       
       episodes.push(episode);
     } catch (episodeError) {
-      console.warn(`Failed to process episode: ${item.title || 'Unknown'}`, episodeError.message);
+      const errorMessage = episodeError instanceof Error ? episodeError.message : String(episodeError);
+      console.warn(`Failed to process episode: ${item.title || 'Unknown'}`, errorMessage);
       // Continue processing other episodes instead of failing completely
     }
   }
