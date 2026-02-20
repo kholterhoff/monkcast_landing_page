@@ -1,0 +1,38 @@
+name: Scheduled Episode Check
+
+on:
+  schedule:
+    # Run every 6 hours as a safety net
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+    # Allow manual triggering
+
+jobs:
+  check-and-rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check RSS feed for new episodes
+        id: check
+        run: |
+          echo "Fetching RSS feed..."
+          EPISODE_COUNT=$(curl -sf "https://api.riverside.fm/hosting/tBthkY3f.rss" | grep -c "<item>") || EPISODE_COUNT=0
+          echo "RSS feed episode count: $EPISODE_COUNT"
+
+          echo "Fetching current build status..."
+          KNOWN_COUNT=$(curl -sf "https://monkcast.netlify.app/build-status.json" | python3 -c "import sys,json; print(json.load(sys.stdin).get('episodeCount', 0))" 2>/dev/null) || KNOWN_COUNT=0
+          echo "Known episode count: $KNOWN_COUNT"
+
+          if [ "$EPISODE_COUNT" -gt "$KNOWN_COUNT" ]; then
+            echo "New episodes detected! ($EPISODE_COUNT > $KNOWN_COUNT)"
+            echo "should_rebuild=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "No new episodes. Skipping rebuild."
+            echo "should_rebuild=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Trigger Netlify rebuild
+        if: steps.check.outputs.should_rebuild == 'true'
+        run: |
+          echo "Triggering Netlify rebuild..."
+          curl -X POST -d '{"trigger_title":"GitHub Actions: new episode detected"}' "${{ secrets.NETLIFY_BUILD_HOOK_URL }}"
+          echo "Rebuild triggered successfully."
