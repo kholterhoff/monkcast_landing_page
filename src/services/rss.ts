@@ -253,22 +253,26 @@ async function processEpisodesWithErrorBoundary(items: any[], feed: any) {
           let coverImage = '';
           
           try {
-            // Look for RedMonk URLs in description or content
-            // The RSS feed has HTML-encoded descriptions with links
-            const descriptionText = item.description || item.content || '';
-            const linkText = item.link || '';
-            
-            // Try to find RedMonk URLs in the description
-            const redmonkMatch = descriptionText.match(/https?:\/\/redmonk\.com\/[^\s"'<>)]+/);
-            
-            if (redmonkMatch) {
-              redmonkUrl = redmonkMatch[0];
-              // Clean up any trailing punctuation or HTML entities
-              redmonkUrl = redmonkUrl.replace(/(&quot;|&gt;|&lt;|[,;.!?])+$/, '');
+            // Look for RedMonk URLs in all available text fields
+            // rss-parser puts RSS <description> in item.content and
+            // itunes:summary in item.summary — both can contain the Show notes link
+            const textsToSearch = [
+              item.description,
+              item.content,
+              item.summary,       // itunes:summary (HTML with Show notes link)
+              item.contentSnippet, // plain-text version
+            ].filter(Boolean);
+
+            for (const text of textsToSearch) {
+              const match = text.match(/https?:\/\/redmonk\.com\/[^\s"'<>)]+/);
+              if (match) {
+                redmonkUrl = match[0].replace(/(&quot;|&gt;|&lt;|[,;.!?])+$/, '');
+                break;
+              }
             }
-            
+
             console.log(`Episode "${item.title}": RedMonk URL = ${redmonkUrl || 'not found'}`);
-            
+
             if (redmonkUrl) {
               coverImage = await extractCoverImageFromRedmonk(redmonkUrl);
               console.log(`Episode "${item.title}": Cover image = ${coverImage || 'not found'}`);
@@ -277,7 +281,7 @@ async function processEpisodesWithErrorBoundary(items: any[], feed: any) {
             }
           } catch (imageError) {
             const errorMessage = imageError instanceof Error ? imageError.message : String(imageError);
-            console.warn('Failed to extract cover image:', errorMessage);
+            console.warn(`Failed to extract cover image for "${item.title}":`, errorMessage);
           }
 
           return {
