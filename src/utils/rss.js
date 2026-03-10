@@ -19,56 +19,66 @@ const coverImageCache = new Map();
 
 export async function extractCoverImageFromRedmonk(url) {
   if (!url) return null;
-  
+
   // Check cache first
   if (coverImageCache.has(url)) {
     return coverImageCache.get(url);
   }
-  
+
+  // Small delay between requests to avoid rate-limiting from RedMonk's server
+  await new Promise(resolve => setTimeout(resolve, 200));
+
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
-    
-    const response = await fetch(url, { 
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
+    const response = await fetch(url, {
       signal: controller.signal,
       headers: {
-        'User-Agent': 'Mozilla/5.0 (compatible; MonkCastBot/1.0)'
-      }
+        'User-Agent': 'Mozilla/5.0 (compatible; MonkCastBot/1.0)',
+        'Accept': 'text/html'
+      },
+      redirect: 'follow'
     });
     clearTimeout(timeoutId);
-    
+
     if (!response.ok) {
-      console.error(`Failed to fetch RedMonk page: ${response.status}`);
-      coverImageCache.set(url, null); // Cache the failure
+      console.error(`Failed to fetch RedMonk page (${response.status}): ${url}`);
+      coverImageCache.set(url, null);
       return null;
     }
-    
+
     const html = await response.text();
-    
+
     // Try different image selectors in order of preference
     const selectors = [
       /<meta\s+property="og:image"\s+content="([^"]+)"/i,  // Open Graph image
+      /<meta\s+content="([^"]+)"\s+property="og:image"/i,   // og:image with reversed attribute order
       /<img[^>]+class="[^"]*featured-image[^"]*"[^>]+src="([^"]+)"/i,  // Featured image
       /<div[^>]+class="[^"]*post-content[^"]*"[^>]*>[\s\S]*?<img[^>]+src="([^"]+)"/i,  // First image in content
-      /<img[^>]+src="([^"]+)"/i  // Any image
     ];
-    
+
     for (const selector of selectors) {
       const match = html.match(selector);
-      if (match && match[1]) {
+      if (match && match[1] && !match[1].includes('statcounter')) {
         const imageUrl = match[1];
-        // Store in cache
         coverImageCache.set(url, imageUrl);
         return imageUrl;
       }
     }
-    
+
     // No image found
+    console.warn(`No cover image found on RedMonk page: ${url}`);
     coverImageCache.set(url, null);
     return null;
   } catch (error) {
-    console.error('Error fetching RedMonk cover image:', error);
-    coverImageCache.set(url, null); // Cache the failure
+    const msg = error instanceof Error ? error.message : String(error);
+    console.error(`Error fetching RedMonk cover image from ${url}: ${msg}`);
+    // Don't cache timeouts/network errors — allow retry on next build
+    if (msg.includes('abort') || msg.includes('timeout') || msg.includes('ECONNRESET')) {
+      return null;
+    }
+    coverImageCache.set(url, null);
     return null;
   }
 }
