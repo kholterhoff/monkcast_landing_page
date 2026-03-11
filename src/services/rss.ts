@@ -1,6 +1,6 @@
 import Parser from 'rss-parser';
 import { format } from 'date-fns';
-import { extractCoverImageFromRedmonk, formatDuration } from '../utils/rss.js';
+import { extractCoverImageFromRedmonk, formatDuration, persistCoverImageCache } from '../utils/rss.js';
 import { stripHtml } from '../utils/sanitize.js';
 import { 
   withRetry, 
@@ -218,6 +218,9 @@ export async function fetchPodcastFeed(url: string) {
       itunesAuthor: feed.itunes?.author || 'RedMonk',
       episodes: await processEpisodesWithErrorBoundary(feed.items || [], feed)
     };
+
+    // Persist cover image cache to disk after processing all episodes
+    persistCoverImageCache();
 
     // Update cache and fallback provider only if data is fresh
     if (!result.isStale) {

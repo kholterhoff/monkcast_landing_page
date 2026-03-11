@@ -1,5 +1,8 @@
 import Parser from 'rss-parser';
 import { format } from 'date-fns';
+import { readFileSync, writeFileSync, mkdirSync } from 'fs';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
 
 const parser = new Parser({
   customFields: {
@@ -14,16 +17,50 @@ const parser = new Parser({
   },
 });
 
-// Cache for cover images to avoid repeated fetches
+// Persistent cover image cache — loaded from disk, written back after build
+// Use process.cwd() (project root) instead of import.meta.url because Vite/Astro
+// transforms modules during build, making import.meta.url point to a virtual location.
+const CACHE_FILE = join(process.cwd(), 'src', 'data', 'cover-image-cache.json');
 const coverImageCache = new Map();
+let cacheModified = false;
+
+// Load persistent cache from disk on startup
+try {
+  const data = readFileSync(CACHE_FILE, 'utf8');
+  const parsed = JSON.parse(data);
+  for (const [key, value] of Object.entries(parsed)) {
+    coverImageCache.set(key, value);
+  }
+  console.log(`Loaded ${coverImageCache.size} cached cover images from disk`);
+} catch {
+  console.log('No existing cover image cache found, starting fresh');
+}
+
+// Save cache back to disk
+export function persistCoverImageCache() {
+  if (!cacheModified) {
+    console.log('Cover image cache unchanged, skipping write');
+    return;
+  }
+  try {
+    const obj = Object.fromEntries(coverImageCache);
+    mkdirSync(dirname(CACHE_FILE), { recursive: true });
+    writeFileSync(CACHE_FILE, JSON.stringify(obj, null, 2));
+    console.log(`Persisted ${coverImageCache.size} cover image entries to disk`);
+  } catch (error) {
+    console.warn('Failed to persist cover image cache:', error);
+  }
+}
 
 export async function extractCoverImageFromRedmonk(url) {
   if (!url) return null;
 
-  // Check cache first
+  // Check cache first (includes entries loaded from disk)
   if (coverImageCache.has(url)) {
     return coverImageCache.get(url);
   }
+
+  console.log(`Fetching cover image (not in cache): ${url}`);
 
   // Small delay between requests to avoid rate-limiting from RedMonk's server
   await new Promise(resolve => setTimeout(resolve, 200));
@@ -45,6 +82,7 @@ export async function extractCoverImageFromRedmonk(url) {
     if (!response.ok) {
       console.error(`Failed to fetch RedMonk page (${response.status}): ${url}`);
       coverImageCache.set(url, null);
+      cacheModified = true;
       return null;
     }
 
@@ -63,6 +101,7 @@ export async function extractCoverImageFromRedmonk(url) {
       if (match && match[1] && !match[1].includes('statcounter')) {
         const imageUrl = match[1];
         coverImageCache.set(url, imageUrl);
+        cacheModified = true;
         return imageUrl;
       }
     }
@@ -70,6 +109,7 @@ export async function extractCoverImageFromRedmonk(url) {
     // No image found
     console.warn(`No cover image found on RedMonk page: ${url}`);
     coverImageCache.set(url, null);
+    cacheModified = true;
     return null;
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error);
@@ -79,6 +119,7 @@ export async function extractCoverImageFromRedmonk(url) {
       return null;
     }
     coverImageCache.set(url, null);
+    cacheModified = true;
     return null;
   }
 }
