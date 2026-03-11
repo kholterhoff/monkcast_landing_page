@@ -70,7 +70,27 @@ async function main() {
     console.log('✅ Build completed successfully!');
     console.log(`⏱️  Total time: ${buildResult.totalTime}ms`);
     console.log(`📈 Episodes built: ${buildResult.episodesBuilt}`);
-    
+
+    // Commit updated cover image cache if it changed
+    try {
+      const cacheFile = join(rootDir, 'src', 'data', 'cover-image-cache.json');
+      if (existsSync(cacheFile)) {
+        const status = execSync('git status --porcelain src/data/cover-image-cache.json', {
+          cwd: rootDir, encoding: 'utf8'
+        }).trim();
+        if (status) {
+          console.log('📸 Cover image cache updated, committing...');
+          execSync('git add src/data/cover-image-cache.json', { cwd: rootDir });
+          execSync('git commit -m "chore: update cover image cache [skip ci]"', { cwd: rootDir });
+          console.log('📸 Cover image cache committed');
+        } else {
+          console.log('📸 Cover image cache unchanged');
+        }
+      }
+    } catch (commitError) {
+      console.warn('⚠️  Failed to commit cover image cache:', commitError.message);
+    }
+
   } catch (error) {
     console.error('❌ Build failed:', error.message);
     process.exit(1);
