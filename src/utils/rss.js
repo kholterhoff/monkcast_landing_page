@@ -60,6 +60,12 @@ export async function extractCoverImageFromRedmonk(url) {
     return coverImageCache.get(url);
   }
 
+  // Skip live fetching in CI if env var is set
+  if (process.env.SKIP_IMAGE_FETCH === 'true') {
+    console.log(`Skipping image fetch in CI for: ${url}`);
+    return null;
+  }
+
   console.log(`Fetching cover image (not in cache): ${url}`);
 
   // Small delay between requests to avoid rate-limiting from RedMonk's server
@@ -67,7 +73,8 @@ export async function extractCoverImageFromRedmonk(url) {
 
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+    const timeoutMs = process.env.CI === 'true' ? 5000 : 10000; // Shorter timeout in CI
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
     const response = await fetch(url, {
       signal: controller.signal,

@@ -38,6 +38,8 @@ jobs:
         BUILD_STRATEGY: ${{ matrix.build-strategy }}
         MAX_EPISODES_PER_BUILD: 10
         CI: true
+        SKIP_IMAGE_FETCH: true
+      timeout-minutes: 10
       run: |
         echo "Testing ${{ matrix.build-strategy }} build strategy"
         case "${{ matrix.build-strategy }}" in
@@ -90,13 +92,13 @@ jobs:
     - name: Performance test - Full build
       run: |
         echo "🔥 Testing full build performance"
-        time npm run build:full
+        SKIP_IMAGE_FETCH=true time npm run build:full
     
     - name: Clear cache and test incremental
       run: |
         npm run cache:clear
         echo "⚡ Testing incremental build performance"
-        time npm run build:incremental
+        SKIP_IMAGE_FETCH=true time npm run build:incremental
     
     - name: Test cache effectiveness
       run: |
