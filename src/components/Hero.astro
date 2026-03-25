@@ -61,7 +61,7 @@ const { podcast } = Astro.props as Props;
             class="flex items-center justify-center w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all hover:scale-110 border border-white/20"
             aria-label="Listen on Spotify"
           >
-            <img src={spotify.src} alt="Spotify" width="24" height="24" />
+            <img src={spotify.src} alt="" aria-hidden="true" width="24" height="24" />
           </a>
           
           <a
@@ -71,7 +71,7 @@ const { podcast } = Astro.props as Props;
             class="flex items-center justify-center w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all hover:scale-110 border border-white/20"
             aria-label="Listen on Apple Podcasts"
           >
-            <img src={applePodcast.src} alt="Apple Podcasts" width="24" height="24" />
+            <img src={applePodcast.src} alt="" aria-hidden="true" width="24" height="24" />
           </a>
         </div>
       </div>
@@ -89,6 +89,7 @@ const { podcast } = Astro.props as Props;
             class="w-full h-full object-contain"
             loading="eager"
           />
+          </div>
         </div>
       </div>
     </div>
@@ -110,5 +111,11 @@ const { podcast } = Astro.props as Props;
 
   .floating-animation {
     animation: float 6s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .floating-animation {
+      animation: none;
+    }
   }
 </style>

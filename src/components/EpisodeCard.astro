@@ -67,6 +67,7 @@ const { episode, featured = false } = Astro.props as Props;
         target="_blank"
         rel="noopener noreferrer"
         class="btn px-4 py-2 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary-500 to-primary-600 text-white rounded-md flex items-center gap-1 transition-all hover:shadow-lg border border-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+        aria-label={`Listen to ${episode.title}`}
       >
         Listen Now
         <svg

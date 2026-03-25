@@ -2,21 +2,21 @@
 // Import host images if needed
 ---
 
-<section id="hosts-section" class="py-24 bg-gradient-to-b from-gray-50 to-white">
+<section id="hosts-section" class="py-24 bg-gradient-to-b from-gray-50 to-white" aria-labelledby="hosts-heading">
 	<div class="container mx-auto px-4">
 		<div class="max-w-3xl mx-auto text-center mb-12">
-			<h2 class="text-3xl font-bold mb-4 text-secondary-900 bg-clip-text text-transparent bg-gradient-to-r from-secondary-800 to-secondary-600">Meet the Hosts</h2>
+			<h2 id="hosts-heading" class="text-3xl font-bold mb-4 text-secondary-900 bg-clip-text text-transparent bg-gradient-to-r from-secondary-800 to-secondary-600">Meet the Hosts</h2>
 		</div>
 		<div class="hosts-container">
 		<!-- Stephen O'Grady -->
-		<div class="host-card box">
-			<div class="host-image stephen"></div>
+		<div class="host-card box" role="button" tabindex="0" aria-expanded="false" aria-label="Stephen O'Grady - click to read full bio">
+			<div class="host-image stephen" role="img" aria-label="Photo of Stephen O'Grady"></div>
 			<h3>Stephen O'Grady</h3>
 			<p>
 				Stephen O'Grady is an industry analyst with RedMonk. James and
 				Stephen founded the firm in November of 2002, and have been
 				doing that ever since.<span class="ellipsis">...</span>
-				<span class="read-more"
+				<span class="read-more" role="button" tabindex="-1" aria-hidden="true"
 					>Read more <svg
 						class="arrow-icon"
 						xmlns="http://www.w3.org/2000/svg"
@@ -37,7 +37,7 @@
 					href="https://twitter.com/sogrady"
 					target="_blank"
 					rel="noopener noreferrer"
-					aria-label="Twitter"
+					aria-label="Stephen O'Grady on Twitter"
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -58,7 +58,7 @@
 					href="https://bsky.app/profile/sogrady.org"
 					target="_blank"
 					rel="noopener noreferrer"
-					aria-label="Bluesky"
+					aria-label="Stephen O'Grady on Bluesky"
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -75,7 +75,7 @@
 					href="https://www.linkedin.com/in/sogrady/"
 					target="_blank"
 					rel="noopener noreferrer"
-					aria-label="LinkedIn"
+					aria-label="Stephen O'Grady on LinkedIn"
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -97,15 +97,15 @@
 		</div>
 
 		<!-- James Governor -->
-		<div class="host-card box">
-			<div class="host-image james"></div>
+		<div class="host-card box" role="button" tabindex="0" aria-expanded="false" aria-label="James Governor - click to read full bio">
+			<div class="host-image james" role="img" aria-label="Photo of James Governor"></div>
 			<h3>James Governor</h3>
 			<p>
 				Co-founder of RedMonk. Industry analyst covering software
 				development, DevOps, and sustainability.<span class="ellipsis"
 					>...</span
 				>
-				<span class="read-more"
+				<span class="read-more" role="button" tabindex="-1" aria-hidden="true"
 					>Read more <svg
 						class="arrow-icon"
 						xmlns="http://www.w3.org/2000/svg"
@@ -126,7 +126,7 @@
 					href="https://twitter.com/monkchips"
 					target="_blank"
 					rel="noopener noreferrer"
-					aria-label="Twitter"
+					aria-label="James Governor on Twitter"
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -147,7 +147,7 @@
 					href="https://bsky.app/profile/monkchips.com"
 					target="_blank"
 					rel="noopener noreferrer"
-					aria-label="Bluesky"
+					aria-label="James Governor on Bluesky"
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -164,7 +164,7 @@
 					href="https://www.linkedin.com/in/jamesgovernor/"
 					target="_blank"
 					rel="noopener noreferrer"
-					aria-label="LinkedIn"
+					aria-label="James Governor on LinkedIn"
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -186,13 +186,13 @@
 		</div>
 
 		<!-- Rachel Stephens -->
-		<div class="host-card box">
-			<div class="host-image rachel"></div>
+		<div class="host-card box" role="button" tabindex="0" aria-expanded="false" aria-label="Rachel Stephens - click to read full bio">
+			<div class="host-image rachel" role="img" aria-label="Photo of Rachel Stephens"></div>
 			<h3>Rachel Stephens</h3>
 			<p>
 				Rachel Stephens is a Research Director with RedMonk and has been
 				with the firm since 2016.<span class="ellipsis">...</span>
-				<span class="read-more"
+				<span class="read-more" role="button" tabindex="-1" aria-hidden="true"
 					>Read more <svg
 						class="arrow-icon"
 						xmlns="http://www.w3.org/2000/svg"
@@ -213,7 +213,7 @@
 					href="https://twitter.com/rstephensme"
 					target="_blank"
 					rel="noopener noreferrer"
-					aria-label="Twitter"
+					aria-label="Rachel Stephens on Twitter"
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -234,7 +234,7 @@
 					href="https://bsky.app/profile/rstephens.me"
 					target="_blank"
 					rel="noopener noreferrer"
-					aria-label="Bluesky"
+					aria-label="Rachel Stephens on Bluesky"
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -251,7 +251,7 @@
 					href="https://www.linkedin.com/in/rachelstephens/"
 					target="_blank"
 					rel="noopener noreferrer"
-					aria-label="LinkedIn"
+					aria-label="Rachel Stephens on LinkedIn"
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -273,14 +273,14 @@
 		</div>
 
 		<!-- Kate Holterhoff -->
-		<div class="host-card box">
-			<div class="host-image kate"></div>
+		<div class="host-card box" role="button" tabindex="0" aria-expanded="false" aria-label="Kate Holterhoff - click to read full bio">
+			<div class="host-image kate" role="img" aria-label="Photo of Kate Holterhoff"></div>
 			<h3>Kate Holterhoff</h3>
 			<p>
 				Kate Holterhoff, a senior industry analyst with RedMonk, has a
 				background in frontend engineering, academic research, and
 				technical communication.<span class="ellipsis">...</span>
-				<span class="read-more"
+				<span class="read-more" role="button" tabindex="-1" aria-hidden="true"
 					>Read more <svg
 						class="arrow-icon"
 						xmlns="http://www.w3.org/2000/svg"
@@ -301,7 +301,7 @@
 					href="https://x.com/KateHolterhoff"
 					target="_blank"
 					rel="noopener noreferrer"
-					aria-label="Twitter"
+					aria-label="Kate Holterhoff on Twitter"
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -322,7 +322,7 @@
 					href="https://bsky.app/profile/kateholterhoff.bsky.social"
 					target="_blank"
 					rel="noopener noreferrer"
-					aria-label="Bluesky"
+					aria-label="Kate Holterhoff on Bluesky"
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -339,7 +339,7 @@
 					href="https://www.linkedin.com/in/kateholterhoff/"
 					target="_blank"
 					rel="noopener noreferrer"
-					aria-label="LinkedIn"
+					aria-label="Kate Holterhoff on LinkedIn"
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -559,19 +559,21 @@
 			if (readMoreLink.textContent.includes("Read more")) {
 				// Show full bio and make card rectangular
 				card.style.aspectRatio = "auto";
+				card.setAttribute("aria-expanded", "true");
 				bio.innerHTML =
 					fullBios[hostKey] +
-					' <span class="read-more" style="color: #fe0000; display: inline-flex; align-items: center; white-space: nowrap;"><svg class="arrow-icon arrow-icon-left" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fe0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg> Show less</span>';
+					' <span class="read-more" role="button" tabindex="-1" aria-hidden="true" style="color: #fe0000; display: inline-flex; align-items: center; white-space: nowrap;"><svg class="arrow-icon arrow-icon-left" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fe0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg> Show less</span>';
 			} else {
 				// Show shortened bio and restore square shape
 				card.style.aspectRatio = "1/1";
+				card.setAttribute("aria-expanded", "false");
 				var shortBio = fullBios[hostKey]
 					.split(" ")
 					.slice(0, 10)
 					.join(" ");
 				bio.innerHTML =
 					shortBio +
-					'<span class="ellipsis">...</span> <span class="read-more" style="color: #fe0000; display: inline-flex; align-items: center; white-space: nowrap;">Read more <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fe0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span>';
+					'<span class="ellipsis">...</span> <span class="read-more" role="button" tabindex="-1" aria-hidden="true" style="color: #fe0000; display: inline-flex; align-items: center; white-space: nowrap;">Read more <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fe0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></span>';
 			}
 
 			// Add click handler to the new link
@@ -583,11 +585,17 @@
 			});
 		}
 
-		// Add click handlers to all host cards
+		// Add click and keyboard handlers to all host cards
 		var hostCards = document.querySelectorAll(".host-card");
 		hostCards.forEach(function (card) {
 			card.addEventListener("click", function () {
 				toggleBio(this);
+			});
+			card.addEventListener("keydown", function (e) {
+				if (e.key === "Enter" || e.key === " ") {
+					e.preventDefault();
+					toggleBio(this);
+				}
 			});
 		});
 
