@@ -2,7 +2,6 @@ import Parser from 'rss-parser';
 import { format } from 'date-fns';
 import { readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
 
 const parser = new Parser({
   customFields: {
@@ -24,12 +23,29 @@ const CACHE_FILE = join(process.cwd(), 'src', 'data', 'cover-image-cache.json');
 const coverImageCache = new Map();
 let cacheModified = false;
 
+export function normalizeRedmonkUrl(url) {
+  if (!url || typeof url !== 'string') return '';
+
+  try {
+    const normalized = new URL(url.trim());
+    normalized.hash = '';
+
+    if (/(^|\.)redmonk\.com$/i.test(normalized.hostname) && !normalized.pathname.endsWith('/')) {
+      normalized.pathname = `${normalized.pathname}/`;
+    }
+
+    return normalized.toString();
+  } catch {
+    return url.trim();
+  }
+}
+
 // Load persistent cache from disk on startup
 try {
   const data = readFileSync(CACHE_FILE, 'utf8');
   const parsed = JSON.parse(data);
   for (const [key, value] of Object.entries(parsed)) {
-    coverImageCache.set(key, value);
+    coverImageCache.set(normalizeRedmonkUrl(key), value);
   }
   console.log(`Loaded ${coverImageCache.size} cached cover images from disk`);
 } catch {
@@ -54,19 +70,20 @@ export function persistCoverImageCache() {
 
 export async function extractCoverImageFromRedmonk(url) {
   if (!url) return null;
+  const normalizedUrl = normalizeRedmonkUrl(url);
 
   // Check cache first (includes entries loaded from disk)
-  if (coverImageCache.has(url)) {
-    return coverImageCache.get(url);
+  if (coverImageCache.has(normalizedUrl)) {
+    return coverImageCache.get(normalizedUrl);
   }
 
   // Skip live fetching in CI if env var is set
   if (process.env.SKIP_IMAGE_FETCH === 'true') {
-    console.log(`Skipping image fetch in CI for: ${url}`);
+    console.log(`Skipping image fetch in CI for: ${normalizedUrl}`);
     return null;
   }
 
-  console.log(`Fetching cover image (not in cache): ${url}`);
+  console.log(`Fetching cover image (not in cache): ${normalizedUrl}`);
 
   // Small delay between requests to avoid rate-limiting from RedMonk's server
   await new Promise(resolve => setTimeout(resolve, 200));
@@ -76,7 +93,7 @@ export async function extractCoverImageFromRedmonk(url) {
     const timeoutMs = process.env.CI === 'true' ? 5000 : 10000; // Shorter timeout in CI
     const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
-    const response = await fetch(url, {
+    const response = await fetch(normalizedUrl, {
       signal: controller.signal,
       headers: {
         'User-Agent': 'Mozilla/5.0 (compatible; MonkCastBot/1.0)',
@@ -87,8 +104,8 @@ export async function extractCoverImageFromRedmonk(url) {
     clearTimeout(timeoutId);
 
     if (!response.ok) {
-      console.error(`Failed to fetch RedMonk page (${response.status}): ${url}`);
-      coverImageCache.set(url, null);
+      console.error(`Failed to fetch RedMonk page (${response.status}): ${normalizedUrl}`);
+      coverImageCache.set(normalizedUrl, null);
       cacheModified = true;
       return null;
     }
@@ -107,25 +124,25 @@ export async function extractCoverImageFromRedmonk(url) {
       const match = html.match(selector);
       if (match && match[1] && !match[1].includes('statcounter')) {
         const imageUrl = match[1];
-        coverImageCache.set(url, imageUrl);
+        coverImageCache.set(normalizedUrl, imageUrl);
         cacheModified = true;
         return imageUrl;
       }
     }
 
     // No image found
-    console.warn(`No cover image found on RedMonk page: ${url}`);
-    coverImageCache.set(url, null);
+    console.warn(`No cover image found on RedMonk page: ${normalizedUrl}`);
+    coverImageCache.set(normalizedUrl, null);
     cacheModified = true;
     return null;
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error);
-    console.error(`Error fetching RedMonk cover image from ${url}: ${msg}`);
+    console.error(`Error fetching RedMonk cover image from ${normalizedUrl}: ${msg}`);
     // Don't cache timeouts/network errors — allow retry on next build
     if (msg.includes('abort') || msg.includes('timeout') || msg.includes('ECONNRESET')) {
       return null;
     }
-    coverImageCache.set(url, null);
+    coverImageCache.set(normalizedUrl, null);
     cacheModified = true;
     return null;
   }
@@ -150,7 +167,7 @@ export async function fetchPodcastFeed(url) {
         const redmonkUrlMatches = Array.from(item.content?.matchAll(/href="(https:\/\/redmonk\.com[^"]+)"/g) || []);
         // Use the last link if multiple are available
         const redmonkUrlMatch = redmonkUrlMatches.length > 0 ? redmonkUrlMatches[redmonkUrlMatches.length - 1] : null;
-        const redmonkUrl = redmonkUrlMatch ? redmonkUrlMatch[1] : null;
+        const redmonkUrl = redmonkUrlMatch ? normalizeRedmonkUrl(redmonkUrlMatch[1]) : null;
         
         if (redmonkUrl) {
           console.log('Found RedMonk URL for episode:', item.title, redmonkUrl);

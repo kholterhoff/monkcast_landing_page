@@ -1,6 +1,11 @@
 import Parser from 'rss-parser';
 import { format } from 'date-fns';
-import { extractCoverImageFromRedmonk, formatDuration, persistCoverImageCache } from '../utils/rss.js';
+import {
+  extractCoverImageFromRedmonk,
+  formatDuration,
+  normalizeRedmonkUrl,
+  persistCoverImageCache
+} from '../utils/rss.js';
 import { stripHtml } from '../utils/sanitize.js';
 import { 
   withRetry, 
@@ -269,7 +274,9 @@ async function processEpisodesWithErrorBoundary(items: any[], feed: any) {
             for (const text of textsToSearch) {
               const match = text.match(/https?:\/\/redmonk\.com\/[^\s"'<>)]+/);
               if (match) {
-                redmonkUrl = match[0].replace(/(&quot;|&gt;|&lt;|[,;.!?])+$/, '');
+                redmonkUrl = normalizeRedmonkUrl(
+                  match[0].replace(/(&quot;|&gt;|&lt;|[,;.!?])+$/, '')
+                );
                 break;
               }
             }
