@@ -32,6 +32,10 @@ const parser = new Parser({
   defaultRSS: 2.0,
 });
 
+const REDMONK_URL_PATTERN = /https?:\/\/redmonk\.com\/[^\s"'<>)]+/g;
+const BROKEN_SHOW_NOTES_PATTERN =
+  /href="https?:\/\/redmonk\.com\/videos\/"[^>]*>https?:\/\/redmonk\.com\/videos\/<\/a>\s*([a-z0-9-]+\/?)/i;
+
 // Set cache duration to 0 during build, 1 hour during runtime
 const RSS_CACHE_DURATION = process.env.NODE_ENV === 'production' ? 0 : 3600000; // 0 for build, 1 hour for dev
 
@@ -100,6 +104,45 @@ function normalizeEnclosure(enclosure: any) {
     length: enclosure.length || 0,
     type: enclosure.type || 'audio/mpeg'
   };
+}
+
+function isGenericVideosPage(url: string): boolean {
+  try {
+    const parsedUrl = new URL(url);
+    return parsedUrl.hostname === 'redmonk.com' && parsedUrl.pathname.replace(/\/+$/, '') === '/videos';
+  } catch {
+    return false;
+  }
+}
+
+function extractBrokenShowNotesUrl(text: string): string | null {
+  const match = text.match(BROKEN_SHOW_NOTES_PATTERN);
+  if (!match?.[1]) {
+    return null;
+  }
+
+  return normalizeRedmonkUrl(`https://redmonk.com/videos/${match[1]}`);
+}
+
+function extractRedmonkUrlFromTexts(textsToSearch: string[]): string {
+  for (const text of textsToSearch) {
+    const stitchedUrl = extractBrokenShowNotesUrl(text);
+    if (stitchedUrl) {
+      return stitchedUrl;
+    }
+
+    const matches = Array.from(text.matchAll(REDMONK_URL_PATTERN))
+      .map((match) => match[0]?.replace(/(&quot;|&gt;|&lt;|[,;.!?])+$/, ''))
+      .filter((value): value is string => Boolean(value))
+      .map((value) => normalizeRedmonkUrl(value))
+      .filter((value) => !isGenericVideosPage(value));
+
+    if (matches.length > 0) {
+      return matches[matches.length - 1];
+    }
+  }
+
+  return '';
 }
 
 export async function fetchPodcastFeed(url: string) {
@@ -271,15 +314,7 @@ async function processEpisodesWithErrorBoundary(items: any[], feed: any) {
               item.contentSnippet, // plain-text version
             ].filter(Boolean);
 
-            for (const text of textsToSearch) {
-              const match = text.match(/https?:\/\/redmonk\.com\/[^\s"'<>)]+/);
-              if (match) {
-                redmonkUrl = normalizeRedmonkUrl(
-                  match[0].replace(/(&quot;|&gt;|&lt;|[,;.!?])+$/, '')
-                );
-                break;
-              }
-            }
+            redmonkUrl = extractRedmonkUrlFromTexts(textsToSearch);
 
             console.log(`Episode "${item.title}": RedMonk URL = ${redmonkUrl || 'not found'}`);
 

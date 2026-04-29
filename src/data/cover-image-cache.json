@@ -19,7 +19,7 @@
   "https://redmonk.com/blog/2025/06/05/rmc-ori-saporta-architect-role-in-crisis/": "https://redmonk.com/wp-content/uploads/2025/06/MonkCast-Saporta-Thumbnail-1115x627.png",
   "https://redmonk.com/kholterhoff/2025/04/02/is-frontend-observability-hipster-rum/": "http://redmonk.com/kholterhoff/files/2025/04/Screenshot-2025-02-28-at-1.57.30 PM.png",
   "https://redmonk.com/blog/2025/09/11/ais-grumpy-fun-era/": "https://redmonk.com/wp-content/uploads/2025/09/MonkCast-Guest-Thumbnail-1115x627.png",
-  "https://redmonk.com/rem-deb-nicholson-psf": null,
+  "https://redmonk.com/rem-deb-nicholson-psf/": null,
   "https://redmonk.com/blog/2025/05/05/monkcast-on-the-road-devopsdays-atlanta-2025-e1/": "https://redmonk.com/wp-content/uploads/2025/05/MonkCast-devopsdays1-Thumbnail-1115x627.jpg",
   "https://redmonk.com/videos/the-new-builders-the-evolution-of-ai-agents/": "https://redmonk.com/wp-content/uploads/2025/06/TNB-Evolution-Thumbnail-1115x627.jpg",
   "https://redmonk.com/blog/2025/10/23/rmc-austin-parker/": "https://redmonk.com/wp-content/uploads/2025/09/Austin-1115x627.png",
@@ -29,7 +29,7 @@
   "https://redmonk.com/videos/rmc-bob-matt-rodkey-ibm-techxchange/": "https://redmonk.com/wp-content/uploads/2025/11/Matt-Rodkey-1115x627.jpg",
   "https://redmonk.com/videos/akamai-fermyon/": "https://redmonk.com/wp-content/uploads/2025/10/Akamai_Fermyon-Thumbnail-1115x627.png",
   "https://redmonk.com/videos/bedrock-streaming-from-cdn-to-compute-for-50m-people-watching-the-euros/": "https://redmonk.com/wp-content/uploads/2025/09/RMC-fastly-Thumbnail-1115x627.jpeg",
-  "https://redmonk.com/blog/2025/10/8/rmc-cra-ecplisefoundation": null,
+  "https://redmonk.com/blog/2025/10/8/rmc-cra-ecplisefoundation/": null,
   "https://redmonk.com/blog/2025/09/30/rmc-taylor-barnett-torabi-lyle-schemmerling/": "https://redmonk.com/wp-content/uploads/2025/09/Taylor-Lyle-1-1115x627.png",
   "https://redmonk.com/blog/2025/09/04/emily-winck-jess-burns/": "https://redmonk.com/wp-content/uploads/2025/08/Emily-Jess-1-1115x627.png",
   "https://redmonk.com/?post_type=video&amp;p=4454&amp;preview=true": "https://redmonk.com/wp-content/uploads/2026/03/StuMiniman-1115x627.jpg",
@@ -53,5 +53,14 @@
   "https://redmonk.com/blog/2025/08/05/jason-torres/": "https://redmonk.com/wp-content/uploads/2025/07/Jason-Torres-1115x627.png",
   "https://redmonk.com/blog/2025/07/10/rmc-daniel-roe-vercels-nuxtlabs-acquisition/": "https://redmonk.com/wp-content/uploads/2025/07/Daniel-1115x627.png",
   "https://redmonk.com/blog/2025/05/28/rmc-justin-reock-on-apache-activemq/": "https://redmonk.com/wp-content/uploads/2025/05/MonkCast-Justin-Reock-Thumbnail-1115x627.png",
-  "https://redmonk.com/videos/sdks-in-the-ai-era-with-kin-lane/": "https://redmonk.com/wp-content/uploads/2026/03/Kin-Lane-1115x627.jpg"
+  "https://redmonk.com/videos/sdks-in-the-ai-era-with-kin-lane/": "https://redmonk.com/wp-content/uploads/2026/03/Kin-Lane-1115x627.jpg",
+  "https://redmonk.com/videos/vks-audrey-bian/": "https://redmonk.com/wp-content/uploads/2026/04/Audrey-Bian-1-1115x627.png",
+  "https://redmonk.com/videos/from-data-center-crawler-to-devrel-with-chris-williams/": "https://redmonk.com/wp-content/uploads/2026/03/Chris-Williams-Thumbnail-1115x627.jpg",
+  "https://redmonk.com/videos/ubuntu-on-vcf/": "https://redmonk.com/wp-content/uploads/2026/04/Jay-Thontakudi-Thumbnail-1115x627.png",
+  "https://redmonk.com/videos/adam-jacob-ai-maximalist/": "https://redmonk.com/wp-content/uploads/2026/03/Adam-Jacob-1115x627.jpg",
+  "https://redmonk.com/videos/sovereignty-meets-simplicity-for-vmware-by-broadcom-at-kubecon-eu-2026/": "https://redmonk.com/wp-content/uploads/2026/04/Timmy-Himanshu-1115x627.jpg",
+  "https://redmonk.com/videos/vmware-by-broadcoms-open-source-story-at-kubecon-eu-2026/": "https://redmonk.com/wp-content/uploads/2026/04/Zach-Dilpreet-1115x627.jpg",
+  "https://redmonk.com/videos/ai-data-boris-bialek/": "https://redmonk.com/wp-content/uploads/2026/03/Boris-Bialek-1115x627.jpg",
+  "https://redmonk.com/blog/2025/04/22/rmc-frontend-observability-todd-gardner/": "https://redmonk.com/wp-content/uploads/2025/04/MonkCast-Todd-Gardner-Thumbnail-1115x627.png",
+  "https://redmonk.com/videos/kat-cosgrove-shipping-kubernetes/": "https://redmonk.com/wp-content/uploads/2025/07/Kat-Cosgrove-1115x627.png"
 }

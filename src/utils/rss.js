@@ -22,6 +22,9 @@ const parser = new Parser({
 const CACHE_FILE = join(process.cwd(), 'src', 'data', 'cover-image-cache.json');
 const coverImageCache = new Map();
 let cacheModified = false;
+const REDMONK_URL_PATTERN = /https?:\/\/redmonk\.com\/[^\s"'<>)]+/g;
+const BROKEN_SHOW_NOTES_PATTERN =
+  /href="https?:\/\/redmonk\.com\/videos\/"[^>]*>https?:\/\/redmonk\.com\/videos\/<\/a>\s*([a-z0-9-]+\/?)/i;
 
 export function normalizeRedmonkUrl(url) {
   if (!url || typeof url !== 'string') return '';
@@ -38,6 +41,45 @@ export function normalizeRedmonkUrl(url) {
   } catch {
     return url.trim();
   }
+}
+
+function isGenericVideosPage(url) {
+  try {
+    const parsedUrl = new URL(url);
+    return parsedUrl.hostname === 'redmonk.com' && parsedUrl.pathname.replace(/\/+$/, '') === '/videos';
+  } catch {
+    return false;
+  }
+}
+
+function extractBrokenShowNotesUrl(text) {
+  const match = text.match(BROKEN_SHOW_NOTES_PATTERN);
+  if (!match || !match[1]) {
+    return null;
+  }
+
+  return normalizeRedmonkUrl(`https://redmonk.com/videos/${match[1]}`);
+}
+
+function extractRedmonkUrlFromTexts(textsToSearch) {
+  for (const text of textsToSearch) {
+    const stitchedUrl = extractBrokenShowNotesUrl(text);
+    if (stitchedUrl) {
+      return stitchedUrl;
+    }
+
+    const matches = Array.from(text.matchAll(REDMONK_URL_PATTERN))
+      .map(match => match[0] && match[0].replace(/(&quot;|&gt;|&lt;|[,;.!?])+$/, ''))
+      .filter(Boolean)
+      .map(value => normalizeRedmonkUrl(value))
+      .filter(value => !isGenericVideosPage(value));
+
+    if (matches.length > 0) {
+      return matches[matches.length - 1];
+    }
+  }
+
+  return null;
 }
 
 // Load persistent cache from disk on startup
@@ -163,11 +205,13 @@ export async function fetchPodcastFeed(url) {
       image: feed.image?.url || '',
       itunesAuthor: feed.itunes?.author || '',
       episodes: await Promise.all(feed.items.map(async item => {
-        // Extract all RedMonk post URLs from content
-        const redmonkUrlMatches = Array.from(item.content?.matchAll(/href="(https:\/\/redmonk\.com[^"]+)"/g) || []);
-        // Use the last link if multiple are available
-        const redmonkUrlMatch = redmonkUrlMatches.length > 0 ? redmonkUrlMatches[redmonkUrlMatches.length - 1] : null;
-        const redmonkUrl = redmonkUrlMatch ? normalizeRedmonkUrl(redmonkUrlMatch[1]) : null;
+        const textsToSearch = [
+          item.description,
+          item.content,
+          item.summary,
+          item.contentSnippet,
+        ].filter(Boolean);
+        const redmonkUrl = extractRedmonkUrlFromTexts(textsToSearch);
         
         if (redmonkUrl) {
           console.log('Found RedMonk URL for episode:', item.title, redmonkUrl);
