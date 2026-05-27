@@ -1,0 +1,1116 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import monkcastLogo from '../assets/monkcast_logo.png';
+import redmonkLogo from '../assets/redmonk_logo.png';
+import stephen from '../assets/analysts/stephen.png';
+import james from '../assets/analysts/james.png';
+import rachel from '../assets/analysts/rachel.png';
+import kate from '../assets/analysts/kate.png';
+
+const hostImages = {
+  stephen: stephen.src,
+  james: james.src,
+  rachel: rachel.src,
+  kate: kate.src,
+};
+---
+
+<Layout title="The MonkCast — Media Kit">
+  <!-- ============== HERO ============== -->
+  <section
+    class="relative bg-gradient-to-br from-black via-secondary-900 to-secondary-800 text-white py-20 md:py-32 overflow-hidden"
+    aria-labelledby="hero-heading"
+  >
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary-500/20 via-primary-500/10 to-transparent"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-accent-500/20 via-transparent to-transparent"></div>
+    <div class="absolute left-1/4 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] aspect-[2/1] rounded-full bg-[radial-gradient(circle,_rgba(254,0,0,0.375)_0%,_rgba(254,0,0,0)_70%)] blur-md"></div>
+
+    <div class="container mx-auto px-4 relative z-10">
+      <!-- Meta row -->
+      <div class="flex flex-wrap items-baseline justify-between gap-4 mb-10 md:mb-16 font-mono text-xs uppercase tracking-widest text-gray-300">
+        <span><span class="text-white font-bold">Media Kit</span> &nbsp;/&nbsp; The MonkCast</span>
+        <span class="flex items-center gap-2">
+          A <img src={redmonkLogo.src} alt="RedMonk" class="inline-block h-4 w-auto" /> Production
+        </span>
+        <span id="last-updated">Updated —</span>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-16 items-end">
+        <div class="lg:col-span-2">
+          <h1
+            id="hero-heading"
+            class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight mb-6"
+          >
+            The<br />
+            <span style="color: #fe0000;">MonkCast</span>
+          </h1>
+          <p class="text-lg md:text-xl text-gray-200 max-w-2xl leading-relaxed">
+            The podcast from <span style="color: #fe0000; font-weight: 600;">RedMonk</span>, the industry's premier developer-focused analyst firm. Candid conversations. Actionable insights. The technical audience your buyers actually listen to.
+          </p>
+        </div>
+
+        <div class="flex justify-center lg:justify-end">
+          <div class="relative">
+            <div class="absolute inset-0 -m-8 rounded-full bg-[radial-gradient(circle,_rgba(0,0,0,0.7)_0%,_rgba(0,0,0,0)_70%)] blur-md"></div>
+            <div class="relative w-40 h-40 md:w-56 md:h-56 rounded-full overflow-hidden shadow-2xl border-4 border-white/20 backdrop-blur-sm bg-white/5">
+              <img src={monkcastLogo.src} alt="The MonkCast" class="w-full h-full object-contain" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero stat strip -->
+      <div class="mt-16 md:mt-24 grid grid-cols-2 md:grid-cols-4 gap-px bg-white/10 border border-white/10 rounded-xl overflow-hidden backdrop-blur-sm">
+        <div class="bg-black/40 p-6 md:p-8">
+          <div class="font-mono text-[10px] md:text-xs uppercase tracking-widest text-gray-400 mb-2">Monthly YouTube reach</div>
+          <div class="text-4xl md:text-5xl font-bold" style="color: #fe0000;" id="h-monthlyViews">160K+</div>
+        </div>
+        <div class="bg-black/40 p-6 md:p-8">
+          <div class="font-mono text-[10px] md:text-xs uppercase tracking-widest text-gray-400 mb-2">Avg sponsored views</div>
+          <div class="text-4xl md:text-5xl font-bold" style="color: #fe0000;" id="h-sponsored">3K</div>
+        </div>
+        <div class="bg-black/40 p-6 md:p-8">
+          <div class="font-mono text-[10px] md:text-xs uppercase tracking-widest text-gray-400 mb-2">LinkedIn community</div>
+          <div class="text-4xl md:text-5xl font-bold" style="color: #fe0000;" id="h-linkedin">26K+</div>
+        </div>
+        <div class="bg-black/40 p-6 md:p-8">
+          <div class="font-mono text-[10px] md:text-xs uppercase tracking-widest text-gray-400 mb-2">Top short views</div>
+          <div class="text-4xl md:text-5xl font-bold" style="color: #fe0000;" id="h-topShort">32,904</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== POSITIONING / MANIFESTO ============== -->
+  <section class="py-20 md:py-28 bg-gradient-to-b from-gray-50 to-white" id="positioning" aria-labelledby="positioning-heading">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
+        <div class="lg:col-span-4">
+          <div class="font-mono text-xs uppercase tracking-widest mb-4" style="color: #fe0000;">§ 01 — About</div>
+          <h2 id="positioning-heading" class="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-secondary-900">
+            Reach a high-intent audience that prizes <span style="color: #fe0000;">technical rigor.</span>
+          </h2>
+        </div>
+        <div class="lg:col-span-8 space-y-5 text-base md:text-lg leading-relaxed text-secondary-800">
+          <p class="manifesto-lead">
+            As the industry's premier developer-focused analyst firm, RedMonk sits at the unique intersection of technology, business, and culture. Our podcast captures the "hallway track" of the industry: candid, off-script conversations between our analysts and the voices currently shaping the future of technology.
+          </p>
+          <p>
+            We don't chase mass-market reach. <strong>We reach decision makers</strong>: platform engineers, CTOs, DevRel leaders, infrastructure architects, and the long tail of practitioners influential within their organizations. The MonkCast delivers actionable insights for leaders and practitioners alike.
+          </p>
+          <p>
+            Our distribution is intentionally multi-channel across multiple platforms. <strong>YouTube and LinkedIn</strong> are our primary video channels. <strong>Spotify and Apple Podcasts</strong> serve direct podcast subscribers. <strong>X and Bluesky</strong> amplify episodes from both the official RedMonk and personal analyst accounts. The result: a single sponsored episode propagates across an interconnected network of high-intent technical readers, viewers, and listeners.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== STATS ============== -->
+  <section
+    class="relative py-20 md:py-28 bg-gradient-to-br from-black via-secondary-900 to-secondary-900 text-white overflow-hidden"
+    id="numbers"
+    aria-labelledby="numbers-heading"
+  >
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary-500/15 via-transparent to-transparent"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-primary-500/10 via-transparent to-transparent"></div>
+
+    <div class="container mx-auto px-4 relative z-10">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 md:mb-16">
+        <div>
+          <div class="font-mono text-xs uppercase tracking-widest mb-3" style="color: #fe0000;">§ 02 — The Numbers</div>
+          <h2 id="numbers-heading" class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight max-w-xl">
+            By the numbers, <span style="color: #fe0000; font-style: italic;">not</span> the noise.
+          </h2>
+        </div>
+        <p class="font-mono text-xs uppercase tracking-wider text-gray-400 max-w-xs leading-relaxed">
+          All figures reflect the most recent reporting window. Sourced from YouTube Studio, LinkedIn, and our podcast hosting platform.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+        <!-- Big stat -->
+        <div class="md:col-span-8 stat-card hover-lift">
+          <div class="stat-label">Monthly YouTube Reach</div>
+          <div class="stat-num" id="s-monthlyViews">160K+</div>
+          <p class="stat-detail">Monthly views across long-form episodes and shorts. The MonkCast's primary distribution surface for technical audiences.</p>
+          <div class="absolute top-5 right-5 font-mono text-[10px] tracking-widest" style="color: #fe0000;">▲ TRENDING</div>
+        </div>
+
+        <!-- Small impressions -->
+        <div class="md:col-span-4 stat-card hover-lift">
+          <div class="stat-label">Monthly Impressions</div>
+          <div class="stat-num" id="s-impressions">41.8K</div>
+          <p class="stat-detail">Monthly YouTube thumbnail impressions — how often MonkCast content surfaces to potential viewers.</p>
+        </div>
+
+        <!-- Mid LinkedIn -->
+        <div class="md:col-span-6 stat-card hover-lift">
+          <div class="stat-label">LinkedIn Amplification</div>
+          <div class="stat-num" id="s-linkedin">20K+</div>
+          <p class="stat-detail">Combined followers across the RedMonk company page and analyst accounts, creating sustained visibility with our community.</p>
+        </div>
+
+        <!-- Mid sponsored -->
+        <div class="md:col-span-6 stat-card hover-lift">
+          <div class="stat-label">Avg Episode Views</div>
+          <div class="stat-num" id="s-sponsored">3K</div>
+          <p class="stat-detail">Average views per video over the last 60 days. High-quality views from a high-intent technical audience.</p>
+        </div>
+
+        <!-- Quad cell strip -->
+        <div class="md:col-span-12 grid grid-cols-2 md:grid-cols-4 gap-px bg-white/10 border border-white/10 rounded-xl overflow-hidden">
+          <div class="bg-black/30 p-6">
+            <div class="stat-label">Long-Form Views / mo</div>
+            <div class="stat-num-mid" id="s-lfviews">20K</div>
+          </div>
+          <div class="bg-black/30 p-6">
+            <div class="stat-label">Shorts Views / mo</div>
+            <div class="stat-num-mid" id="s-svviews">140K</div>
+          </div>
+          <div class="bg-black/30 p-6">
+            <div class="stat-label">YouTube Subscribers</div>
+            <div class="stat-num-mid" id="s-subs">8,161</div>
+          </div>
+          <div class="bg-black/30 p-6">
+            <div class="stat-label">Analyst Hosts</div>
+            <div class="stat-num-mid">4</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Spotlight foot stats -->
+      <div class="mt-14 md:mt-20 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+        <a href="https://youtube.com/shorts/dAkit6m28Xs" target="_blank" rel="noopener" class="spotlight-card hover-lift">
+          <div class="spotlight-num">1.2K</div>
+          <div class="spotlight-label">Most-liked short<br /><span>Bare Metal Observability</span></div>
+        </a>
+        <a href="https://youtube.com/shorts/AcRGXjOksHo" target="_blank" rel="noopener" class="spotlight-card hover-lift">
+          <div class="spotlight-num">33K</div>
+          <div class="spotlight-label">Most-viewed short<br /><span>Eclipse SDV</span></div>
+        </a>
+        <a href="https://www.youtube.com/watch?v=k6mBLpsbiq8" target="_blank" rel="noopener" class="spotlight-card hover-lift">
+          <div class="spotlight-num">12.6K</div>
+          <div class="spotlight-label">Most-viewed long-form<br /><span>Opinionated Infrastructure</span></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== GEOGRAPHY ============== -->
+  <section class="py-20 md:py-28 bg-gradient-to-b from-white to-gray-50" id="geography" aria-labelledby="geo-heading">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12 mb-10 md:mb-14 items-end">
+        <div>
+          <div class="font-mono text-xs uppercase tracking-widest mb-3" style="color: #fe0000;">§ 03 — Geography</div>
+          <h2 id="geo-heading" class="text-4xl md:text-5xl font-bold leading-tight text-secondary-900">
+            Where the audience <span style="color: #fe0000;">lives.</span>
+          </h2>
+        </div>
+        <p class="md:col-span-2 text-base md:text-lg leading-relaxed text-secondary-700 max-w-3xl">
+          The MonkCast reaches a globally distributed audience of engineers, developers, and technology leaders. Explore the map below to see where the MonkCast community lives, works, and listens.
+        </p>
+      </div>
+
+      <div class="geo-map-frame">
+        <div class="geo-map-canvas" role="img" aria-labelledby="geo-map-title geo-map-desc">
+          <svg class="geo-map" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet">
+            <title id="geo-map-title">World map of MonkCast audience distribution</title>
+            <desc id="geo-map-desc">A world map plotting MonkCast's top audience countries for YouTube and Podcast. Each country has concentric circles — red for YouTube views, dark for podcast streams — sized in proportion to share of total audience.</desc>
+            <g class="geo-graticule" aria-hidden="true">
+              <line x1="0" y1="250" x2="1000" y2="250" />
+              <line x1="500" y1="0" x2="500" y2="500" />
+            </g>
+            <g class="geo-markers" id="geo-markers"></g>
+            <g class="geo-labels" id="geo-labels"></g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="mt-6 flex flex-wrap items-center gap-6 md:gap-12 pt-5 border-t border-gray-200">
+        <div class="font-mono text-xs uppercase tracking-widest" style="color: #fe0000;">Key</div>
+        <div class="flex items-center gap-3">
+          <span class="legend-swatch is-yt"></span>
+          <div class="font-mono text-xs leading-tight">
+            <div class="text-secondary-900">YouTube audience</div>
+            <div class="text-secondary-500 text-[10px] mt-1 uppercase">Views by country · last 12 mo</div>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="legend-swatch is-pod"></span>
+          <div class="font-mono text-xs leading-tight">
+            <div class="text-secondary-900">Spotify + Apple Podcasts</div>
+            <div class="text-secondary-500 text-[10px] mt-1 uppercase">Streams by country · last 12 mo</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== HOSTS ============== -->
+  <section class="py-20 md:py-28 bg-gradient-to-b from-gray-50 to-white" id="hosts" aria-labelledby="hosts-mediakit-heading">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12 mb-12 md:mb-16 items-end">
+        <div>
+          <div class="font-mono text-xs uppercase tracking-widest mb-3" style="color: #fe0000;">§ 04 — Show Hosts</div>
+          <h2 id="hosts-mediakit-heading" class="text-4xl md:text-5xl font-bold leading-tight text-secondary-900">
+            Four <span style="color: #fe0000;">analysts.</span> Vibrant conversation.
+          </h2>
+        </div>
+        <p class="md:col-span-2 text-base md:text-lg leading-relaxed text-secondary-700 max-w-3xl">
+          RedMonk analysts have been talking to developers and the companies that serve them since 2002. The MonkCast is hosted by the same people writing the research, briefing executives, and publicly engaging in visible, high-trust conversations.
+        </p>
+      </div>
+
+      <!-- Aggregate row -->
+      <div class="card bg-white p-8 md:p-10 mb-10 flex flex-col md:flex-row items-center gap-6 md:gap-12">
+        <div class="text-6xl md:text-8xl font-bold leading-none" style="color: #fe0000;" id="hosts-aggregate-num">—</div>
+        <p class="font-mono text-xs md:text-sm uppercase tracking-widest text-secondary-700 leading-relaxed max-w-sm text-center md:text-left">
+          combined social followers across all four analyst hosts
+        </p>
+      </div>
+
+      <!-- Platform breakdown -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-12 md:mb-16">
+        <div class="card bg-white p-6 hover-lift">
+          <div class="font-mono text-xs uppercase tracking-widest text-secondary-500 mb-3">X (Twitter)</div>
+          <div class="text-3xl md:text-4xl font-bold text-secondary-900 mb-2" id="hosts-agg-x">—</div>
+          <p class="text-sm text-secondary-600">Combined followers across all four analyst accounts.</p>
+        </div>
+        <div class="card bg-white p-6 hover-lift">
+          <div class="font-mono text-xs uppercase tracking-widest text-secondary-500 mb-3">Bluesky</div>
+          <div class="text-3xl md:text-4xl font-bold text-secondary-900 mb-2" id="hosts-agg-bluesky">—</div>
+          <p class="text-sm text-secondary-600">Combined followers across all four analyst accounts.</p>
+        </div>
+        <div class="card bg-white p-6 hover-lift">
+          <div class="font-mono text-xs uppercase tracking-widest text-secondary-500 mb-3">LinkedIn</div>
+          <div class="text-3xl md:text-4xl font-bold text-secondary-900 mb-2" id="hosts-agg-linkedin">—</div>
+          <p class="text-sm text-secondary-600">Combined followers across all four analyst accounts.</p>
+        </div>
+      </div>
+
+      <!-- Host cards -->
+      <ul class="grid grid-cols-1 md:grid-cols-2 gap-6" id="hosts-grid" role="list"></ul>
+    </div>
+  </section>
+
+  <!-- ============== CHANNELS ============== -->
+  <section class="py-20 md:py-28 bg-gradient-to-b from-white to-gray-50" id="channels" aria-labelledby="channels-heading">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12 mb-12 md:mb-16 items-end">
+        <div>
+          <div class="font-mono text-xs uppercase tracking-widest mb-3" style="color: #fe0000;">§ 05 — Channels</div>
+          <h2 id="channels-heading" class="text-4xl md:text-5xl font-bold leading-tight text-secondary-900">
+            Every <span style="color: #fe0000;">surface</span> your audience uses.
+          </h2>
+        </div>
+        <p class="md:col-span-2 text-base md:text-lg leading-relaxed text-secondary-700 max-w-3xl">
+          MonkCast episodes don't live in one place. You can find our content on YouTube, Apple Podcasts, Spotify, and LinkedIn, while cross-promotion across other social platforms extends each conversation.
+        </p>
+      </div>
+
+      <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="channels-grid" role="list"></ul>
+    </div>
+  </section>
+
+  <!-- ============== OPPORTUNITIES ============== -->
+  <section class="py-20 md:py-28 bg-gradient-to-b from-gray-50 to-white" id="opportunities" aria-labelledby="opps-heading">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12 mb-12 md:mb-16 items-end">
+        <div>
+          <div class="font-mono text-xs uppercase tracking-widest mb-3" style="color: #fe0000;">§ 06 — Sponsorship</div>
+          <h2 id="opps-heading" class="text-4xl md:text-5xl font-bold leading-tight text-secondary-900">
+            How we <span style="color: #fe0000;">partner.</span>
+          </h2>
+        </div>
+        <p class="md:col-span-2 text-base md:text-lg leading-relaxed text-secondary-700 max-w-3xl">
+          Three core formats, designed to fit different campaign goals.
+          All MonkCasts are hosted by a RedMonk analyst and include detailed show notes with links and transcripts on RedMonk's website. Promotion via YouTube shorts, LinkedIn cross-posts, and social media.
+        </p>
+      </div>
+
+      <ul class="grid grid-cols-1 md:grid-cols-3 gap-6" id="opps-grid" role="list"></ul>
+    </div>
+  </section>
+
+  <!-- ============== CTA ============== -->
+  <section
+    class="relative py-24 md:py-32 bg-gradient-to-br from-black via-secondary-900 to-secondary-900 text-white overflow-hidden"
+    id="contact"
+    aria-labelledby="contact-heading"
+  >
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary-500/20 via-primary-500/5 to-transparent"></div>
+    <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] aspect-square rounded-full bg-[radial-gradient(circle,_rgba(254,0,0,0.25)_0%,_rgba(254,0,0,0)_70%)] blur-2xl"></div>
+
+    <div class="container mx-auto px-4 relative z-10 text-center md:text-left">
+      <div class="font-mono text-xs uppercase tracking-widest mb-4" style="color: #fe0000;">§ 07 — Get in touch</div>
+      <h2 id="contact-heading" class="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 max-w-3xl mx-auto md:mx-0">
+        Let's start a <span style="color: #fe0000;">conversation.</span>
+      </h2>
+      <p class="text-lg md:text-xl text-gray-200 max-w-2xl mx-auto md:mx-0 mb-10 leading-relaxed">
+        Tell us what you're working on. We'll come back with a proposal, a rate card, and an editorial concept that fits your audience and ours.
+      </p>
+
+      <address class="not-italic flex flex-wrap gap-4 items-center justify-center md:justify-start">
+        <a class="btn btn-primary px-7 py-3 rounded-md text-sm md:text-base" id="cta-email" href="#">
+          <span>sales@redmonk.com</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2"><path d="m9 18 6-6-6-6" /></svg>
+        </a>
+        <a class="cta-ghost px-7 py-3 rounded-md text-sm md:text-base" id="cta-site" href="https://redmonk.com" target="_blank" rel="noopener">
+          Visit redmonk.com
+        </a>
+      </address>
+
+      <div class="mt-16 md:mt-20 pt-8 border-t border-white/20 grid grid-cols-1 md:grid-cols-3 gap-6 font-mono text-sm text-gray-300 max-w-4xl">
+        <div>
+          <strong class="block uppercase text-xs tracking-widest text-white mb-1">Sponsorship</strong>
+          sales@redmonk.com
+        </div>
+        <div>
+          <strong class="block uppercase text-xs tracking-widest text-white mb-1">Press</strong>
+          press@redmonk.com
+        </div>
+        <div>
+          <strong class="block uppercase text-xs tracking-widest text-white mb-1">Web</strong>
+          monkcast.com · redmonk.com
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Back-to-home anchor -->
+  <div class="bg-white py-8 border-t border-gray-200">
+    <div class="container mx-auto px-4 text-center">
+      <a href="/" class="inline-flex items-center gap-2 font-mono text-sm uppercase tracking-widest text-secondary-700 hover:text-primary-500 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6" /></svg>
+        Back to MonkCast
+      </a>
+    </div>
+  </div>
+
+  <!-- Data island -->
+  <script id="kit-data" type="application/json" is:inline set:html={JSON.stringify({
+    lastUpdated: "May 2026",
+    headline: { totalMonthlyViews: "160K+", linkedInTotal: "26K+", sponsoredAvg: "3K" },
+    youtube: { subscribers: 8161, monthlyViewsLongForm: "20K", monthlyImpressions: "41.8K", monthlyViewsShorts: "140K" },
+    geography: {
+      windowLabel: "Last 12 months",
+      youtube: [
+        { country: "India", percentage: 84.9 },
+        { country: "United States", percentage: 4.4 },
+        { country: "United Kingdom", percentage: 1.1 },
+        { country: "Australia", percentage: 0.4 },
+        { country: "Germany", percentage: 0.3 },
+        { country: "Canada", percentage: 0.2 },
+        { country: "Netherlands", percentage: 0.1 }
+      ],
+      podcast: [
+        { country: "United States", percentage: 55 },
+        { country: "Vietnam", percentage: 6 },
+        { country: "United Kingdom", percentage: 4 },
+        { country: "Singapore", percentage: 4 },
+        { country: "Germany", percentage: 3 },
+        { country: "Australia", percentage: 3 },
+        { country: "Japan", percentage: 2 },
+        { country: "Canada", percentage: 2 },
+        { country: "India", percentage: 1 },
+        { country: "Netherlands", percentage: 1 }
+      ]
+    },
+    topShorts: [{ title: "Eclipse Software Defined Vehicle", views: 32904 }],
+    hosts: [
+      {
+        name: "Stephen O'Grady", role: "Co-Founder & Principal Analyst", imageKey: "stephen",
+        bio: "Stephen O'Grady is an industry analyst with RedMonk. James and Stephen founded the firm in November of 2002, and have been doing that ever since. He is the author of <i>The New Kingmakers</i> and <i>The Software Paradox</i>.",
+        reachTotal: "16K+",
+        socials: [
+          { platform: "X", handle: "@sogrady", followers: "10K+", url: "https://twitter.com/sogrady" },
+          { platform: "Bluesky", handle: "@sogrady.org", followers: "4.0K", url: "https://bsky.app/profile/sogrady.org" },
+          { platform: "LinkedIn", handle: "sogrady", followers: "2K", url: "https://www.linkedin.com/in/sogrady/" }
+        ]
+      },
+      {
+        name: "James Governor", role: "Co-Founder & Principal Analyst", imageKey: "james",
+        bio: "James is co-founder of RedMonk, the developer-focused industry analyst firm. His research focuses on tech trends and directions, developers, software development, DevOps, sustainability, and what makes developer communities tick.",
+        reachTotal: "38K+",
+        socials: [
+          { platform: "X", handle: "@monkchips", followers: "28K", url: "https://twitter.com/monkchips" },
+          { platform: "Bluesky", handle: "@monkchips.com", followers: "3K", url: "https://bsky.app/profile/monkchips.com" },
+          { platform: "LinkedIn", handle: "jamesgovernor", followers: "7K", url: "https://www.linkedin.com/in/jamesgovernor/" }
+        ]
+      },
+      {
+        name: "Rachel Stephens", role: "Research Director", imageKey: "rachel",
+        bio: "Rachel Stephens is a Research Director with RedMonk and has been with the firm since 2016. She brings a quantitative lens to analysis across emerging growth technologies, infrastructure, data, observability, and open source economics.",
+        reachTotal: "7.5K+",
+        socials: [
+          { platform: "X", handle: "@rstephensme", followers: "2K", url: "https://twitter.com/rstephensme" },
+          { platform: "Bluesky", handle: "@rstephens.me", followers: "3.8K", url: "https://bsky.app/profile/rstephens.me" },
+          { platform: "LinkedIn", handle: "rachelstephens", followers: "1.7K", url: "https://www.linkedin.com/in/rachelstephens/" }
+        ]
+      },
+      {
+        name: "Kate Holterhoff", role: "Senior Industry Analyst", imageKey: "kate",
+        bio: "Kate Holterhoff, a senior industry analyst with RedMonk, has a background in frontend engineering, academic research, and technical communication. She covers DevRel, AI engineering, frontend, JavaScript, and developer experience.",
+        reachTotal: "29K+",
+        socials: [
+          { platform: "X", handle: "@KateHolterhoff", followers: "10K", url: "https://x.com/KateHolterhoff" },
+          { platform: "Bluesky", handle: "@kateholterhoff.com", followers: "5.1K", url: "https://bsky.app/profile/kateholterhoff.com" },
+          { platform: "LinkedIn", handle: "kateholterhoff", followers: "14K", url: "https://www.linkedin.com/in/kateholterhoff/" }
+        ]
+      }
+    ],
+    hostImages,
+    channels: [
+      { name: "YouTube", iconKey: "youtube", stat: "61K+ monthly views", desc: "Primary video channel. Long-form interviews plus short clips that maximize reach and guide busy viewers to the full conversation.", linkLabel: "Visit channel", url: "https://www.youtube.com/playlist?list=PL3BD98E8oOJlqtze7Cyf196PnvB3z12A4" },
+      { name: "LinkedIn", iconKey: "linkedin", stat: "25K+ amplification", desc: "Cross-promotion across analyst and company accounts, providing sustained visibility with the RedMonk community.", linkLabel: "Follow RedMonk", url: "https://www.linkedin.com/company/2857523" },
+      { name: "Spotify", iconKey: "spotify", stat: "Direct subscribers", desc: "The MonkCast on Spotify. Audio for commutes, gym, and the everywhere-else.", linkLabel: "Listen on Spotify", url: "https://open.spotify.com/show/1lzmSLf4O2trpJApYOBeVC" },
+      { name: "Apple Podcasts", iconKey: "apple", stat: "Direct subscribers", desc: "The MonkCast on Apple. Discoverable across the Apple ecosystem and CarPlay.", linkLabel: "Listen on Apple", url: "https://podcasts.apple.com/us/podcast/the-monkcast/id1712805847" }
+    ],
+    opportunities: [
+      { kind: "Episode", title: "Conversations", summary: "Long-form analyst interview with your subject matter expert. Edited, packaged, and distributed across our full network for leaders and practitioners.", bullets: ["20–60 min long-form video + audio", "Cross-posted to YouTube, Spotify, Apple", "Detailed show notes with transcript"] },
+      { kind: "Series", title: "Multi-Episode Series", summary: "Anchor a recurring series across a campaign window. Build narrative arcs your audience can follow.", bullets: ["3–6 episodes around a unifying theme", "Co-developed editorial calendar", "Event tie-ins", "Compounding reach across the run"] },
+      { kind: "Live", title: "Event & Field Coverage", summary: "On-the-ground coverage at the conferences your buyers attend. We bring the booth to the audience.", bullets: ["Booth-side or quiet-room interviews", "Same-week turnaround", "Your customers and partners as guests", "Branded backdrops and lower-thirds", "Real-time social amplification"] }
+    ],
+    contact: { email: "sales@redmonk.com", siteUrl: "https://redmonk.com", siteLabel: "Visit redmonk.com" }
+  })} />
+</Layout>
+
+<style>
+  /* Stat cards inside dark stats section */
+  .stat-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 28px;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  .stat-card:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(254, 0, 0, 0.3);
+  }
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 16px;
+  }
+  .stat-num {
+    font-weight: 700;
+    font-size: clamp(48px, 7vw, 88px);
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    color: #fe0000;
+    margin-bottom: 12px;
+  }
+  .stat-num-mid {
+    font-weight: 700;
+    font-size: clamp(28px, 4vw, 48px);
+    line-height: 1;
+    color: #fff;
+    margin-top: 6px;
+    letter-spacing: -0.02em;
+  }
+  .stat-detail {
+    font-size: 14px;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.78);
+    max-width: 38ch;
+  }
+
+  /* Spotlight cards */
+  .spotlight-card {
+    aspect-ratio: 1;
+    border-radius: 50%;
+    padding: clamp(20px, 3vw, 36px);
+    color: #fff;
+    background:
+      radial-gradient(circle at 50% 38%, rgba(254, 0, 0, 0.2), transparent 50%),
+      linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    max-width: 320px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .spotlight-card:hover {
+    transform: translateY(-6px) scale(1.02);
+    border-color: rgba(254, 0, 0, 0.6);
+    background:
+      radial-gradient(circle at 50% 38%, rgba(254, 0, 0, 0.35), transparent 52%),
+      linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03));
+  }
+  .spotlight-num {
+    font-weight: 700;
+    font-size: clamp(44px, 7vw, 84px);
+    line-height: 0.85;
+    color: #fe0000;
+    margin-bottom: 14px;
+    letter-spacing: -0.04em;
+  }
+  .spotlight-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.82);
+    line-height: 1.5;
+    max-width: 22ch;
+  }
+  .spotlight-label span {
+    color: #fe0000;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  /* Geography map */
+  .geo-map-frame {
+    position: relative;
+    width: 100%;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.06);
+    padding: clamp(16px, 2.5vw, 28px);
+    overflow: hidden;
+  }
+  .geo-map-canvas {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1000 / 500;
+  }
+  .geo-map-canvas::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url('/world-map.png');
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: saturate(0.45) sepia(0.06) contrast(1.02);
+    z-index: 1;
+  }
+  .geo-map {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .geo-map .geo-marker-group { pointer-events: auto; }
+  .geo-graticule { stroke: #6b7280; stroke-width: 0.4; fill: none; opacity: 0.18; }
+  .geo-marker-ring { fill-opacity: 0.18; stroke-width: 1.4; transition: fill-opacity 0.3s ease; }
+  .geo-marker-yt-ring { fill: #fe0000; stroke: #fe0000; }
+  .geo-marker-yt-dot { fill: #fe0000; }
+  .geo-marker-pod-ring { fill: #253444; stroke: #253444; }
+  .geo-marker-pod-dot { fill: #253444; }
+  .geo-marker-group:hover .geo-marker-ring { fill-opacity: 0.32; stroke-width: 1.8; }
+  .geo-leader { stroke: #6b7280; stroke-width: 0.6; stroke-dasharray: 1.5 2; fill: none; opacity: 0.55; }
+  .geo-label-country {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 11.5px;
+    fill: #1a2530;
+  }
+  .geo-label-pct { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; }
+
+  .legend-swatch {
+    position: relative;
+    width: 32px;
+    height: 18px;
+    flex-shrink: 0;
+    display: inline-block;
+  }
+  .legend-swatch::before, .legend-swatch::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    border-radius: 50%;
+    transform: translateY(-50%);
+  }
+  .legend-swatch.is-yt::before {
+    left: 0; width: 18px; height: 18px;
+    background: rgba(254, 0, 0, 0.22);
+    border: 1.5px solid #fe0000;
+  }
+  .legend-swatch.is-yt::after {
+    left: 14px; width: 12px; height: 12px;
+    background: #fe0000;
+  }
+  .legend-swatch.is-pod::before {
+    left: 0; width: 18px; height: 18px;
+    background: rgba(37, 52, 68, 0.18);
+    border: 1.5px solid #253444;
+  }
+  .legend-swatch.is-pod::after {
+    left: 14px; width: 12px; height: 12px;
+    background: #253444;
+  }
+
+  /* Host cards (rendered by JS into #hosts-grid) */
+  :global(.host-card) {
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    padding: clamp(24px, 3vw, 36px);
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 24px;
+    align-items: start;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.06);
+    list-style: none;
+  }
+  :global(.host-card:hover) {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    border-color: rgba(254, 0, 0, 0.2);
+  }
+  :global(.host-portrait) {
+    width: 120px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: #fe0000 center / cover no-repeat;
+    position: relative;
+    box-shadow: 0 0 0 3px #fff, 4px 4px 0 #1a2530;
+  }
+  :global(.host-portrait::before) {
+    content: "";
+    position: absolute;
+    inset: -6px;
+    border: 2px solid #fe0000;
+    border-radius: 50%;
+    z-index: -1;
+  }
+  :global(.host-name) {
+    font-size: clamp(22px, 2.4vw, 28px);
+    font-weight: 700;
+    color: #1a2530;
+    line-height: 1.1;
+    margin-bottom: 4px;
+  }
+  :global(.host-role) {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #fe0000;
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+  :global(.host-bio) {
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: #34496a;
+    margin-bottom: 16px;
+  }
+  :global(.host-social) {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+  }
+  :global(.host-social a) {
+    border: 1px solid #1a2530;
+    padding: 8px 10px;
+    border-radius: 8px;
+    transition: all 0.2s;
+    display: grid;
+    gap: 2px;
+    text-decoration: none;
+    color: #1a2530;
+    min-height: 44px;
+    align-content: center;
+  }
+  :global(.host-social a:hover) {
+    background: #1a2530;
+    color: #fff;
+  }
+  :global(.host-social-platform) {
+    text-transform: uppercase;
+    color: #fe0000;
+    letter-spacing: 0.06em;
+  }
+  :global(.host-social a:hover .host-social-platform) {
+    color: #f7c657;
+  }
+  :global(.host-social-handle) { overflow-wrap: anywhere; }
+  @media (max-width: 600px) {
+    :global(.host-card) { grid-template-columns: 80px 1fr; gap: 16px; padding: 22px; }
+    :global(.host-portrait) { width: 80px; box-shadow: 0 0 0 3px #fff, 3px 3px 0 #1a2530; }
+    :global(.host-social) { grid-template-columns: 1fr; }
+  }
+
+  /* Channel cards */
+  :global(.channel-card) {
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.06);
+    list-style: none;
+  }
+  :global(.channel-card:hover) {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    border-color: rgba(254, 0, 0, 0.2);
+  }
+  :global(.channel-icon) {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: radial-gradient(circle at center, #fe0000 0%, #900000 100%);
+    color: #fff;
+  }
+  :global(.channel-card h3) {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a2530;
+    margin: 0;
+  }
+  :global(.channel-stat) {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: #fe0000;
+    letter-spacing: 0.04em;
+    font-weight: 600;
+  }
+  :global(.channel-desc) {
+    font-size: 14px;
+    color: #34496a;
+    line-height: 1.5;
+    flex: 1;
+  }
+  :global(.channel-link) {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #1a2530;
+    border-bottom: 1px solid #1a2530;
+    align-self: flex-start;
+    padding: 8px 0;
+    margin-top: 8px;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  :global(.channel-link:hover) {
+    color: #fe0000;
+    border-color: #fe0000;
+  }
+
+  /* Opportunity cards */
+  :global(.opp-card) {
+    background: #fff;
+    border-radius: 16px;
+    border: 1.5px solid #1a2530;
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    transition: all 0.3s ease;
+    list-style: none;
+  }
+  :global(.opp-card:hover) {
+    transform: translateY(-4px);
+    box-shadow: 8px 8px 0 #1a2530;
+  }
+  :global(.opp-num) {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #fe0000;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  :global(.opp-card h3) {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a2530;
+    line-height: 1.05;
+    margin: 0;
+  }
+  :global(.opp-card p) {
+    font-size: 15px;
+    color: #34496a;
+    line-height: 1.55;
+  }
+  :global(.opp-bullets) {
+    list-style: none;
+    font-size: 14px;
+    color: #1a2530;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    margin: 0;
+  }
+  :global(.opp-bullets li) {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+  }
+  :global(.opp-bullets li::before) {
+    content: "→";
+    color: #fe0000;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  /* CTA ghost button */
+  .cta-ghost {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: #fff;
+    transition: all 0.2s;
+    font-weight: 500;
+  }
+  .cta-ghost:hover {
+    border-color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px);
+  }
+
+  /* Manifesto lead drop-cap */
+  .manifesto-lead::first-letter {
+    font-weight: 700;
+    font-size: 4.2em;
+    float: left;
+    line-height: 0.85;
+    margin: 6px 12px -4px 0;
+    color: #fe0000;
+  }
+  @media (max-width: 600px) {
+    .manifesto-lead::first-letter { font-size: 3.4em; }
+  }
+</style>
+
+<script>
+  const dataEl = document.getElementById('kit-data');
+  const DATA = JSON.parse(dataEl ? dataEl.textContent || '{}' : '{}');
+
+  // Updated badge
+  const updatedEl = document.getElementById('last-updated');
+  if (updatedEl) updatedEl.textContent = `Updated · ${DATA.lastUpdated}`;
+
+  const fmt = (n: any) => typeof n === 'number' ? n.toLocaleString() : n;
+
+  function setStat(id: string, value: any) {
+    const el = document.getElementById(id);
+    if (!el || value == null) return;
+    el.textContent = typeof value === 'number' ? fmt(value) : String(value);
+  }
+  setStat('s-monthlyViews', DATA.headline.totalMonthlyViews);
+  setStat('s-linkedin', DATA.headline.linkedInTotal);
+  setStat('s-sponsored', DATA.headline.sponsoredAvg);
+  setStat('s-impressions', DATA.youtube.monthlyImpressions);
+  setStat('s-lfviews', DATA.youtube.monthlyViewsLongForm);
+  setStat('s-svviews', DATA.youtube.monthlyViewsShorts);
+  setStat('s-subs', DATA.youtube.subscribers);
+  setStat('h-monthlyViews', DATA.headline.totalMonthlyViews);
+  setStat('h-linkedin', DATA.headline.linkedInTotal);
+  setStat('h-sponsored', DATA.headline.sponsoredAvg);
+  setStat('h-topShort', DATA.topShorts?.[0]?.views ?? null);
+
+  // Geography map
+  const COUNTRY_GEO: Record<string, any> = {
+    'United States':   { x: 228, y: 142, labelX: 198, labelY: 188, anchor: 'end',   leader: 'M 228,142 L 218,165 L 198,182' },
+    'Canada':          { x: 206, y:  84, labelX: 168, labelY:  62, anchor: 'end',   leader: 'M 206,84 L 188,72 L 168,58' },
+    'United Kingdom':  { x: 492, y: 100, labelX: 432, labelY:  62, anchor: 'end',   leader: 'M 492,100 L 470,80 L 432,58' },
+    'Germany':         { x: 528, y: 108, labelX: 586, labelY:  62, anchor: 'start', leader: 'M 528,108 L 560,82 L 586,58' },
+    'Netherlands':     { x: 514, y: 106, labelX: 612, labelY: 130, anchor: 'start', leader: 'M 514,106 L 565,120 L 612,126' },
+    'India':           { x: 717, y: 189, labelX: 715, labelY: 348, anchor: 'middle', leader: 'M 717,219 L 717,344' },
+    'Vietnam':         { x: 800, y: 206, labelX: 868, labelY: 174, anchor: 'start', leader: 'M 800,206 L 838,188 L 868,170' },
+    'Singapore':       { x: 789, y: 247, labelX: 858, labelY: 268, anchor: 'start', leader: 'M 789,247 L 820,258 L 858,264' },
+    'Japan':           { x: 883, y: 150, labelX: 952, labelY: 122, anchor: 'middle', leader: 'M 883,150 L 920,135 L 952,118' },
+    'Australia':       { x: 872, y: 319, labelX: 868, labelY: 450, anchor: 'middle', leader: 'M 872,355 L 870,446' }
+  };
+
+  function geoMarkerRadius(pct: number) {
+    if (!pct || pct <= 0) return 0;
+    return Math.max(5, Math.sqrt(pct) * 3.4);
+  }
+
+  function renderGeoMap() {
+    const markers = document.getElementById('geo-markers');
+    const labels = document.getElementById('geo-labels');
+    if (!markers || !labels || !DATA.geography) return;
+
+    const ytMap = new Map((DATA.geography.youtube || []).map((d: any) => [d.country, d.percentage]));
+    const pdMap = new Map((DATA.geography.podcast || []).map((d: any) => [d.country, d.percentage]));
+    const allCountries = new Set([...ytMap.keys(), ...pdMap.keys()]);
+
+    const markerSvg: string[] = [];
+    const labelSvg: string[] = [];
+
+    allCountries.forEach((country: any) => {
+      const geo = COUNTRY_GEO[country];
+      if (!geo) return;
+      const yt = (ytMap.get(country) as number) || 0;
+      const pd = (pdMap.get(country) as number) || 0;
+      const rYt = geoMarkerRadius(yt);
+      const rPd = geoMarkerRadius(pd);
+
+      const ytRing = `<circle class="geo-marker-ring geo-marker-yt-ring" cx="${geo.x}" cy="${geo.y}" r="${rYt}" />`;
+      const pdRing = `<circle class="geo-marker-ring geo-marker-pod-ring" cx="${geo.x}" cy="${geo.y}" r="${rPd}" />`;
+      const ytDot = rYt > 0 ? `<circle class="geo-marker-dot geo-marker-yt-dot" cx="${geo.x}" cy="${geo.y}" r="${Math.min(3.5, rYt * 0.45)}" />` : '';
+      const pdDot = rPd > 0 ? `<circle class="geo-marker-dot geo-marker-pod-dot" cx="${geo.x}" cy="${geo.y}" r="${Math.min(3.5, rPd * 0.45)}" />` : '';
+
+      const ordered = rYt >= rPd ? [ytRing, pdRing, ytDot, pdDot] : [pdRing, ytRing, pdDot, ytDot];
+
+      const ariaParts: string[] = [];
+      if (yt) ariaParts.push(`YouTube ${yt}%`);
+      if (pd) ariaParts.push(`Podcast ${pd}%`);
+      const ariaLabel = `${country}: ${ariaParts.join(', ')}`;
+
+      markerSvg.push(`<g class="geo-marker-group" role="img" aria-label="${ariaLabel}">${ordered.join('')}</g>`);
+
+      const ytLabel = yt ? `YT ${yt}%` : '';
+      const pdLabel = pd ? `Pod ${pd}%` : '';
+      const sep = ytLabel && pdLabel ? ' · ' : '';
+
+      labelSvg.push(`
+        <g class="geo-label-group" aria-hidden="true">
+          <path class="geo-leader" d="${geo.leader}" />
+          <text class="geo-label-country" x="${geo.labelX}" y="${geo.labelY}" text-anchor="${geo.anchor}">${country}</text>
+          <text class="geo-label-pct" x="${geo.labelX}" y="${geo.labelY + 13}" text-anchor="${geo.anchor}">
+            ${ytLabel ? `<tspan fill="#fe0000">${ytLabel}</tspan>` : ''}${sep ? `<tspan fill="#6b7280">${sep}</tspan>` : ''}${pdLabel ? `<tspan fill="#253444">${pdLabel}</tspan>` : ''}
+          </text>
+        </g>
+      `);
+    });
+
+    markers.innerHTML = markerSvg.join('');
+    labels.innerHTML = labelSvg.join('');
+  }
+  if (DATA.geography) renderGeoMap();
+
+  // Hosts
+  function parseFollowerCount(s: string) {
+    return parseFloat(String(s).replace(/[K+\s]/gi, '')) * 1000;
+  }
+  function renderHosts() {
+    const m = document.getElementById('hosts-grid');
+    const agg = document.getElementById('hosts-aggregate-num');
+    if (!Array.isArray(DATA.hosts)) return;
+
+    if (agg) {
+      const total = DATA.hosts.reduce((sum: number, h: any) => sum + parseFollowerCount(h.reachTotal), 0);
+      agg.textContent = Math.round(total / 1000) + 'K+';
+    }
+
+    const platformTotals: Record<string, number> = {};
+    DATA.hosts.forEach((h: any) => {
+      (h.socials || []).forEach((s: any) => {
+        const key = s.platform.toLowerCase();
+        platformTotals[key] = (platformTotals[key] || 0) + parseFollowerCount(s.followers);
+      });
+    });
+    const platformEls: Record<string, string> = { x: 'hosts-agg-x', bluesky: 'hosts-agg-bluesky', linkedin: 'hosts-agg-linkedin' };
+    Object.entries(platformEls).forEach(([key, id]) => {
+      const el = document.getElementById(id);
+      if (el && platformTotals[key]) el.textContent = Math.round(platformTotals[key] / 1000) + 'K+';
+    });
+
+    if (!m) return;
+    m.innerHTML = DATA.hosts.map((h: any) => {
+      const img = DATA.hostImages[h.imageKey] || '';
+      const socials = Array.isArray(h.socials) ? h.socials : [];
+      const links = socials.map((s: any) => `
+        <a href="${s.url}" target="_blank" rel="noopener" aria-label="${h.name} on ${s.platform}: ${s.handle}">
+          <span class="host-social-platform">${s.platform}</span>
+          <span class="host-social-handle">${s.handle}</span>
+        </a>
+      `).join('');
+      return `
+        <li class="host-card">
+          <div class="host-portrait" role="img" aria-label="Photo of ${h.name}" style="background-image: url('${img}')"></div>
+          <div>
+            <h3 class="host-name">${h.name}</h3>
+            <div class="host-role">${h.role}</div>
+            <p class="host-bio">${h.bio}</p>
+            <div class="host-social" aria-label="${h.name} social profiles">${links}</div>
+          </div>
+        </li>
+      `;
+    }).join('');
+  }
+  renderHosts();
+
+  // Channels
+  const ICONS: Record<string, string> = {
+    youtube: '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31.3 31.3 0 0 0 0 12a31.3 31.3 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31.3 31.3 0 0 0 24 12a31.3 31.3 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>',
+    linkedin: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14a5 5 0 0 0-5 5v14a5 5 0 0 0 5 5h14a5 5 0 0 0 5-5v-14a5 5 0 0 0-5-5zm-11 19h-3v-11h3v11zm-1.5-12.3a1.7 1.7 0 1 1 0-3.4 1.7 1.7 0 0 1 0 3.4zm13.5 12.3h-3v-5.6c0-1.4-.5-2.4-1.8-2.4-1 0-1.6.7-1.9 1.4-.1.2-.1.6-.1.9v5.7h-3s.1-9.3 0-10.2h3v1.4c.4-.6 1.1-1.6 2.8-1.6 2 0 3.5 1.3 3.5 4.2v6.2z"/></svg>',
+    spotify: '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24zm5.5 17.3a.75.75 0 0 1-1 .25c-2.8-1.7-6.3-2.1-10.4-1.1a.75.75 0 0 1-.3-1.5c4.5-1 8.4-.6 11.6 1.3.3.2.4.6.1 1zm1.5-3a.94.94 0 0 1-1.3.3c-3.2-2-8.1-2.6-11.9-1.4a.94.94 0 0 1-.5-1.8c4.3-1.3 9.7-.7 13.3 1.6.4.2.5.8.4 1.3zm.1-3.1c-3.9-2.3-10.3-2.5-14-1.4a1.13 1.13 0 0 1-.6-2.1c4.3-1.3 11.4-1.1 15.8 1.5a1.13 1.13 0 0 1-1.2 1.9z"/></svg>',
+    apple: '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18.7 17.1c-.4.9-.6 1.3-1.1 2.1-.7 1.1-1.7 2.5-3 2.5-1.1 0-1.4-.7-3-.7-1.5 0-1.8.7-3 .7-1.2 0-2.2-1.3-2.9-2.4-1.9-3.1-2.1-6.8-1-8.8.9-1.4 2.2-2.3 3.5-2.3 1.3 0 2.1.7 3.2.7 1 0 1.7-.7 3.2-.7 1.2 0 2.4.6 3.3 1.7-2.9 1.6-2.4 5.7.8 7.2zM13 5.2c.6-.7 1-1.7.9-2.7-.9 0-1.9.6-2.5 1.3-.5.6-1 1.6-.8 2.6 1 .1 2-.5 2.4-1.2z"/></svg>'
+  };
+
+  function renderChannels() {
+    const m = document.getElementById('channels-grid');
+    if (!m || !Array.isArray(DATA.channels)) return;
+    m.innerHTML = DATA.channels.map((c: any) => `
+      <li class="channel-card">
+        <div class="channel-icon" aria-hidden="true">${ICONS[c.iconKey] || ''}</div>
+        <h3>${c.name}</h3>
+        <div class="channel-stat">${c.stat}</div>
+        <div class="channel-desc">${c.desc}</div>
+        <a class="channel-link" href="${c.url}" target="_blank" rel="noopener" aria-label="${c.linkLabel}: ${c.name}">${c.linkLabel} →</a>
+      </li>
+    `).join('');
+  }
+  renderChannels();
+
+  // Opportunities
+  function renderOpps() {
+    const m = document.getElementById('opps-grid');
+    if (!m || !Array.isArray(DATA.opportunities)) return;
+    m.innerHTML = DATA.opportunities.map((o: any, i: number) => {
+      const bullets = (o.bullets || []).map((b: string) => `<li>${b}</li>`).join('');
+      return `
+        <li class="opp-card">
+          <div class="opp-num">№ ${String(i + 1).padStart(2, '0')} · ${o.kind}</div>
+          <h3>${o.title}</h3>
+          <p>${o.summary}</p>
+          ${bullets ? `<ul class="opp-bullets">${bullets}</ul>` : ''}
+        </li>
+      `;
+    }).join('');
+  }
+  renderOpps();
+
+  // Contact
+  const emailBtn = document.getElementById('cta-email') as HTMLAnchorElement | null;
+  if (emailBtn && DATA.contact) {
+    emailBtn.href = `mailto:${DATA.contact.email}`;
+    emailBtn.setAttribute('aria-label', `Email us at ${DATA.contact.email}`);
+  }
+  const siteBtn = document.getElementById('cta-site') as HTMLAnchorElement | null;
+  if (siteBtn && DATA.contact) {
+    siteBtn.href = DATA.contact.siteUrl;
+    siteBtn.textContent = DATA.contact.siteLabel;
+  }
+</script>
