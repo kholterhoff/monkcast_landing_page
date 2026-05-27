@@ -380,10 +380,12 @@ const hostImages = {
   </section>
 
   <!-- Back-to-home anchor -->
-  <div class="bg-white py-8 border-t border-gray-200">
+  <div class="bg-gradient-to-b from-secondary-900 via-black to-black py-12 border-t border-white/10">
     <div class="container mx-auto px-4 text-center">
-      <a href="/" class="inline-flex items-center gap-2 font-mono text-sm uppercase tracking-widest text-secondary-700 hover:text-primary-500 transition-colors">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6" /></svg>
+      <a href="/" class="back-link inline-flex items-center gap-3 font-mono text-xs md:text-sm uppercase tracking-[0.2em] text-gray-300 hover:text-white transition-colors group">
+        <span class="back-arrow inline-flex items-center justify-center w-9 h-9 rounded-full border border-white/30 group-hover:border-primary-500 group-hover:bg-primary-500/10 transition-all">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6" /></svg>
+        </span>
         Back to MonkCast
       </a>
     </div>
@@ -893,6 +895,13 @@ const hostImages = {
     border-color: #fff;
     background: rgba(255, 255, 255, 0.08);
     transform: translateY(-2px);
+  }
+
+  /* Back-to-home link */
+  .back-link .back-arrow svg { transition: transform 0.25s ease; }
+  .back-link:hover .back-arrow svg { transform: translateX(-3px); }
+  @media (prefers-reduced-motion: reduce) {
+    .back-link:hover .back-arrow svg { transform: none; }
   }
 
   /* Manifesto lead drop-cap */
