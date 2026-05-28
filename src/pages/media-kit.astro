@@ -69,8 +69,9 @@ const hostImages = {
   </section>
 
   <!-- ============== POSITIONING / MANIFESTO ============== -->
-  <section class="py-20 md:py-28 bg-gradient-to-b from-gray-50 to-white" id="positioning" aria-labelledby="positioning-heading">
-    <div class="container mx-auto px-4">
+  <section class="relative py-20 md:py-28 bg-gradient-to-b from-gray-50 to-white overflow-hidden" id="positioning" aria-labelledby="positioning-heading">
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-secondary-100/30 via-transparent to-transparent" aria-hidden="true"></div>
+    <div class="container mx-auto px-4 relative z-10">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
         <div class="lg:col-span-4">
           <div class="section-kicker font-mono text-xs uppercase tracking-widest mb-4">§ 01 — About</div>
@@ -215,44 +216,45 @@ const hostImages = {
   </section>
 
   <!-- ============== HOSTS ============== -->
-  <section class="py-20 md:py-28 bg-gradient-to-b from-gray-50 to-white" id="hosts" aria-labelledby="hosts-mediakit-heading">
-    <div class="container mx-auto px-4">
+  <section class="relative py-20 md:py-28 bg-gradient-animate overflow-hidden" id="hosts" aria-labelledby="hosts-mediakit-heading">
+    <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] aspect-[2/1] rounded-full bg-[radial-gradient(circle,_rgba(0,0,0,0.5)_0%,_rgba(0,0,0,0)_70%)] blur-sm" aria-hidden="true"></div>
+    <div class="container mx-auto px-4 relative z-10">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12 mb-12 md:mb-16 items-end">
         <div>
-          <div class="section-kicker font-mono text-xs uppercase tracking-widest mb-3">§ 04 — Show Hosts</div>
-          <h2 id="hosts-mediakit-heading" class="text-4xl md:text-5xl font-bold leading-tight text-secondary-900">
-            Four <span style="color: #fe0000;">analysts.</span> Vibrant conversation.
+          <div class="section-kicker on-dark font-mono text-xs uppercase tracking-widest mb-3" style="color: #fff;">§ 04 — Show Hosts</div>
+          <h2 id="hosts-mediakit-heading" class="text-4xl md:text-5xl font-bold leading-tight text-white">
+            Four <span style="color: #fff; font-style: italic;">analysts.</span> Vibrant conversation.
           </h2>
         </div>
-        <p class="md:col-span-2 text-base md:text-lg leading-relaxed text-secondary-700 max-w-3xl">
+        <p class="md:col-span-2 text-base md:text-lg leading-relaxed text-white/80 max-w-3xl [text-shadow:_0_1px_2px_rgba(0,0,0,0.5)]">
           RedMonk analysts have been talking to developers and the companies that serve them since 2002. The MonkCast is hosted by the same people writing the research, briefing executives, and publicly engaging in visible, high-trust conversations.
         </p>
       </div>
 
       <!-- Aggregate row -->
-      <div class="card bg-white p-8 md:p-10 mb-10 flex flex-col md:flex-row items-center gap-6 md:gap-12">
-        <div class="text-6xl md:text-8xl font-bold leading-none" style="color: #fe0000;" id="hosts-aggregate-num">—</div>
-        <p class="font-mono text-xs md:text-sm uppercase tracking-widest text-secondary-700 leading-relaxed max-w-sm text-center md:text-left">
+      <div class="rounded-xl bg-black/30 backdrop-blur-sm border border-white/10 p-8 md:p-10 mb-10 flex flex-col md:flex-row items-center gap-6 md:gap-12">
+        <div class="text-6xl md:text-8xl font-bold leading-none text-white" id="hosts-aggregate-num">—</div>
+        <p class="font-mono text-xs md:text-sm uppercase tracking-widest text-white/70 leading-relaxed max-w-sm text-center md:text-left [text-shadow:_0_1px_2px_rgba(0,0,0,0.5)]">
           combined social followers across all four analyst hosts
         </p>
       </div>
 
       <!-- Platform breakdown -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-12 md:mb-16">
-        <div class="card bg-white p-6">
-          <div class="font-mono text-xs uppercase tracking-widest text-secondary-500 mb-3">X (Twitter)</div>
-          <div class="text-3xl md:text-4xl font-bold text-secondary-900 mb-2" id="hosts-agg-x">—</div>
-          <p class="text-sm text-secondary-600">Combined followers across all four analyst accounts.</p>
+        <div class="rounded-xl bg-black/30 backdrop-blur-sm border border-white/10 p-6">
+          <div class="font-mono text-xs uppercase tracking-widest text-white/50 mb-3">X (Twitter)</div>
+          <div class="text-3xl md:text-4xl font-bold text-white mb-2" id="hosts-agg-x">—</div>
+          <p class="text-sm text-white/60">Combined followers across all four analyst accounts.</p>
         </div>
-        <div class="card bg-white p-6">
-          <div class="font-mono text-xs uppercase tracking-widest text-secondary-500 mb-3">Bluesky</div>
-          <div class="text-3xl md:text-4xl font-bold text-secondary-900 mb-2" id="hosts-agg-bluesky">—</div>
-          <p class="text-sm text-secondary-600">Combined followers across all four analyst accounts.</p>
+        <div class="rounded-xl bg-black/30 backdrop-blur-sm border border-white/10 p-6">
+          <div class="font-mono text-xs uppercase tracking-widest text-white/50 mb-3">Bluesky</div>
+          <div class="text-3xl md:text-4xl font-bold text-white mb-2" id="hosts-agg-bluesky">—</div>
+          <p class="text-sm text-white/60">Combined followers across all four analyst accounts.</p>
         </div>
-        <div class="card bg-white p-6">
-          <div class="font-mono text-xs uppercase tracking-widest text-secondary-500 mb-3">LinkedIn</div>
-          <div class="text-3xl md:text-4xl font-bold text-secondary-900 mb-2" id="hosts-agg-linkedin">—</div>
-          <p class="text-sm text-secondary-600">Combined followers across all four analyst accounts.</p>
+        <div class="rounded-xl bg-black/30 backdrop-blur-sm border border-white/10 p-6">
+          <div class="font-mono text-xs uppercase tracking-widest text-white/50 mb-3">LinkedIn</div>
+          <div class="text-3xl md:text-4xl font-bold text-white mb-2" id="hosts-agg-linkedin">—</div>
+          <p class="text-sm text-white/60">Combined followers across all four analyst accounts.</p>
         </div>
       </div>
 
@@ -262,16 +264,18 @@ const hostImages = {
   </section>
 
   <!-- ============== CHANNELS ============== -->
-  <section class="py-20 md:py-28 bg-gradient-to-b from-white to-gray-50" id="channels" aria-labelledby="channels-heading">
-    <div class="container mx-auto px-4">
+  <section class="relative py-20 md:py-28 bg-gradient-to-br from-gray-900 to-black text-white overflow-hidden" id="channels" aria-labelledby="channels-heading">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,_var(--tw-gradient-stops))] from-red-500/20 via-transparent to-transparent" aria-hidden="true"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-primary-500/10 via-transparent to-transparent" aria-hidden="true"></div>
+    <div class="container mx-auto px-4 relative z-10">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12 mb-12 md:mb-16 items-end">
         <div>
-          <div class="section-kicker font-mono text-xs uppercase tracking-widest mb-3">§ 05 — Channels</div>
-          <h2 id="channels-heading" class="text-4xl md:text-5xl font-bold leading-tight text-secondary-900">
+          <div class="section-kicker on-dark font-mono text-xs uppercase tracking-widest mb-3">§ 05 — Channels</div>
+          <h2 id="channels-heading" class="text-4xl md:text-5xl font-bold leading-tight text-white">
             Every <span style="color: #fe0000;">surface</span> your audience uses.
           </h2>
         </div>
-        <p class="md:col-span-2 text-base md:text-lg leading-relaxed text-secondary-700 max-w-3xl">
+        <p class="md:col-span-2 text-base md:text-lg leading-relaxed text-gray-300 max-w-3xl">
           MonkCast episodes don't live in one place. You can find our content on YouTube, Apple Podcasts, Spotify, and LinkedIn, while cross-promotion across other social platforms extends each conversation.
         </p>
       </div>
@@ -820,21 +824,23 @@ const hostImages = {
 
   /* Host cards (rendered by JS into #hosts-grid) */
   :global(.host-card) {
-    background: #fff;
+    background: rgba(0, 0, 0, 0.35);
     border-radius: 16px;
-    border: 1px solid rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     padding: clamp(24px, 3vw, 36px);
     display: grid;
     grid-template-columns: 120px 1fr;
     gap: 24px;
     align-items: start;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
     list-style: none;
+    backdrop-filter: blur(10px);
   }
   :global(.host-card:hover) {
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-    border-color: rgba(254, 0, 0, 0.2);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 255, 255, 0.22);
+    background: rgba(0, 0, 0, 0.45);
   }
   :global(.host-portrait) {
     width: 120px;
@@ -842,20 +848,20 @@ const hostImages = {
     border-radius: 50%;
     background: #fe0000 center / cover no-repeat;
     position: relative;
-    box-shadow: 0 0 0 3px #fff, 4px 4px 0 #1a2530;
+    box-shadow: 0 0 0 3px rgba(255,255,255,0.2), 4px 4px 0 rgba(0,0,0,0.4);
   }
   :global(.host-portrait::before) {
     content: "";
     position: absolute;
     inset: -6px;
-    border: 2px solid #fe0000;
+    border: 2px solid rgba(255, 255, 255, 0.3);
     border-radius: 50%;
     z-index: -1;
   }
   :global(.host-name) {
     font-size: clamp(22px, 2.4vw, 28px);
     font-weight: 700;
-    color: #1a2530;
+    color: #ffffff;
     line-height: 1.1;
     margin-bottom: 4px;
   }
@@ -864,14 +870,14 @@ const hostImages = {
     font-size: 11px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--media-kit-red-aa);
+    color: #ff6b6b;
     font-weight: 500;
     margin-bottom: 12px;
   }
   :global(.host-bio) {
     font-size: 14.5px;
     line-height: 1.55;
-    color: #34496a;
+    color: rgba(255, 255, 255, 0.72);
     margin-bottom: 16px;
   }
   :global(.host-social) {
@@ -882,53 +888,55 @@ const hostImages = {
     font-size: 10px;
   }
   :global(.host-social a) {
-    border: 1px solid #1a2530;
+    border: 1px solid rgba(255, 255, 255, 0.2);
     padding: 8px 10px;
     border-radius: 8px;
     transition: all 0.2s;
     display: grid;
     gap: 2px;
     text-decoration: none;
-    color: #1a2530;
+    color: rgba(255, 255, 255, 0.8);
     min-height: 44px;
     align-content: center;
   }
   :global(.host-social a:hover) {
-    background: #1a2530;
+    background: rgba(255, 255, 255, 0.12);
     color: #fff;
+    border-color: rgba(255, 255, 255, 0.4);
   }
   :global(.host-social-platform) {
     text-transform: uppercase;
-    color: var(--media-kit-red-aa);
+    color: #ff6b6b;
     letter-spacing: 0.06em;
   }
   :global(.host-social a:hover .host-social-platform) {
-    color: #f7c657;
+    color: #ffaaaa;
   }
   :global(.host-social-handle) { overflow-wrap: anywhere; }
   @media (max-width: 600px) {
     :global(.host-card) { grid-template-columns: 80px 1fr; gap: 16px; padding: 22px; }
-    :global(.host-portrait) { width: 80px; box-shadow: 0 0 0 3px #fff, 3px 3px 0 #1a2530; }
+    :global(.host-portrait) { width: 80px; box-shadow: 0 0 0 3px rgba(255,255,255,0.2), 3px 3px 0 rgba(0,0,0,0.4); }
     :global(.host-social) { grid-template-columns: 1fr; }
   }
 
   /* Channel cards */
   :global(.channel-card) {
-    background: #fff;
+    background: rgba(255, 255, 255, 0.05);
     border-radius: 16px;
-    border: 1px solid rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     padding: 28px 24px;
     display: flex;
     flex-direction: column;
     gap: 12px;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
     list-style: none;
+    backdrop-filter: blur(10px);
   }
   :global(.channel-card:hover) {
-    transform: translateY(-4px);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-    border-color: rgba(254, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
+    border-color: rgba(254, 0, 0, 0.4);
   }
   :global(.channel-icon) {
     width: 44px;
@@ -943,19 +951,19 @@ const hostImages = {
   :global(.channel-card h3) {
     font-size: 22px;
     font-weight: 700;
-    color: #1a2530;
+    color: #ffffff;
     margin: 0;
   }
   :global(.channel-stat) {
     font-family: 'JetBrains Mono', monospace;
     font-size: 12px;
-    color: var(--media-kit-red-aa);
+    color: #ff6b6b;
     letter-spacing: 0.04em;
     font-weight: 600;
   }
   :global(.channel-desc) {
     font-size: 14px;
-    color: #34496a;
+    color: rgba(255, 255, 255, 0.65);
     line-height: 1.5;
     flex: 1;
   }
@@ -964,8 +972,8 @@ const hostImages = {
     font-size: 11px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: #1a2530;
-    border-bottom: 1px solid #1a2530;
+    color: rgba(255, 255, 255, 0.8);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
     align-self: flex-start;
     padding: 8px 0;
     margin-top: 8px;
@@ -973,8 +981,8 @@ const hostImages = {
     text-decoration: none;
   }
   :global(.channel-link:hover) {
-    color: var(--media-kit-red-aa);
-    border-color: var(--media-kit-red-aa);
+    color: #fe0000;
+    border-color: #fe0000;
   }
 
   /* Opportunity cards */
