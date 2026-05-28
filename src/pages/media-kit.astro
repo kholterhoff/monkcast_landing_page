@@ -25,6 +25,7 @@ const hostImages = {
       <a href="#hosts"><span class="nav-index">04</span><span>Show Hosts</span></a>
       <a href="#channels"><span class="nav-index">05</span><span>Channels</span></a>
       <a href="#opportunities"><span class="nav-index">06</span><span>Sponsorship</span></a>
+      <a href="/" class="nav-home-link">Return to MonkCast</a>
     </div>
   </nav>
 
@@ -47,47 +48,21 @@ const hostImages = {
         <span id="last-updated">Updated —</span>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-16 items-end">
-        <div class="lg:col-span-2">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+        <div>
           <h1
             id="hero-heading"
-            class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight mb-6"
+            class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight"
           >
             The<br />
             <span style="color: #fe0000;">MonkCast</span>
           </h1>
+        </div>
+
+        <div>
           <p class="text-lg md:text-xl text-gray-200 max-w-2xl leading-relaxed">
             The podcast from <span style="color: #fe0000; font-weight: 600;">RedMonk</span>, the industry's premier developer-focused analyst firm. Candid conversations. Actionable insights. The technical audience your buyers actually listen to.
           </p>
-        </div>
-
-        <div class="flex justify-center lg:justify-end">
-          <div class="relative">
-            <div class="absolute inset-0 -m-8 rounded-full bg-[radial-gradient(circle,_rgba(0,0,0,0.7)_0%,_rgba(0,0,0,0)_70%)] blur-md"></div>
-            <div class="relative w-40 h-40 md:w-56 md:h-56 rounded-full overflow-hidden shadow-2xl border-4 border-white/20 backdrop-blur-sm bg-white/5">
-              <img src={monkcastLogo.src} alt="The MonkCast" class="w-full h-full object-contain" />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Hero stat strip -->
-      <div class="mt-16 md:mt-24 grid grid-cols-2 md:grid-cols-4 gap-px bg-white/10 border border-white/10 rounded-xl overflow-hidden backdrop-blur-sm">
-        <div class="bg-black/40 p-6 md:p-8">
-          <div class="font-mono text-[10px] md:text-xs uppercase tracking-widest text-gray-400 mb-2">Monthly YouTube reach</div>
-          <div class="text-4xl md:text-5xl font-bold" style="color: #fe0000;" id="h-monthlyViews">160K+</div>
-        </div>
-        <div class="bg-black/40 p-6 md:p-8">
-          <div class="font-mono text-[10px] md:text-xs uppercase tracking-widest text-gray-400 mb-2">Avg sponsored views</div>
-          <div class="text-4xl md:text-5xl font-bold" style="color: #fe0000;" id="h-sponsored">3K</div>
-        </div>
-        <div class="bg-black/40 p-6 md:p-8">
-          <div class="font-mono text-[10px] md:text-xs uppercase tracking-widest text-gray-400 mb-2">LinkedIn community</div>
-          <div class="text-4xl md:text-5xl font-bold" style="color: #fe0000;" id="h-linkedin">26K+</div>
-        </div>
-        <div class="bg-black/40 p-6 md:p-8">
-          <div class="font-mono text-[10px] md:text-xs uppercase tracking-widest text-gray-400 mb-2">Top short views</div>
-          <div class="text-4xl md:text-5xl font-bold" style="color: #fe0000;" id="h-topShort">32,904</div>
         </div>
       </div>
     </div>
@@ -142,52 +117,31 @@ const hostImages = {
 
       <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
         <!-- Big stat -->
-        <div class="md:col-span-8 stat-card hover-lift">
+        <div class="md:col-span-8 stat-card">
           <div class="stat-label">Monthly YouTube Reach</div>
           <div class="stat-num" id="s-monthlyViews">160K+</div>
           <p class="stat-detail">Monthly views across long-form episodes and shorts. The MonkCast's primary distribution surface for technical audiences.</p>
-          <div class="absolute top-5 right-5 font-mono text-[10px] tracking-widest" style="color: #fe0000;">▲ TRENDING</div>
         </div>
 
         <!-- Small impressions -->
-        <div class="md:col-span-4 stat-card hover-lift">
+        <div class="md:col-span-4 stat-card">
           <div class="stat-label">Monthly Impressions</div>
           <div class="stat-num" id="s-impressions">41.8K</div>
           <p class="stat-detail">Monthly YouTube thumbnail impressions — how often MonkCast content surfaces to potential viewers.</p>
         </div>
 
         <!-- Mid LinkedIn -->
-        <div class="md:col-span-6 stat-card hover-lift">
+        <div class="md:col-span-6 stat-card">
           <div class="stat-label">LinkedIn Amplification</div>
-          <div class="stat-num" id="s-linkedin">20K+</div>
+          <div class="stat-num" id="s-linkedin">26K+</div>
           <p class="stat-detail">Combined followers across the RedMonk company page and analyst accounts, creating sustained visibility with our community.</p>
         </div>
 
-        <!-- Mid sponsored -->
-        <div class="md:col-span-6 stat-card hover-lift">
-          <div class="stat-label">Avg Episode Views</div>
-          <div class="stat-num" id="s-sponsored">3K</div>
+        <!-- Mid shorts -->
+        <div class="md:col-span-6 stat-card">
+          <div class="stat-label">Shorts Views / mo</div>
+          <div class="stat-num" id="s-sponsored">140K</div>
           <p class="stat-detail">Average views per video over the last 60 days. High-quality views from a high-intent technical audience.</p>
-        </div>
-
-        <!-- Quad cell strip -->
-        <div class="md:col-span-12 grid grid-cols-2 md:grid-cols-4 gap-px bg-white/10 border border-white/10 rounded-xl overflow-hidden">
-          <div class="bg-black/30 p-6">
-            <div class="stat-label">Long-Form Views / mo</div>
-            <div class="stat-num-mid" id="s-lfviews">20K</div>
-          </div>
-          <div class="bg-black/30 p-6">
-            <div class="stat-label">Shorts Views / mo</div>
-            <div class="stat-num-mid" id="s-svviews">140K</div>
-          </div>
-          <div class="bg-black/30 p-6">
-            <div class="stat-label">YouTube Subscribers</div>
-            <div class="stat-num-mid" id="s-subs">8,161</div>
-          </div>
-          <div class="bg-black/30 p-6">
-            <div class="stat-label">Analyst Hosts</div>
-            <div class="stat-num-mid">4</div>
-          </div>
         </div>
       </div>
 
@@ -201,9 +155,9 @@ const hostImages = {
           <div class="spotlight-num">33K</div>
           <div class="spotlight-label">Most-viewed short<br /><span>Eclipse SDV</span></div>
         </a>
-        <a href="https://www.youtube.com/watch?v=k6mBLpsbiq8" target="_blank" rel="noopener" class="spotlight-card hover-lift" aria-label="Watch the most-viewed long-form episode, Opinionated Infrastructure, on YouTube. Opens in a new tab.">
-          <div class="spotlight-num">12.6K</div>
-          <div class="spotlight-label">Most-viewed long-form<br /><span>Opinionated Infrastructure</span></div>
+        <a href="https://youtu.be/Si7sMLr9hKw" target="_blank" rel="noopener" class="spotlight-card hover-lift" aria-label="Watch the most-viewed episode, Expo and the React Foundation, on YouTube. Opens in a new tab.">
+          <div class="spotlight-num">7.7K</div>
+          <div class="spotlight-label">Most-viewed episode<br /><span>Expo and the React Foundation</span></div>
         </a>
       </div>
     </div>
@@ -285,17 +239,17 @@ const hostImages = {
 
       <!-- Platform breakdown -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-12 md:mb-16">
-        <div class="card bg-white p-6 hover-lift">
+        <div class="card bg-white p-6">
           <div class="font-mono text-xs uppercase tracking-widest text-secondary-500 mb-3">X (Twitter)</div>
           <div class="text-3xl md:text-4xl font-bold text-secondary-900 mb-2" id="hosts-agg-x">—</div>
           <p class="text-sm text-secondary-600">Combined followers across all four analyst accounts.</p>
         </div>
-        <div class="card bg-white p-6 hover-lift">
+        <div class="card bg-white p-6">
           <div class="font-mono text-xs uppercase tracking-widest text-secondary-500 mb-3">Bluesky</div>
           <div class="text-3xl md:text-4xl font-bold text-secondary-900 mb-2" id="hosts-agg-bluesky">—</div>
           <p class="text-sm text-secondary-600">Combined followers across all four analyst accounts.</p>
         </div>
-        <div class="card bg-white p-6 hover-lift">
+        <div class="card bg-white p-6">
           <div class="font-mono text-xs uppercase tracking-widest text-secondary-500 mb-3">LinkedIn</div>
           <div class="text-3xl md:text-4xl font-bold text-secondary-900 mb-2" id="hosts-agg-linkedin">—</div>
           <p class="text-sm text-secondary-600">Combined followers across all four analyst accounts.</p>
@@ -453,14 +407,14 @@ const hostImages = {
     hostImages,
     channels: [
       { name: "YouTube", iconKey: "youtube", stat: "61K+ monthly views", desc: "Primary video channel. Long-form interviews plus short clips that maximize reach and guide busy viewers to the full conversation.", linkLabel: "Visit channel", url: "https://www.youtube.com/playlist?list=PL3BD98E8oOJlqtze7Cyf196PnvB3z12A4" },
-      { name: "LinkedIn", iconKey: "linkedin", stat: "25K+ amplification", desc: "Cross-promotion across analyst and company accounts, providing sustained visibility with the RedMonk community.", linkLabel: "Follow RedMonk", url: "https://www.linkedin.com/company/2857523" },
+      { name: "LinkedIn", iconKey: "linkedin", stat: "26K+ amplification", desc: "Cross-promotion across analyst and company accounts, providing sustained visibility with the RedMonk community.", linkLabel: "Follow RedMonk", url: "https://www.linkedin.com/company/2857523" },
       { name: "Spotify", iconKey: "spotify", stat: "Direct subscribers", desc: "The MonkCast on Spotify. Audio for commutes, gym, and the everywhere-else.", linkLabel: "Listen on Spotify", url: "https://open.spotify.com/show/1lzmSLf4O2trpJApYOBeVC" },
       { name: "Apple Podcasts", iconKey: "apple", stat: "Direct subscribers", desc: "The MonkCast on Apple. Discoverable across the Apple ecosystem and CarPlay.", linkLabel: "Listen on Apple", url: "https://podcasts.apple.com/us/podcast/the-monkcast/id1712805847" }
     ],
     opportunities: [
-      { kind: "Episode", title: "Conversations", summary: "Long-form analyst interview with your subject matter expert. Edited, packaged, and distributed across our full network for leaders and practitioners.", bullets: ["20–60 min long-form video + audio", "Cross-posted to YouTube, Spotify, Apple", "Detailed show notes with transcript"] },
-      { kind: "Series", title: "Multi-Episode Series", summary: "Anchor a recurring series across a campaign window. Build narrative arcs your audience can follow.", bullets: ["3–6 episodes around a unifying theme", "Co-developed editorial calendar", "Event tie-ins", "Compounding reach across the run"] },
-      { kind: "Live", title: "Event & Field Coverage", summary: "On-the-ground coverage at the conferences your buyers attend. We bring the booth to the audience.", bullets: ["Booth-side or quiet-room interviews", "Same-week turnaround", "Your customers and partners as guests", "Branded backdrops and lower-thirds", "Real-time social amplification"] }
+      { kind: "Episode", title: "Conversations", summary: "Long-form analyst interview with your subject matter expert. Edited, packaged, and distributed across our full network for leaders and practitioners.", bullets: ["20–60 min long-form video + audio", "Cross-posted to YouTube, Spotify, Apple", "Co-developed editorial calendar"] },
+      { kind: "Series", title: "Multi-Episode Series", summary: "Anchor a recurring series across a campaign window. Build narrative arcs your audience can follow.", bullets: ["3–6 episodes around a unifying theme", "Event tie-ins", "Compounding reach across the run"] },
+      { kind: "Live", title: "Event & Field Coverage", summary: "On-the-ground coverage at the conferences your buyers attend. We bring the booth to the audience.", bullets: ["Same-week turnaround", "Your customers and partners as guests", "Real-time social amplification"] }
     ],
     contact: { email: "sales@redmonk.com", siteUrl: "https://redmonk.com", siteLabel: "Visit redmonk.com" }
   })} />
@@ -492,9 +446,16 @@ const hostImages = {
     top: 50%;
     left: clamp(12px, 1.8vw, 28px);
     z-index: 40;
-    width: min(168px, calc(100vw - 24px));
+    width: min(196px, calc(100vw - 24px));
     transform: translateY(-50%);
     pointer-events: none;
+    /* Clamp so it never overlaps the footer */
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+  .media-kit-nav::-webkit-scrollbar {
+    display: none;
   }
   .nav-links {
     display: grid;
@@ -544,13 +505,13 @@ const hostImages = {
   .nav-links a:hover,
   .nav-links a:focus-visible {
     color: #fff;
-    background: rgba(255, 255, 255, 0.08);
-    outline: 3px solid var(--media-kit-focus);
+    background: rgba(254, 0, 0, 0.12);
+    outline: 3px solid #fe0000;
     outline-offset: 3px;
   }
   .nav-links a:hover .nav-index,
   .nav-links a:focus-visible .nav-index {
-    color: rgba(255, 255, 255, 0.76);
+    color: rgba(255, 80, 80, 0.9);
   }
   .nav-links a[aria-current="true"] {
     color: #fff;
@@ -562,6 +523,35 @@ const hostImages = {
   }
   .nav-links a[aria-current="true"] .nav-index {
     color: #fe0000;
+  }
+  .nav-home-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin-top: 8px;
+    padding: 10px 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 0 0 6px 6px;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(254, 0, 0, 0.12);
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    line-height: 1.3;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .nav-home-link:hover {
+    color: #fff;
+    background: rgba(254, 0, 0, 0.22);
+  }
+  .nav-home-link::before {
+    display: none;
+  }
+  .nav-home-link::after {
+    display: none;
   }
   #positioning,
   #numbers,
@@ -589,9 +579,14 @@ const hostImages = {
       padding-bottom: 82px;
     }
     .nav-links {
-      grid-template-columns: repeat(6, minmax(0, 1fr));
+      grid-template-columns: repeat(6, minmax(82px, 1fr)) minmax(150px, 1.35fr);
       gap: 2px;
       padding: 6px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .nav-links::-webkit-scrollbar {
+      display: none;
     }
     .nav-links a {
       grid-template-columns: 1fr;
@@ -609,6 +604,13 @@ const hostImages = {
     .nav-index {
       font-size: 9px;
     }
+    .nav-home-link {
+      margin-top: 0;
+      border-top: 0;
+      border-radius: 6px;
+      padding: 8px 10px;
+      text-align: center;
+    }
     #positioning,
     #numbers,
     #geography,
@@ -625,12 +627,7 @@ const hostImages = {
       left: 8px;
     }
     .nav-links {
-      overflow-x: auto;
-      grid-template-columns: repeat(6, minmax(82px, 1fr));
-      scrollbar-width: none;
-    }
-    .nav-links::-webkit-scrollbar {
-      display: none;
+      grid-template-columns: repeat(6, minmax(82px, 1fr)) minmax(156px, 1fr);
     }
   }
 
@@ -836,7 +833,6 @@ const hostImages = {
     list-style: none;
   }
   :global(.host-card:hover) {
-    transform: translateY(-4px);
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
     border-color: rgba(254, 0, 0, 0.2);
   }
@@ -994,7 +990,6 @@ const hostImages = {
     list-style: none;
   }
   :global(.opp-card:hover) {
-    transform: translateY(-4px);
     box-shadow: 8px 8px 0 #1a2530;
   }
   :global(.opp-num) {
@@ -1084,10 +1079,16 @@ const hostImages = {
     }
     .spotlight-card:hover,
     .cta-ghost:hover,
-    :global(.host-card:hover),
-    :global(.channel-card:hover),
+    :global(.channel-link:hover),
     :global(.opp-card:hover) {
       transform: none;
+    }
+  }
+
+  /* Push footer content past the fixed side nav on large screens */
+  @media (min-width: 1181px) {
+    :global(footer .container > div) {
+      padding-left: 192px;
     }
   }
 </style>
@@ -1095,7 +1096,7 @@ const hostImages = {
 <script>
   const dataEl = document.getElementById('kit-data');
   const DATA = JSON.parse(dataEl ? dataEl.textContent || '{}' : '{}');
-  const sectionNavLinks = Array.from(document.querySelectorAll('[data-section-nav] a')) as HTMLAnchorElement[];
+  const sectionNavLinks = Array.from(document.querySelectorAll('[data-section-nav] a[href^="#"]')) as HTMLAnchorElement[];
   const sectionIds = sectionNavLinks.map((link) => link.hash.slice(1)).filter(Boolean);
   const navSections = sectionIds
     .map((id) => document.getElementById(id))
@@ -1158,7 +1159,7 @@ const hostImages = {
   }
   setStat('s-monthlyViews', DATA.headline.totalMonthlyViews);
   setStat('s-linkedin', DATA.headline.linkedInTotal);
-  setStat('s-sponsored', DATA.headline.sponsoredAvg);
+  setStat('s-sponsored', DATA.youtube.monthlyViewsShorts);
   setStat('s-impressions', DATA.youtube.monthlyImpressions);
   setStat('s-lfviews', DATA.youtube.monthlyViewsLongForm);
   setStat('s-svviews', DATA.youtube.monthlyViewsShorts);
