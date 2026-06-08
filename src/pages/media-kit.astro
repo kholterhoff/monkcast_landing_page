@@ -880,42 +880,38 @@ const hostImages = {
     margin-bottom: 16px;
   }
   :global(.host-social) {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 8px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
   }
   :global(.host-social a) {
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 8px 10px;
-    border-radius: 8px;
-    transition: all 0.2s;
-    display: grid;
-    gap: 2px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(254, 0, 0, 0.15);
+    color: #fe0000;
     text-decoration: none;
-    color: rgba(255, 255, 255, 0.8);
-    min-height: 44px;
-    align-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.18);
+    transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
   }
-  :global(.host-social a:hover) {
-    background: rgba(255, 255, 255, 0.12);
+  :global(.host-social a:hover),
+  :global(.host-social a:focus-visible) {
     color: #fff;
-    border-color: rgba(255, 255, 255, 0.4);
+    background: linear-gradient(135deg, #fe0000, #700000);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(254, 0, 0, 0.35);
   }
-  :global(.host-social-platform) {
-    text-transform: uppercase;
-    color: #ff6b6b;
-    letter-spacing: 0.06em;
+  :global(.host-social svg) {
+    display: block;
   }
-  :global(.host-social a:hover .host-social-platform) {
-    color: #ffaaaa;
-  }
-  :global(.host-social-handle) { overflow-wrap: anywhere; }
   @media (max-width: 600px) {
     :global(.host-card) { grid-template-columns: 80px 1fr; gap: 16px; padding: 22px; }
     :global(.host-portrait) { width: 80px; box-shadow: 0 0 0 3px rgba(255,255,255,0.2), 3px 3px 0 rgba(0,0,0,0.4); }
-    :global(.host-social) { grid-template-columns: 1fr; }
+    :global(.host-social) { gap: 10px; }
   }
 
   /* Channel cards */
@@ -1284,15 +1280,23 @@ const hostImages = {
     });
 
     if (!m) return;
+    const SOCIAL_ICONS: Record<string, string> = {
+      x: '<svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-1-4.8 4-8.9 7.5-5A7.5 7.5 0 0 0 22 4"/></svg>',
+      bluesky: '<svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 512 512" fill="currentColor"><path d="M111.8 62.2C170.2 105.9 233 194.7 256 242.4c23-47.6 85.8-136.4 144.2-180.2c42.1-31.6 110.3-56 110.3 21.8c0 15.5-8.9 130.5-14.1 149.2C478.2 298 412 314.6 353.1 304.5c102.9 17.5 129.1 75.5 72.5 133.5c-107.4 110.2-154.3-27.6-166.3-62.9l0 0c-1.7-4.9-2.6-7.8-3.3-7.8s-1.6 3-3.3 7.8l0 0c-12 35.3-59 173.1-166.3 62.9c-56.5-58-30.4-116 72.5-133.5C100 314.6 33.8 298 15.7 233.1C10.4 214.4 1.5 99.4 1.5 83.9c0-77.8 68.2-53.4 110.3-21.8z"/></svg>',
+      linkedin: '<svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>'
+    };
     m.innerHTML = DATA.hosts.map((h: any) => {
       const img = DATA.hostImages[h.imageKey] || '';
       const socials = Array.isArray(h.socials) ? h.socials : [];
-      const links = socials.map((s: any) => `
+      const links = socials.map((s: any) => {
+        const iconKey = String(s.platform || '').toLowerCase();
+        const icon = SOCIAL_ICONS[iconKey] || '';
+        return `
         <a href="${s.url}" target="_blank" rel="noopener" aria-label="${h.name} on ${s.platform}: ${s.handle}. Opens in a new tab.">
-          <span class="host-social-platform">${s.platform}</span>
-          <span class="host-social-handle">${s.handle}</span>
+          ${icon}
         </a>
-      `).join('');
+      `;
+      }).join('');
       return `
         <li class="host-card">
           <div class="host-portrait" role="img" aria-label="Photo of ${h.name}" style="background-image: url('${img}')"></div>
