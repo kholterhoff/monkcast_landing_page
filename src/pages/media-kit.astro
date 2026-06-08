@@ -450,7 +450,7 @@ const hostImages = {
     top: 50%;
     left: clamp(12px, 1.8vw, 28px);
     z-index: 40;
-    width: min(196px, calc(100vw - 24px));
+    width: min(152px, calc(100vw - 24px));
     transform: translateY(-50%);
     pointer-events: none;
     /* Clamp so it never overlaps the footer */
@@ -528,8 +528,9 @@ const hostImages = {
   .nav-links a[aria-current="true"] .nav-index {
     color: #fe0000;
   }
-  .nav-home-link {
+  .nav-links a.nav-home-link {
     display: flex;
+    grid-template-columns: none;
     align-items: center;
     justify-content: center;
     gap: 0;
@@ -547,14 +548,12 @@ const hostImages = {
     font-weight: 600;
     white-space: nowrap;
   }
-  .nav-home-link:hover {
+  .nav-links a.nav-home-link:hover {
     color: #fff;
     background: rgba(254, 0, 0, 0.22);
   }
-  .nav-home-link::before {
-    display: none;
-  }
-  .nav-home-link::after {
+  .nav-links a.nav-home-link::before,
+  .nav-links a.nav-home-link::after {
     display: none;
   }
   #positioning,
@@ -567,7 +566,7 @@ const hostImages = {
   }
   @media (min-width: 1181px) {
     .media-kit-nav ~ section .container {
-      padding-left: 192px;
+      padding-left: 148px;
     }
   }
   @media (max-width: 1180px) {
