@@ -147,8 +147,12 @@ export async function extractCoverImageFromRedmonk(url) {
 
     if (!response.ok) {
       console.error(`Failed to fetch RedMonk page (${response.status}): ${normalizedUrl}`);
-      coverImageCache.set(normalizedUrl, null);
-      cacheModified = true;
+      // Don't cache 404s — the RedMonk post may simply not be published yet
+      // (episodes can appear in the RSS feed before the show-notes page goes live)
+      if (response.status !== 404) {
+        coverImageCache.set(normalizedUrl, null);
+        cacheModified = true;
+      }
       return null;
     }
 

@@ -258,13 +258,20 @@ export async function fetchPodcastFeed(url: string) {
   
   // If we got a valid feed, process episodes with error boundaries
   if (feed && feed.items) {
+    // The Riverside feed does not guarantee reverse-chronological item order
+    const sortedItems = [...feed.items].sort((a: any, b: any) => {
+      const aTime = new Date(a?.pubDate || 0).getTime() || 0;
+      const bTime = new Date(b?.pubDate || 0).getTime() || 0;
+      return bTime - aTime;
+    });
+
     const podcast = {
       title: feed.title || 'The MonkCast',
       description: feed.description || 'Technology analysis and insights from the RedMonk team',
       link: feed.link || 'https://redmonk.com',
       image: feed.image?.url || 'https://redmonk.com/wp-content/uploads/2018/07/Monkchips-1.jpg',
       itunesAuthor: feed.itunes?.author || 'RedMonk',
-      episodes: await processEpisodesWithErrorBoundary(feed.items || [], feed)
+      episodes: await processEpisodesWithErrorBoundary(sortedItems, feed)
     };
 
     // Persist cover image cache to disk after processing all episodes
